@@ -125,10 +125,6 @@ a { -webkit-tap-highlight-color: transparent; }
     radial-gradient(circle, rgba(16, 23, 21, 0.78), transparent 70%);
   filter: blur(8px);
 }
-.portrait-card::after {
-  position: absolute; z-index: -1; width: min(104%, 438px); aspect-ratio: 1; border: 1px solid rgba(199, 255, 74, 0.2);
-  border-radius: 50%; box-shadow: 0 0 0 18px rgba(101, 184, 255, 0.025), 0 0 80px rgba(101, 184, 255, 0.08); content: "";
-}
 .portrait-glow {
   position: absolute; z-index: -1; width: min(92%, 390px); aspect-ratio: 1; border-radius: 50%;
   background: conic-gradient(from 220deg, rgba(199, 255, 74, 0.18), rgba(101, 184, 255, 0.12), transparent 46%, rgba(199, 255, 74, 0.12));
@@ -137,7 +133,7 @@ a { -webkit-tap-highlight-color: transparent; }
 .portrait-frame {
   position: relative; overflow: hidden; width: min(100%, 400px); aspect-ratio: 1; margin-inline: auto;
   border-radius: 50%; background: #343735;
-  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(199, 255, 74, 0.24), 0 0 80px rgba(101, 184, 255, 0.1);
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.48), 0 0 86px rgba(199, 255, 74, 0.08), 0 0 112px rgba(101, 184, 255, 0.08);
 }
 .portrait-frame img {
   position: absolute; inset: 0; display: block; width: 100%; height: 100%;
