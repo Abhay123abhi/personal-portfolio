@@ -24,4 +24,12 @@ npm run build
 npm run preview
 ```
 
-The application uses `HashRouter`, so project and blog links remain shareable on static hosting without server rewrite configuration.
+## Netlify deployment
+
+The repository includes `netlify.toml`, so Netlify automatically uses:
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Node.js: `22`
+
+The SPA rewrite keeps clean project and blog routes working when opened or refreshed directly.
