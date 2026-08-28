@@ -106,7 +106,7 @@ a { -webkit-tap-highlight-color: transparent; }
 .button-ghost:hover { border-color: var(--lime); background: var(--lime-soft); }
 
 .portrait-card {
-  grid-column: 1; grid-row: 1; position: relative; isolation: isolate; display: grid; min-height: 520px; place-items: center;
+  grid-column: 1; grid-row: 1; position: relative; isolation: isolate; display: grid; min-height: 460px; place-items: center;
   overflow: visible; margin: 0;
 }
 .portrait-card::before {
@@ -123,9 +123,9 @@ a { -webkit-tap-highlight-color: transparent; }
   filter: blur(30px); opacity: 0.72;
 }
 .portrait-frame {
-  position: relative; overflow: hidden; width: min(100%, 405px); aspect-ratio: 4 / 5; margin-inline: auto;
-  border-radius: 48% 48% 22% 22% / 37% 37% 18% 18%; background: #332a21;
-  box-shadow: 0 38px 88px rgba(0, 0, 0, 0.54), 0 0 92px rgba(231, 173, 93, 0.1), 0 0 122px rgba(220, 118, 88, 0.045);
+  position: relative; overflow: hidden; width: min(100%, 405px); aspect-ratio: 1; margin-inline: auto;
+  border-radius: 50%; background: transparent;
+  box-shadow: 0 34px 82px rgba(0, 0, 0, 0.5), 0 0 88px rgba(231, 173, 93, 0.1), 0 0 118px rgba(220, 118, 88, 0.04);
 }
 .portrait-frame img {
   position: absolute; inset: 0; display: block; width: 100%; height: 100%;
