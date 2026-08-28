@@ -24,12 +24,12 @@ npm run build
 npm run preview
 ```
 
-## Static hosting
+## Netlify hosting
 
-Use these project settings with a static host:
+The compact `netlify.toml` keeps the connected site on the correct settings:
 
 - Build command: `npm run build`
 - Publish directory: `dist`
 - Node.js: `22`
 
-The small `public/_redirects` rule preserves direct navigation and refreshes for blog routes on Netlify.
+It also preserves direct navigation and refreshes for blog routes.
