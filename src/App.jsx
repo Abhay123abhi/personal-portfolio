@@ -176,8 +176,8 @@ function HomeHeader() {
       <nav className="nav-links" aria-label="Primary navigation">
         <button type="button" onClick={() => scroll("work")}>Work</button>
         <button type="button" onClick={() => scroll("experience")}>Experience</button>
-        <button type="button" onClick={() => scroll("notes")}>Journal</button>
         <button type="button" onClick={() => scroll("stack")}>Stack</button>
+        <button type="button" onClick={() => scroll("notes")}>Journal</button>
       </nav>
       <ProfileLinks />
     </header>
@@ -201,10 +201,8 @@ function Home() {
       <HomeHeader />
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
-          <div className="backend-badge"><span className="code-glyph" aria-hidden="true">&lt;/&gt;</span><span>Backend Engineer</span><small>Java · Spring</small></div>
           <h1>Building <em>reliable backend systems</em> for products at scale.</h1>
           <p className="hero-intro">I design secure APIs, event-driven services, and observable platforms—with four years of ownership across architecture, performance, and production delivery.</p>
-          <div className="hero-expertise" aria-label="Core backend expertise"><span>API design</span><span>Event-driven systems</span><span>Production reliability</span></div>
           <div className="hero-actions">
             <button className="button button-primary" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>Explore selected work <ArrowDownRight size={18} /></button>
             <a className="button button-ghost" href={RESUME} target="_blank" rel="noreferrer"><FileText size={18} /> View resume</a>
@@ -213,10 +211,6 @@ function Home() {
         <figure className="portrait-card">
           <div className="portrait-glow" aria-hidden="true" />
           <div className="portrait-frame"><img src="/profile.png" alt="Abhay Jaiswal, Java Backend Engineer" /></div>
-          <aside className="api-identity" aria-label="Backend engineering profile summary">
-            <div className="api-identity-header"><code>GET /engineer/abhay</code><span>200 OK</span></div>
-            <dl><div><dt>Experience</dt><dd>4+ years</dd></div><div><dt>Focus</dt><dd>Distributed systems</dd></div><div><dt>Ownership</dt><dd>Design → Production</dd></div></dl>
-          </aside>
         </figure>
       </section>
 
