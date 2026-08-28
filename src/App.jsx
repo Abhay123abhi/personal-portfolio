@@ -127,7 +127,9 @@ const articles = [
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return null;
 }
 
@@ -188,7 +190,7 @@ function Home() {
 
       <section className="section-shell approach-section" aria-labelledby="approach-title">
         <div className="section-label"><span>01</span> Engineering approach</div>
-        <div className="approach-heading"><h2 id="approach-title">From business requirement to production signal.</h2><p>I care about the full path: clear contracts, predictable failure modes, measurable performance, and a deployment story the team can trust.</p></div>
+        <div className="approach-heading"><h2 id="approach-title">From business requirement to production signal.</h2><p>I care about the full path: clear contracts, predictable failure modes, measurable performance, and a release path the team can trust.</p></div>
         <div className="capability-grid">{capabilities.map(({ icon: Icon, title, text }, index) => <article className="capability-card" key={title}><div className="capability-top"><Icon size={24} /><span>0{index + 1}</span></div><h3>{title}</h3><p>{text}</p></article>)}</div>
       </section>
 
