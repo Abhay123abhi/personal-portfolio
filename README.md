@@ -24,4 +24,4 @@ npm run build
 npm run preview
 ```
 
-The hosting provider should run `npm run build` and publish the `dist` directory. The route fallback in `public/_redirects` keeps direct article links working on Netlify.
+The minimal `netlify.toml` runs `npm run build` and publishes the `dist` directory. The route fallback in `public/_redirects` keeps direct article links working.
