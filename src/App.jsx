@@ -16,14 +16,12 @@ import {
   Database,
   GitBranch,
   Mail,
-  MapPin,
   Radio,
-  ShieldCheck,
+  Share2,
   Sparkles,
-  TerminalSquare,
 } from "lucide-react";
 
-const EMAIL = "abhay.jaiswal983@gmail.com";
+const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
 
 const impact = [
@@ -60,6 +58,16 @@ const projects = [
     github: "https://github.com/Abhay123abhi/news_aggregator",
     live: "https://abhay123abhi-news-web.onrender.com",
     accent: "orange",
+  },
+  {
+    number: "03",
+    status: "Real-time full-stack system",
+    title: "Real-time Chat Platform",
+    description: "A room-based messaging application with a Spring Boot WebSocket backend, persistent MongoDB history, and a responsive React client supporting emoji, files, and dark mode.",
+    outcome: "Demonstrates end-to-end ownership of real-time delivery, room membership, persistence, frontend state, and Docker-based local orchestration.",
+    stack: ["Spring Boot", "WebSocket", "MongoDB", "React", "Vite", "Tailwind CSS", "Docker"],
+    github: "https://github.com/Abhay123abhi/chat-app",
+    accent: "blue",
   },
 ];
 
@@ -164,23 +172,19 @@ function Home() {
       <HomeHeader />
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
-          <div className="eyebrow"><span className="status-dot" />Java backend engineer · Gurugram, India</div>
-          <h1>I build backend systems that stay <em>reliable</em> when production gets real.</h1>
-          <p className="hero-intro">Backend-focused software engineer with 4+ years of experience turning complex business flows into secure APIs, event-driven services, and observable platforms.</p>
+          <div className="eyebrow"><span className="status-dot" />Java · Spring Boot · Distributed systems</div>
+          <h1>Java Backend Engineer building <em>reliable products</em> at scale.</h1>
+          <p className="hero-intro">I design secure APIs, event-driven microservices, and observable platforms. Four years of production experience across backend delivery, performance, and release ownership.</p>
           <div className="hero-actions">
             <button className="button button-primary" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>Explore selected work <ArrowDownRight size={18} /></button>
             <a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> GitHub profile</a>
           </div>
+          <div className="hero-proof"><span>Backend Engineer II / Senior roles</span><span>Product teams · International opportunities</span></div>
         </div>
-        <div className="system-card" aria-label="Engineering focus overview">
-          <div className="system-card-head"><span>system.profile</span><span className="live-label"><span /> LIVE</span></div>
-          <div className="system-core">
-            <div className="core-orbit orbit-one"><span /></div><div className="core-orbit orbit-two"><span /></div>
-            <div className="core-node"><TerminalSquare size={28} /><strong>BACKEND</strong><small>JAVA · SPRING</small></div>
-            <div className="satellite satellite-api">SECURE API</div><div className="satellite satellite-event">EVENTS</div><div className="satellite satellite-observe">OBSERVE</div>
-          </div>
-          <div className="system-log" aria-hidden="true"><span><i className="log-ok" /> kafka.consumer connected</span><span><i className="log-ok" /> health.readiness UP</span><span><i className="log-warn" /> latency.p95 optimized</span></div>
-        </div>
+        <figure className="portrait-card">
+          <div className="portrait-frame"><img src="/profile.png" alt="Abhay Jaiswal, Java Backend Engineer" /></div>
+          <figcaption><span>Abhay Jaiswal</span><strong>Backend engineering · Product ownership</strong></figcaption>
+        </figure>
       </section>
 
       <section className="impact-strip" aria-label="Career impact"><div className="section-shell impact-grid">{impact.map((item) => <div className="impact-item" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div></section>
@@ -202,10 +206,9 @@ function Home() {
 
       <section className="section-shell experience-section" id="experience" aria-labelledby="experience-title">
         <div className="section-label"><span>03</span> Experience</div><div className="experience-layout">
-          <div className="experience-intro"><h2 id="experience-title">Shipping software in a high-trust financial environment.</h2><p>Progressed from Associate Analyst to Analyst while owning backend delivery, cross-team releases, and production readiness.</p><div className="location"><MapPin size={17} /> Gurugram · Manila onsite</div></div>
+          <div className="experience-intro"><h2 id="experience-title">Shipping software in a high-trust financial environment.</h2><p>Progressed from Associate Software Developer to Software Developer while owning backend delivery, cross-team releases, and production readiness.</p></div>
           <article className="role-card"><div className="role-topline"><div><span className="role-company">Sun Life Global Solutions</span><h3>Software Developer · Analyst</h3></div><span className="role-date">Jul 2022 — Present</span></div>
-            <ul><li><CheckCircle2 /> Architected Spring Boot BFF services with Okta M2M security, cutting client response time from 4s to 3s.</li><li><CheckCircle2 /> Designed Kafka-based microservices processing 1,000+ business notifications per day.</li><li><CheckCircle2 /> Automated Jenkins, Docker, and Kubernetes delivery flows, reducing deployment time by 25%.</li><li><CheckCircle2 /> Helped automate rules workflows for 2,000+ advisors, reducing manual effort by 60%.</li><li><CheckCircle2 /> Supported SIT, UAT, deployment readiness, and stakeholder coordination during an international Manila assignment.</li></ul>
-            <div className="role-footer"><span><ShieldCheck size={17} /> Promoted in 2026</span><span><Sparkles size={17} /> 2× Brighter Beginning Award</span></div>
+            <ul><li><CheckCircle2 /> Architected Spring Boot BFF services with Okta M2M security, cutting client response time from 4s to 3s.</li><li><CheckCircle2 /> Designed Kafka-based microservices processing 1,000+ business notifications per day.</li><li><CheckCircle2 /> Automated Jenkins, Docker, and Kubernetes delivery flows, reducing deployment time by 25%.</li><li><CheckCircle2 /> Helped automate rules workflows for 2,000+ advisors, reducing manual effort by 60%.</li><li><CheckCircle2 /> Supported SIT, UAT, deployment readiness, and stakeholder coordination across engineering and business teams.</li></ul>
           </article>
         </div>
       </section>
@@ -221,7 +224,7 @@ function Home() {
       </section>
 
       <section className="contact-section section-shell" id="contact" aria-labelledby="contact-title"><div className="contact-card">
-        <div className="contact-kicker"><span /> AVAILABLE FOR THE RIGHT BACKEND CHALLENGE</div><h2 id="contact-title">Building something where reliability matters?</h2><p>I&apos;m open to SDE-2 and senior backend opportunities with strong engineering ownership.</p>
+        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Building something where reliability matters?</h2><p>I&apos;m open to Backend Engineer II and senior backend roles with product ownership, strong engineering culture, and international collaboration.</p>
         <div className="contact-actions"><a className="button button-primary" href={`mailto:${EMAIL}`}><Mail size={18} /> Start a conversation</a><a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> Follow my work</a></div><a className="text-link contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
       </div></section>
 
@@ -245,9 +248,10 @@ function ArticlePage() {
   const article = articles.find((item) => item.slug === slug);
   useEffect(() => { if (article) document.title = `${article.title} | Abhay Jaiswal`; }, [article]);
   if (!article) return <Navigate to="/blog" replace />;
+  const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
   return (
     <main className="article-page"><InnerHeader /><article className="article-shell">
-      <Link className="article-back" to="/blog"><ArrowLeft size={16} /> All engineering notes</Link><div className="article-category">{article.category}</div><h1>{article.title}</h1><p className="article-deck">{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span><span>By Abhay Jaiswal</span></div>
+      <Link className="article-back" to="/blog"><ArrowLeft size={16} /> All engineering notes</Link><div className="article-category">{article.category}</div><h1>{article.title}</h1><p className="article-deck">{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span><span>By Abhay Jaiswal</span></div><a className="article-share" href={linkedInShare} target="_blank" rel="noreferrer"><Share2 size={15} /> Share on LinkedIn</a>
       <div className="article-body"><p className="article-lead">{article.lead}</p>{article.sections.map((section, index) => <div key={section[0]}><h2>{section[0]}</h2><p>{section[1]}</p>{index === 1 && <blockquote>{article.quote}</blockquote>}<p>{section[2]}</p></div>)}</div>
     </article><aside className="article-cta section-shell"><div><span>Continue the conversation</span><h2>Have a different approach?</h2><p>I enjoy comparing architecture decisions with engineers solving similar production problems.</p></div><div className="article-cta-links"><a className="button button-primary" href={`mailto:${EMAIL}`}><Mail size={17} /> Email me</a><a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={17} /> GitHub</a></div></aside></main>
   );
