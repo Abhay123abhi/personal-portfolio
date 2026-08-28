@@ -5,10 +5,10 @@ Modern React portfolio focused on Java backend engineering, distributed systems,
 ## Highlights
 
 - Recruiter-focused project case studies with architecture and outcome context
-- Current experience, measurable impact, awards, and technical toolkit
+- Current experience, measurable impact, and technical toolkit
 - Shareable engineering blog with dedicated article routes
 - Responsive and accessible technical design
-- Direct email and GitHub contact paths
+- LinkedIn, GitHub, resume, and email contact paths
 
 ## Local development
 
@@ -24,12 +24,12 @@ npm run build
 npm run preview
 ```
 
-## Netlify deployment
+## Static hosting
 
-The repository includes `netlify.toml`, so Netlify automatically uses:
+Use these project settings with a static host:
 
 - Build command: `npm run build`
 - Publish directory: `dist`
 - Node.js: `22`
 
-The SPA rewrite keeps clean project and blog routes working when opened or refreshed directly.
+The small `public/_redirects` rule preserves direct navigation and refreshes for blog routes on Netlify.

@@ -13,15 +13,30 @@ import {
   CloudCog,
   Code2,
   Database,
+  FileText,
   GitBranch,
+  Github,
+  Linkedin,
   Mail,
   Radio,
   Share2,
   Sparkles,
+  Twitter,
 } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
+const LINKEDIN = "https://www.linkedin.com/in/abhay983";
+const RESUME = "/Abhay_Jaiswal_Resume.pdf";
+const TWITTER_URL = ""; // Add your X / Twitter profile URL here later.
+
+const profileLinks = [
+  { label: "Email", display: EMAIL, href: `mailto:${EMAIL}`, icon: Mail },
+  { label: "LinkedIn", display: "abhay983", href: LINKEDIN, icon: Linkedin },
+  { label: "GitHub", display: "Abhay123abhi", href: GITHUB, icon: Github },
+  { label: "Resume", display: "View current resume", href: RESUME, icon: FileText },
+  { label: "X / Twitter", display: "Profile link coming soon", href: TWITTER_URL, icon: Twitter },
+];
 
 const impact = [
   { value: "4+", label: "Years building production software" },
@@ -137,6 +152,19 @@ function Brand() {
   return <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-mark">AJ</span><span className="brand-name">Abhay Jaiswal</span></Link>;
 }
 
+function ProfileLinks({ compact = false }) {
+  return (
+    <div className={`profile-links ${compact ? "profile-links-compact" : "profile-links-cards"}`} aria-label="Connect with Abhay Jaiswal">
+      {profileLinks.map(({ label, display, href, icon: Icon }) => {
+        const content = compact ? <Icon size={17} /> : <><span className="profile-link-icon"><Icon size={20} /></span><span className="profile-link-copy"><small>{label}</small><strong>{display}</strong></span>{href && <ArrowUpRight size={17} />}</>;
+        if (!href) return <span className="profile-link profile-link-pending" key={label} aria-label={`${label} profile coming soon`} title="Add TWITTER_URL in src/App.jsx">{content}</span>;
+        const opensNewTab = !href.startsWith("mailto:");
+        return <a className="profile-link" href={href} key={label} aria-label={label} title={compact ? label : undefined} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}>{content}</a>;
+      })}
+    </div>
+  );
+}
+
 function HomeHeader() {
   const scroll = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   return (
@@ -148,7 +176,7 @@ function HomeHeader() {
         <button type="button" onClick={() => scroll("notes")}>Journal</button>
         <button type="button" onClick={() => scroll("stack")}>Stack</button>
       </nav>
-      <a className="header-cta" href={`mailto:${EMAIL}`}>Let&apos;s talk <ArrowUpRight size={16} /></a>
+      <ProfileLinks compact />
     </header>
   );
 }
@@ -158,7 +186,7 @@ function InnerHeader() {
     <header className="site-header">
       <Brand />
       <nav className="nav-links" aria-label="Blog navigation"><Link to="/">Portfolio</Link><Link to="/blog">Engineering journal</Link></nav>
-      <a className="header-cta" href={`mailto:${EMAIL}`}>Let&apos;s talk <ArrowUpRight size={16} /></a>
+      <ProfileLinks compact />
     </header>
   );
 }
@@ -175,7 +203,7 @@ function Home() {
           <p className="hero-intro">I design secure APIs, event-driven microservices, and observable platforms. Four years of production experience across backend delivery, performance, and release ownership.</p>
           <div className="hero-actions">
             <button className="button button-primary" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>Explore selected work <ArrowDownRight size={18} /></button>
-            <a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> GitHub profile</a>
+            <a className="button button-ghost" href={RESUME} target="_blank" rel="noreferrer"><FileText size={18} /> View resume</a>
           </div>
           <div className="hero-proof"><span>Backend Engineer II / Senior roles</span><span>Insurance platforms · Philippines · Malaysia · Hong Kong</span></div>
         </div>
@@ -223,11 +251,11 @@ function Home() {
       </section>
 
       <section className="contact-section section-shell" id="contact" aria-labelledby="contact-title"><div className="contact-card">
-        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Building something where reliability matters?</h2><p>I&apos;m open to Backend Engineer II and senior backend roles where I can own scalable services, system-design decisions, and production outcomes.</p>
-        <div className="contact-actions"><a className="button button-primary" href={`mailto:${EMAIL}`}><Mail size={18} /> Start a conversation</a><a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> Follow my work</a></div><a className="text-link contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Choose the easiest way to connect.</h2><p>I&apos;m open to Backend Engineer II and senior backend roles where I can own scalable services, system-design decisions, and production outcomes.</p>
+        <ProfileLinks />
       </div></section>
 
-      <footer className="site-footer section-shell"><div><span className="brand-mark">AJ</span><p>Designed around systems, signals, and measurable outcomes.</p></div><div className="footer-links"><a href={GITHUB} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} /></a><a href={`mailto:${EMAIL}`}>Email <ArrowUpRight size={14} /></a><button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button></div><span className="copyright">© 2026 Abhay Jaiswal</span></footer>
+      <footer className="site-footer section-shell"><div><span className="brand-mark">AJ</span><p>Designed around systems, signals, and measurable outcomes.</p></div><ProfileLinks compact /><button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button><span className="copyright">© 2026 Abhay Jaiswal</span></footer>
     </main>
   );
 }
