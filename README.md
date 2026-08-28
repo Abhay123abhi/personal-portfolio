@@ -7,7 +7,7 @@ Modern React portfolio focused on Java backend engineering, distributed systems,
 - Recruiter-focused project case studies with architecture and outcome context
 - Current experience, measurable impact, and technical toolkit
 - Shareable engineering blog with dedicated article routes
-- Responsive and accessible technical design
+- Responsive and accessible light/dark design
 - LinkedIn, GitHub, resume, and email contact paths
 
 ## Local development
@@ -24,12 +24,4 @@ npm run build
 npm run preview
 ```
 
-## Netlify hosting
-
-The compact `netlify.toml` keeps the connected site on the correct settings:
-
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Node.js: `22`
-
-It also preserves direct navigation and refreshes for blog routes.
+The minimal `netlify.toml` runs `npm run build` and publishes the `dist` directory. The route fallback in `public/_redirects` keeps direct article links working.
