@@ -9,7 +9,6 @@ import {
   Boxes,
   Braces,
   CheckCircle2,
-  CircleDot,
   Clock3,
   CloudCog,
   Code2,
@@ -27,20 +26,19 @@ const GITHUB = "https://github.com/Abhay123abhi";
 const impact = [
   { value: "4+", label: "Years building production software" },
   { value: "1K+", label: "Business events processed daily" },
-  { value: "25%", label: "Faster deployment cycles" },
+  { value: "25%", label: "Faster release cycles" },
   { value: "60%", label: "Less manual operational work" },
 ];
 
 const capabilities = [
-  { icon: Code2, title: "Backend systems", text: "Spring Boot services, secure REST APIs, BFFs, resilient integrations, and clean domain boundaries." },
-  { icon: Radio, title: "Event-driven architecture", text: "Kafka workflows designed for asynchronous processing, idempotency, observability, and failure recovery." },
-  { icon: CloudCog, title: "Production delivery", text: "Docker, Kubernetes, Jenkins, cloud deployment, monitoring, and the practical work required to ship reliably." },
+  { icon: Code2, title: "Backend product systems", text: "Spring Boot services, secure REST APIs, BFFs, resilient integrations, and clear domain boundaries." },
+  { icon: Radio, title: "Distributed system design", text: "Kafka, caching, idempotency, ordering, retries, dead-letter flows, and consistency trade-offs." },
+  { icon: CloudCog, title: "Production reliability", text: "Timeouts, circuit breakers, observability, capacity thinking, CI/CD, and predictable failure recovery." },
 ];
 
 const projects = [
   {
     number: "01",
-    status: "In active development",
     title: "AI Incident Intelligence Platform",
     description: "An evidence-first reliability platform that correlates metrics, logs, traces, deployments, and runbooks—then uses AI to produce a grounded incident narrative and recommended actions.",
     outcome: "Built to reduce the time engineers lose moving between disconnected observability tools during an incident.",
@@ -50,7 +48,6 @@ const projects = [
   },
   {
     number: "02",
-    status: "Deployed product",
     title: "Multi-source News Intelligence",
     description: "A full-stack aggregator that searches multiple publishers concurrently, normalizes inconsistent provider responses, caches hot queries, and degrades gracefully when a source is unavailable.",
     outcome: "A production-shaped system with provider strategies, Redis caching, health checks, containerization, and an AI-ready enrichment layer.",
@@ -61,7 +58,6 @@ const projects = [
   },
   {
     number: "03",
-    status: "Real-time full-stack system",
     title: "Real-time Chat Platform",
     description: "A room-based messaging application with a Spring Boot WebSocket backend, persistent MongoDB history, and a responsive React client supporting emoji, files, and dark mode.",
     outcome: "Demonstrates end-to-end ownership of real-time delivery, room membership, persistence, frontend state, and Docker-based local orchestration.",
@@ -73,9 +69,9 @@ const projects = [
 
 const toolkit = [
   { icon: Braces, label: "Core backend", items: "Java 8–21 · Spring Boot · Spring Security · JPA · Hibernate · REST" },
-  { icon: Boxes, label: "Distributed systems", items: "Kafka · Microservices · Redis · WebSocket · Resilience · Idempotency" },
-  { icon: Database, label: "Data & search", items: "PostgreSQL · MySQL · Oracle · MongoDB · OpenSearch · SQL tuning" },
-  { icon: Activity, label: "Platform & quality", items: "Docker · Kubernetes · Jenkins · AWS · Grafana · JUnit · Mockito" },
+  { icon: Boxes, label: "System design", items: "Scalability · Caching · Idempotency · Eventual consistency · Retry/DLQ · Outbox" },
+  { icon: Database, label: "Data & messaging", items: "PostgreSQL · MySQL · MongoDB · Redis · Kafka · Indexing · Partitioning" },
+  { icon: Activity, label: "Reliability & platform", items: "API Gateway · Circuit breaker · Docker · Kubernetes · Jenkins · Grafana · Testing" },
 ];
 
 const articles = [
@@ -147,7 +143,7 @@ function HomeHeader() {
       <nav className="nav-links" aria-label="Primary navigation">
         <button type="button" onClick={() => scroll("work")}>Work</button>
         <button type="button" onClick={() => scroll("experience")}>Experience</button>
-        <button type="button" onClick={() => scroll("notes")}>Writing</button>
+        <button type="button" onClick={() => scroll("notes")}>Journal</button>
         <button type="button" onClick={() => scroll("stack")}>Stack</button>
       </nav>
       <a className="header-cta" href={`mailto:${EMAIL}`}>Let&apos;s talk <ArrowUpRight size={16} /></a>
@@ -159,7 +155,7 @@ function InnerHeader() {
   return (
     <header className="site-header">
       <Brand />
-      <nav className="nav-links" aria-label="Blog navigation"><Link to="/">Portfolio</Link><Link to="/blog">All notes</Link></nav>
+      <nav className="nav-links" aria-label="Blog navigation"><Link to="/">Portfolio</Link><Link to="/blog">Engineering journal</Link></nav>
       <a className="header-cta" href={`mailto:${EMAIL}`}>Let&apos;s talk <ArrowUpRight size={16} /></a>
     </header>
   );
@@ -179,11 +175,12 @@ function Home() {
             <button className="button button-primary" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>Explore selected work <ArrowDownRight size={18} /></button>
             <a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> GitHub profile</a>
           </div>
-          <div className="hero-proof"><span>Backend Engineer II / Senior roles</span><span>Product teams · International opportunities</span></div>
+          <div className="hero-proof"><span>Backend Engineer II / Senior roles</span><span>Insurance platforms · Philippines · Malaysia · Hong Kong</span></div>
         </div>
         <figure className="portrait-card">
+          <div className="portrait-glow" aria-hidden="true" />
           <div className="portrait-frame"><img src="/profile.png" alt="Abhay Jaiswal, Java Backend Engineer" /></div>
-          <figcaption><span>Abhay Jaiswal</span><strong>Backend engineering · Product ownership</strong></figcaption>
+          <figcaption><span>Abhay Jaiswal</span><strong>Java backend · System design · Product ownership</strong></figcaption>
         </figure>
       </section>
 
@@ -197,18 +194,18 @@ function Home() {
 
       <section className="work-section" id="work" aria-labelledby="work-title"><div className="section-shell">
         <div className="section-label"><span>02</span> Selected systems</div>
-        <div className="work-heading"><h2 id="work-title">Projects built around real engineering problems.</h2><p>Architecture, resilience, and deployment—not tutorial-only feature lists.</p></div>
+        <div className="work-heading"><h2 id="work-title">Projects built around real engineering problems.</h2><p>Architecture, resilience, and system-design choices—not tutorial-only feature lists.</p></div>
         <div className="project-list">{projects.map((project) => <article className={`project-card project-${project.accent}`} key={project.title}>
-          <div className="project-index">{project.number}</div><div className="project-main"><div className="project-status"><CircleDot size={14} /> {project.status}</div><h3>{project.title}</h3><p className="project-description">{project.description}</p><div className="project-outcome"><Sparkles size={18} /><span>{project.outcome}</span></div><div className="tag-list">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></div>
+          <div className="project-index">{project.number}</div><div className="project-main"><h3>{project.title}</h3><p className="project-description">{project.description}</p><div className="project-outcome"><Sparkles size={18} /><span>{project.outcome}</span></div><div className="tag-list">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></div>
           <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><GitBranch size={19} /> Source <ArrowUpRight size={15} /></a>{project.live && <a href={project.live} target="_blank" rel="noreferrer"><Activity size={19} /> Live app <ArrowUpRight size={15} /></a>}</div>
         </article>)}</div>
       </div></section>
 
       <section className="section-shell experience-section" id="experience" aria-labelledby="experience-title">
         <div className="section-label"><span>03</span> Experience</div><div className="experience-layout">
-          <div className="experience-intro"><h2 id="experience-title">Shipping software in a high-trust financial environment.</h2><p>Progressed from Associate Software Developer to Software Developer while owning backend delivery, cross-team releases, and production readiness.</p></div>
+          <div className="experience-intro"><h2 id="experience-title">Building advisor and policy platforms across Asian insurance markets.</h2><p>Progressed from Associate Software Developer to Software Developer while owning backend delivery, system integration, release readiness, and production outcomes.</p></div>
           <article className="role-card"><div className="role-topline"><div><span className="role-company">Sun Life Global Solutions</span><h3>Software Developer · Analyst</h3></div><span className="role-date">Jul 2022 — Present</span></div>
-            <ul><li><CheckCircle2 /> Architected Spring Boot BFF services with Okta M2M security, cutting client response time from 4s to 3s.</li><li><CheckCircle2 /> Designed Kafka-based microservices processing 1,000+ business notifications per day.</li><li><CheckCircle2 /> Automated Jenkins, Docker, and Kubernetes delivery flows, reducing deployment time by 25%.</li><li><CheckCircle2 /> Helped automate rules workflows for 2,000+ advisors, reducing manual effort by 60%.</li><li><CheckCircle2 /> Supported SIT, UAT, deployment readiness, and stakeholder coordination across engineering and business teams.</li></ul>
+            <ul><li><CheckCircle2 /> Architected Spring Boot BFF services with Okta M2M security, cutting client response time from 4s to 3s.</li><li><CheckCircle2 /> Designed Kafka-based microservices processing 1,000+ business notifications per day.</li><li><CheckCircle2 /> Automated Jenkins, Docker, and Kubernetes delivery flows, reducing release time by 25%.</li><li><CheckCircle2 /> Helped automate advisor rules and policy workflows for 2,000+ advisors, reducing manual effort by 60%.</li><li><CheckCircle2 /> Supported insurance advisor and policy applications across the Philippines, Malaysia, and Hong Kong markets, coordinating SIT, UAT, release readiness, and stakeholder validation.</li></ul>
           </article>
         </div>
       </section>
@@ -219,12 +216,12 @@ function Home() {
       </div></section>
 
       <section className="blog-section section-shell" id="notes" aria-labelledby="notes-title">
-        <div className="section-label"><span>05</span> Engineering notes</div><div className="blog-heading"><div><h2 id="notes-title">Writing from the workbench.</h2><p>Practical notes on backend architecture, reliability, and building AI features that earn their place.</p></div><Link className="header-cta" to="/blog">View all notes <ArrowUpRight size={16} /></Link></div>
-        <div className="blog-grid">{articles.map((article, index) => <Link className="blog-card" to={`/blog/${article.slug}`} key={article.slug}><div className="blog-card-meta"><span>0{index + 1}</span><span>{article.readingTime}</span></div><div className="blog-icon"><BookOpen size={21} /></div><span className="blog-category">{article.category}</span><h3>{article.title}</h3><p>{article.excerpt}</p><span className="blog-link">Read note <ArrowUpRight size={15} /></span></Link>)}</div>
+        <div className="section-label"><span>05</span> Engineering journal</div><div className="blog-heading"><div><h2 id="notes-title">Engineering ideas, made practical.</h2><p>A readable engineering blog where I break down backend architecture, distributed systems, reliability trade-offs, and lessons from building production software.</p></div><Link className="header-cta" to="/blog">Browse all articles <ArrowUpRight size={16} /></Link></div>
+        <div className="blog-grid">{articles.map((article, index) => <article className="blog-card" key={article.slug}><div className="blog-card-meta"><span>0{index + 1}</span><span>{article.readingTime}</span></div><div className="blog-icon"><BookOpen size={21} /></div><span className="blog-category">{article.category}</span><h3>{article.title}</h3><p>{article.excerpt}</p><Link className="blog-link" to={`/blog/${article.slug}`} aria-label={`Read ${article.title}`}>Read full article <ArrowUpRight size={15} /></Link></article>)}</div>
       </section>
 
       <section className="contact-section section-shell" id="contact" aria-labelledby="contact-title"><div className="contact-card">
-        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Building something where reliability matters?</h2><p>I&apos;m open to Backend Engineer II and senior backend roles with product ownership, strong engineering culture, and international collaboration.</p>
+        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Building something where reliability matters?</h2><p>I&apos;m open to Backend Engineer II and senior backend roles where I can own scalable services, system-design decisions, and production outcomes.</p>
         <div className="contact-actions"><a className="button button-primary" href={`mailto:${EMAIL}`}><Mail size={18} /> Start a conversation</a><a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={18} /> Follow my work</a></div><a className="text-link contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
       </div></section>
 
@@ -237,7 +234,7 @@ function BlogIndex() {
   useEffect(() => { document.title = "Engineering Notes | Abhay Jaiswal"; }, []);
   return (
     <main className="blog-index"><InnerHeader />
-      <section className="blog-index-hero section-shell"><Link className="article-back" to="/"><ArrowLeft size={16} /> Back to portfolio</Link><div className="section-label"><span>WRITING</span> Engineering notes</div><h1>Ideas are more useful when they survive contact with production.</h1><p>Short, practical essays about backend decisions: what fails, which trade-offs matter, and how I reason through them.</p></section>
+      <section className="blog-index-hero section-shell"><Link className="article-back" to="/"><ArrowLeft size={16} /> Back to portfolio</Link><div className="section-label"><span>JOURNAL</span> Backend engineering articles</div><h1>Ideas are more useful when they survive contact with production.</h1><p>Readable articles about system design, backend decisions, failure modes, and the trade-offs behind reliable software.</p></section>
       <section className="blog-archive section-shell" aria-label="Published engineering notes">{articles.map((article, index) => <Link className="archive-row" to={`/blog/${article.slug}`} key={article.slug}><span className="archive-number">0{index + 1}</span><div className="archive-main"><span className="blog-category">{article.category}</span><h2>{article.title}</h2><p>{article.excerpt}</p></div><div className="archive-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span></div><BookOpen className="archive-icon" size={22} /></Link>)}</section>
     </main>
   );
@@ -251,7 +248,7 @@ function ArticlePage() {
   const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
   return (
     <main className="article-page"><InnerHeader /><article className="article-shell">
-      <Link className="article-back" to="/blog"><ArrowLeft size={16} /> All engineering notes</Link><div className="article-category">{article.category}</div><h1>{article.title}</h1><p className="article-deck">{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span><span>By Abhay Jaiswal</span></div><a className="article-share" href={linkedInShare} target="_blank" rel="noreferrer"><Share2 size={15} /> Share on LinkedIn</a>
+      <Link className="article-back" to="/blog"><ArrowLeft size={16} /> Engineering journal</Link><div className="article-category">{article.category}</div><h1>{article.title}</h1><p className="article-deck">{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span><span>By Abhay Jaiswal</span></div><a className="article-share" href={linkedInShare} target="_blank" rel="noreferrer"><Share2 size={15} /> Share on LinkedIn</a>
       <div className="article-body"><p className="article-lead">{article.lead}</p>{article.sections.map((section, index) => <div key={section[0]}><h2>{section[0]}</h2><p>{section[1]}</p>{index === 1 && <blockquote>{article.quote}</blockquote>}<p>{section[2]}</p></div>)}</div>
     </article><aside className="article-cta section-shell"><div><span>Continue the conversation</span><h2>Have a different approach?</h2><p>I enjoy comparing architecture decisions with engineers solving similar production problems.</p></div><div className="article-cta-links"><a className="button button-primary" href={`mailto:${EMAIL}`}><Mail size={17} /> Email me</a><a className="button button-ghost" href={GITHUB} target="_blank" rel="noreferrer"><GitBranch size={17} /> GitHub</a></div></aside></main>
   );
