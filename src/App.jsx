@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import {
   Activity,
   ArrowDownRight,
   ArrowLeft,
-  ArrowRight,
   ArrowUpRight,
   BookOpen,
   Boxes,
@@ -19,11 +18,9 @@ import {
   Github,
   Linkedin,
   Mail,
-  Moon,
   Radio,
   Share2,
   Sparkles,
-  Sun,
   Twitter,
 } from "lucide-react";
 
@@ -31,13 +28,13 @@ const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
 const LINKEDIN = "https://www.linkedin.com/in/abhay983";
 const RESUME = "/Abhay_Jaiswal_Resume.pdf";
-const TWITTER_URL = ""; // Add your X / Twitter profile URL here later.
+const TWITTER_URL = "https://x.com/abhayjaissssss";
 
 const profileLinks = [
-  { label: "Email", href: `mailto:${EMAIL}`, icon: Mail },
-  { label: "LinkedIn", href: LINKEDIN, icon: Linkedin },
-  { label: "GitHub", href: GITHUB, icon: Github },
-  { label: "X / Twitter", href: TWITTER_URL, icon: Twitter },
+  { label: "Email", href: `mailto:${EMAIL}`, icon: Mail, tone: "mail" },
+  { label: "LinkedIn", href: LINKEDIN, icon: Linkedin, tone: "linkedin" },
+  { label: "GitHub", href: GITHUB, icon: Github, tone: "github" },
+  { label: "X / Twitter", href: TWITTER_URL, icon: Twitter, tone: "twitter" },
 ];
 
 const impact = [
@@ -157,47 +154,19 @@ function Brand() {
 function ProfileLinks() {
   return (
     <div className="profile-links" aria-label="Connect with Abhay Jaiswal">
-      {profileLinks.map(({ label, href, icon: Icon }) => {
-        const content = <Icon size={17} />;
-        if (!href) return <span className="profile-link profile-link-pending" key={label} aria-label={`${label} profile coming soon`} title="Add TWITTER_URL in src/App.jsx">{content}</span>;
+      {profileLinks.map(({ label, href, icon: Icon, tone }) => {
         const opensNewTab = !href.startsWith("mailto:");
-        return <a className="profile-link" href={href} key={label} aria-label={label} title={label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}>{content}</a>;
+        return <a className={`profile-link profile-link-${tone}`} href={href} key={label} aria-label={label} title={label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}><Icon size={17} /></a>;
       })}
     </div>
   );
 }
 
-function ThemeToggle() {
-  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "dark");
-
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = nextTheme;
-    try { localStorage.setItem("portfolio-theme", nextTheme); } catch { /* Preference storage may be unavailable in private browsing. */ }
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", nextTheme === "dark" ? "#070b0b" : "#f5f7f2");
-    setTheme(nextTheme);
-  };
-
-  const nextLabel = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
-  return <button className="theme-toggle" type="button" onClick={toggleTheme} aria-label={nextLabel} title={nextLabel}>{theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}</button>;
-}
-
-function HeaderActions() {
-  return <div className="header-actions"><ProfileLinks /><span className="header-divider" aria-hidden="true" /><ThemeToggle /></div>;
-}
-
-function ImpactCarousel() {
-  const trackRef = useRef(null);
-  const scroll = (direction) => {
-    const track = trackRef.current;
-    if (!track) return;
-    track.scrollBy({ left: direction * Math.min(track.clientWidth * 0.8, 420), behavior: "smooth" });
-  };
-
+function ImpactStrip() {
   return (
     <section className="impact-strip" aria-labelledby="impact-title">
-      <div className="section-shell impact-header"><span id="impact-title">Measured impact</span><div className="impact-controls"><button type="button" onClick={() => scroll(-1)} aria-label="Show previous impact"><ArrowLeft size={17} /></button><button type="button" onClick={() => scroll(1)} aria-label="Show next impact"><ArrowRight size={17} /></button></div></div>
-      <div className="section-shell impact-track" ref={trackRef} tabIndex="0">{impact.map((item) => <div className="impact-item" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div>
+      <div className="section-shell impact-header"><span id="impact-title">Measured impact</span></div>
+      <div className="section-shell impact-track" tabIndex="0" aria-label="Career impact metrics; scroll horizontally when more items are available">{impact.map((item) => <div className="impact-item" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div>
     </section>
   );
 }
@@ -213,7 +182,7 @@ function HomeHeader() {
         <button type="button" onClick={() => scroll("notes")}>Journal</button>
         <button type="button" onClick={() => scroll("stack")}>Stack</button>
       </nav>
-      <HeaderActions />
+      <ProfileLinks />
     </header>
   );
 }
@@ -223,7 +192,7 @@ function InnerHeader() {
     <header className="site-header">
       <Brand />
       <nav className="nav-links" aria-label="Blog navigation"><Link to="/">Portfolio</Link><Link to="/blog">Engineering journal</Link></nav>
-      <HeaderActions />
+      <ProfileLinks />
     </header>
   );
 }
@@ -246,11 +215,10 @@ function Home() {
         <figure className="portrait-card">
           <div className="portrait-glow" aria-hidden="true" />
           <div className="portrait-frame"><img src="/profile.png" alt="Abhay Jaiswal, Java Backend Engineer" /></div>
-          <figcaption><span>Abhay Jaiswal</span></figcaption>
         </figure>
       </section>
 
-      <ImpactCarousel />
+      <ImpactStrip />
 
       <section className="section-shell approach-section" aria-labelledby="approach-title">
         <div className="section-label"><span>01</span> Engineering approach</div>
