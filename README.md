@@ -7,7 +7,7 @@ Modern React portfolio focused on Java backend engineering, distributed systems,
 - Recruiter-focused project case studies with architecture and outcome context
 - Current experience, measurable impact, and technical toolkit
 - Shareable engineering blog with dedicated article routes
-- Responsive and accessible light/dark design
+- Responsive, accessible dark interface
 - LinkedIn, GitHub, resume, and email contact paths
 
 ## Local development
