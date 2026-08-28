@@ -71,10 +71,10 @@ a { -webkit-tap-highlight-color: transparent; }
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
   transition: color 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-.profile-link-mail { --social-color: #ff756d; --social-border: rgba(255, 117, 109, 0.24); --social-soft: rgba(255, 117, 109, 0.07); }
-.profile-link-linkedin { --social-color: #65aef7; --social-border: rgba(101, 174, 247, 0.24); --social-soft: rgba(101, 174, 247, 0.07); }
-.profile-link-github { --social-color: #bca9ff; --social-border: rgba(188, 169, 255, 0.24); --social-soft: rgba(188, 169, 255, 0.07); }
-.profile-link-twitter { --social-color: #eef3ec; --social-border: rgba(238, 243, 236, 0.19); --social-soft: rgba(238, 243, 236, 0.05); }
+.profile-links .profile-link-mail { --social-color: #ff756d; --social-border: rgba(255, 117, 109, 0.24); --social-soft: rgba(255, 117, 109, 0.07); }
+.profile-links .profile-link-linkedin { --social-color: #65aef7; --social-border: rgba(101, 174, 247, 0.24); --social-soft: rgba(101, 174, 247, 0.07); }
+.profile-links .profile-link-github { --social-color: #bca9ff; --social-border: rgba(188, 169, 255, 0.24); --social-soft: rgba(188, 169, 255, 0.07); }
+.profile-links .profile-link-twitter { --social-color: #eef3ec; --social-border: rgba(238, 243, 236, 0.19); --social-soft: rgba(238, 243, 236, 0.05); }
 .profile-links a.profile-link:hover {
   border-color: var(--social-color); background: var(--social-soft); color: var(--social-color);
   box-shadow: 0 10px 26px color-mix(in srgb, var(--social-color) 14%, transparent); transform: translateY(-2px);
@@ -139,7 +139,6 @@ a { -webkit-tap-highlight-color: transparent; }
   border-radius: 50%; background: #343735;
   box-shadow: 0 30px 72px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(199, 255, 74, 0.24), 0 0 80px rgba(101, 184, 255, 0.1);
 }
-.portrait-frame::after { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 -70px 85px -90px rgba(0, 0, 0, 0.86); content: ""; pointer-events: none; }
 .portrait-frame img {
   position: absolute; inset: 0; display: block; width: 100%; height: 100%;
   object-fit: cover; object-position: center; filter: saturate(0.94) contrast(1.03);
