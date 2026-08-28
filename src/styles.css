@@ -121,7 +121,7 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 .portrait-frame::after { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 -90px 90px -92px rgba(0, 0, 0, 0.9); content: ""; pointer-events: none; }
 .portrait-frame img {
-  position: absolute; top: -12%; left: -12%; display: block; width: 124%; height: 124%;
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
   object-fit: cover; object-position: center; filter: saturate(0.94) contrast(1.03);
 }
 .portrait-card figcaption { position: relative; display: flex; align-items: end; justify-content: space-between; gap: 20px; padding: 18px 8px 7px; }
