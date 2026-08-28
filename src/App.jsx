@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import {
   Activity,
   ArrowDownRight,
   ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   BookOpen,
   Boxes,
@@ -18,9 +19,11 @@ import {
   Github,
   Linkedin,
   Mail,
+  Moon,
   Radio,
   Share2,
   Sparkles,
+  Sun,
   Twitter,
 } from "lucide-react";
 
@@ -31,11 +34,10 @@ const RESUME = "/Abhay_Jaiswal_Resume.pdf";
 const TWITTER_URL = ""; // Add your X / Twitter profile URL here later.
 
 const profileLinks = [
-  { label: "Email", display: EMAIL, href: `mailto:${EMAIL}`, icon: Mail },
-  { label: "LinkedIn", display: "abhay983", href: LINKEDIN, icon: Linkedin },
-  { label: "GitHub", display: "Abhay123abhi", href: GITHUB, icon: Github },
-  { label: "Resume", display: "View current resume", href: RESUME, icon: FileText },
-  { label: "X / Twitter", display: "Profile link coming soon", href: TWITTER_URL, icon: Twitter },
+  { label: "Email", href: `mailto:${EMAIL}`, icon: Mail },
+  { label: "LinkedIn", href: LINKEDIN, icon: Linkedin },
+  { label: "GitHub", href: GITHUB, icon: Github },
+  { label: "X / Twitter", href: TWITTER_URL, icon: Twitter },
 ];
 
 const impact = [
@@ -152,16 +154,51 @@ function Brand() {
   return <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-mark">AJ</span><span className="brand-name">Abhay Jaiswal</span></Link>;
 }
 
-function ProfileLinks({ compact = false }) {
+function ProfileLinks() {
   return (
-    <div className={`profile-links ${compact ? "profile-links-compact" : "profile-links-cards"}`} aria-label="Connect with Abhay Jaiswal">
-      {profileLinks.map(({ label, display, href, icon: Icon }) => {
-        const content = compact ? <Icon size={17} /> : <><span className="profile-link-icon"><Icon size={20} /></span><span className="profile-link-copy"><small>{label}</small><strong>{display}</strong></span>{href && <ArrowUpRight size={17} />}</>;
+    <div className="profile-links" aria-label="Connect with Abhay Jaiswal">
+      {profileLinks.map(({ label, href, icon: Icon }) => {
+        const content = <Icon size={17} />;
         if (!href) return <span className="profile-link profile-link-pending" key={label} aria-label={`${label} profile coming soon`} title="Add TWITTER_URL in src/App.jsx">{content}</span>;
         const opensNewTab = !href.startsWith("mailto:");
-        return <a className="profile-link" href={href} key={label} aria-label={label} title={compact ? label : undefined} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}>{content}</a>;
+        return <a className="profile-link" href={href} key={label} aria-label={label} title={label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}>{content}</a>;
       })}
     </div>
+  );
+}
+
+function ThemeToggle() {
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "dark");
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    try { localStorage.setItem("portfolio-theme", nextTheme); } catch { /* Preference storage may be unavailable in private browsing. */ }
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", nextTheme === "dark" ? "#070b0b" : "#f5f7f2");
+    setTheme(nextTheme);
+  };
+
+  const nextLabel = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+  return <button className="theme-toggle" type="button" onClick={toggleTheme} aria-label={nextLabel} title={nextLabel}>{theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}</button>;
+}
+
+function HeaderActions() {
+  return <div className="header-actions"><ProfileLinks /><span className="header-divider" aria-hidden="true" /><ThemeToggle /></div>;
+}
+
+function ImpactCarousel() {
+  const trackRef = useRef(null);
+  const scroll = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: direction * Math.min(track.clientWidth * 0.8, 420), behavior: "smooth" });
+  };
+
+  return (
+    <section className="impact-strip" aria-labelledby="impact-title">
+      <div className="section-shell impact-header"><span id="impact-title">Measured impact</span><div className="impact-controls"><button type="button" onClick={() => scroll(-1)} aria-label="Show previous impact"><ArrowLeft size={17} /></button><button type="button" onClick={() => scroll(1)} aria-label="Show next impact"><ArrowRight size={17} /></button></div></div>
+      <div className="section-shell impact-track" ref={trackRef} tabIndex="0">{impact.map((item) => <div className="impact-item" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div>
+    </section>
   );
 }
 
@@ -176,7 +213,7 @@ function HomeHeader() {
         <button type="button" onClick={() => scroll("notes")}>Journal</button>
         <button type="button" onClick={() => scroll("stack")}>Stack</button>
       </nav>
-      <ProfileLinks compact />
+      <HeaderActions />
     </header>
   );
 }
@@ -186,7 +223,7 @@ function InnerHeader() {
     <header className="site-header">
       <Brand />
       <nav className="nav-links" aria-label="Blog navigation"><Link to="/">Portfolio</Link><Link to="/blog">Engineering journal</Link></nav>
-      <ProfileLinks compact />
+      <HeaderActions />
     </header>
   );
 }
@@ -205,16 +242,15 @@ function Home() {
             <button className="button button-primary" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>Explore selected work <ArrowDownRight size={18} /></button>
             <a className="button button-ghost" href={RESUME} target="_blank" rel="noreferrer"><FileText size={18} /> View resume</a>
           </div>
-          <div className="hero-proof"><span>Backend Engineer II / Senior roles</span><span>Insurance platforms · Philippines · Malaysia · Hong Kong</span></div>
         </div>
         <figure className="portrait-card">
           <div className="portrait-glow" aria-hidden="true" />
           <div className="portrait-frame"><img src="/profile.png" alt="Abhay Jaiswal, Java Backend Engineer" /></div>
-          <figcaption><span>Abhay Jaiswal</span><strong>Java backend · System design · Product ownership</strong></figcaption>
+          <figcaption><span>Abhay Jaiswal</span></figcaption>
         </figure>
       </section>
 
-      <section className="impact-strip" aria-label="Career impact"><div className="section-shell impact-grid">{impact.map((item) => <div className="impact-item" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div></section>
+      <ImpactCarousel />
 
       <section className="section-shell approach-section" aria-labelledby="approach-title">
         <div className="section-label"><span>01</span> Engineering approach</div>
@@ -250,12 +286,7 @@ function Home() {
         <div className="blog-grid">{articles.map((article, index) => <article className="blog-card" key={article.slug}><div className="blog-card-meta"><span>0{index + 1}</span><span>{article.readingTime}</span></div><div className="blog-icon"><BookOpen size={21} /></div><span className="blog-category">{article.category}</span><h3>{article.title}</h3><p>{article.excerpt}</p><Link className="blog-link" to={`/blog/${article.slug}`} aria-label={`Read ${article.title}`}>Read full article <ArrowUpRight size={15} /></Link></article>)}</div>
       </section>
 
-      <section className="contact-section section-shell" id="contact" aria-labelledby="contact-title"><div className="contact-card">
-        <div className="contact-kicker"><span /> OPEN TO PRODUCT ENGINEERING OPPORTUNITIES</div><h2 id="contact-title">Choose the easiest way to connect.</h2><p>I&apos;m open to Backend Engineer II and senior backend roles where I can own scalable services, system-design decisions, and production outcomes.</p>
-        <ProfileLinks />
-      </div></section>
-
-      <footer className="site-footer section-shell"><div><span className="brand-mark">AJ</span><p>Designed around systems, signals, and measurable outcomes.</p></div><ProfileLinks compact /><button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button><span className="copyright">© 2026 Abhay Jaiswal</span></footer>
+      <footer className="site-footer section-shell"><div><span className="brand-mark">AJ</span><p>Designed around systems, signals, and measurable outcomes.</p></div><button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button><span className="copyright">© 2026 Abhay Jaiswal</span></footer>
     </main>
   );
 }
