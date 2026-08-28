@@ -63,21 +63,15 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 .profile-links { position: relative; z-index: 2; display: flex; align-items: center; justify-self: end; gap: 7px; }
 .profile-links .profile-link {
-  --social-color: var(--muted);
-  --social-border: var(--line);
-  --social-soft: var(--glass);
-  display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--social-border);
-  border-radius: 11px; color: var(--social-color); background: var(--social-soft);
+  display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line);
+  border-radius: 11px; background: var(--glass);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
-  transition: color 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-.profile-links .profile-link-mail { --social-color: #ff756d; --social-border: rgba(255, 117, 109, 0.24); --social-soft: rgba(255, 117, 109, 0.07); }
-.profile-links .profile-link-linkedin { --social-color: #65aef7; --social-border: rgba(101, 174, 247, 0.24); --social-soft: rgba(101, 174, 247, 0.07); }
-.profile-links .profile-link-github { --social-color: #bca9ff; --social-border: rgba(188, 169, 255, 0.24); --social-soft: rgba(188, 169, 255, 0.07); }
-.profile-links .profile-link-twitter { --social-color: #eef3ec; --social-border: rgba(238, 243, 236, 0.19); --social-soft: rgba(238, 243, 236, 0.05); }
+.profile-links .profile-link img { display: block; width: 19px; height: 19px; object-fit: contain; }
 .profile-links a.profile-link:hover {
-  border-color: var(--social-color); background: var(--social-soft); color: var(--social-color);
-  box-shadow: 0 10px 26px color-mix(in srgb, var(--social-color) 14%, transparent); transform: translateY(-2px);
+  border-color: var(--line-strong); background: var(--panel);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28); transform: translateY(-2px);
 }
 
 .hero {
@@ -161,8 +155,11 @@ a { -webkit-tap-highlight-color: transparent; }
   display: flex; align-items: center; gap: 13px; color: var(--muted);
   font: 700 10px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase;
 }
+.section-label::before {
+  width: 7px; height: 7px; flex: 0 0 auto; border-radius: 2px; background: var(--lime);
+  box-shadow: 0 0 0 5px var(--lime-soft), 0 0 18px rgba(199, 255, 74, 0.28); content: ""; transform: rotate(45deg);
+}
 .section-label::after { width: 54px; height: 1px; background: var(--line-strong); content: ""; }
-.section-label span { color: var(--lime); }
 .approach-heading, .work-heading, .stack-heading {
   display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 60px; align-items: end; margin: 34px 0 54px;
 }
@@ -341,16 +338,6 @@ a { -webkit-tap-highlight-color: transparent; }
 .article-cta p { max-width: 580px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
 .article-cta-links { display: flex; flex: 0 0 auto; gap: 10px; }
 
-.site-footer {
-  display: grid; grid-template-columns: 1fr auto auto; gap: 26px; align-items: center;
-  padding-block: 38px; border-top: 1px solid var(--line);
-}
-.site-footer > div:first-child { display: flex; align-items: center; gap: 14px; }
-.site-footer p { margin: 0; color: var(--muted); font-size: 10px; }
-.back-to-top { border: 0; padding: 10px 0; background: transparent; color: var(--muted); font-size: 10px; font-weight: 700; cursor: pointer; }
-.back-to-top:hover { color: var(--lime); }
-.copyright { color: var(--faint); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
-
 :where(a, button, [tabindex]):focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 
 @media (max-width: 980px) {
@@ -388,7 +375,6 @@ a { -webkit-tap-highlight-color: transparent; }
   .toolkit-grid { grid-template-columns: 1fr; }
   .toolkit-row { border-right: 0; }
   .toolkit-row:nth-last-child(2) { border-bottom: 1px solid var(--line); }
-  .site-footer { grid-template-columns: 1fr; align-items: start; }
   .archive-row { grid-template-columns: 38px 1fr; gap: 18px; padding-inline: 6px; }
   .archive-meta { grid-column: 2; grid-row: 2; display: flex; flex-wrap: wrap; }
   .archive-icon { display: none; }

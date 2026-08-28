@@ -15,13 +15,10 @@ import {
   Database,
   FileText,
   GitBranch,
-  Github,
-  Linkedin,
   Mail,
   Radio,
   Share2,
   Sparkles,
-  Twitter,
 } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
@@ -31,10 +28,10 @@ const RESUME = "/Abhay_Jaiswal_Resume.pdf";
 const TWITTER_URL = "https://x.com/abhayjaissssss";
 
 const profileLinks = [
-  { label: "Email", href: `mailto:${EMAIL}`, icon: Mail, tone: "mail" },
-  { label: "LinkedIn", href: LINKEDIN, icon: Linkedin, tone: "linkedin" },
-  { label: "GitHub", href: GITHUB, icon: Github, tone: "github" },
-  { label: "X / Twitter", href: TWITTER_URL, icon: Twitter, tone: "twitter" },
+  { label: "Email", href: `mailto:${EMAIL}`, icon: "/social/gmail.svg" },
+  { label: "LinkedIn", href: LINKEDIN, icon: "/social/linkedin.svg" },
+  { label: "GitHub", href: GITHUB, icon: "/social/github.svg" },
+  { label: "X / Twitter", href: TWITTER_URL, icon: "/social/x.svg" },
 ];
 
 const impact = [
@@ -154,9 +151,9 @@ function Brand() {
 function ProfileLinks() {
   return (
     <div className="profile-links" aria-label="Connect with Abhay Jaiswal">
-      {profileLinks.map(({ label, href, icon: Icon, tone }) => {
+      {profileLinks.map(({ label, href, icon }) => {
         const opensNewTab = !href.startsWith("mailto:");
-        return <a className={`profile-link profile-link-${tone}`} href={href} key={label} aria-label={label} title={label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}><Icon size={17} /></a>;
+        return <a className="profile-link" href={href} key={label} aria-label={label} title={label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noreferrer" : undefined}><img src={icon} alt="" width="19" height="19" /></a>;
       })}
     </div>
   );
@@ -221,13 +218,13 @@ function Home() {
       <ImpactStrip />
 
       <section className="section-shell approach-section" aria-labelledby="approach-title">
-        <div className="section-label"><span>01</span> Engineering approach</div>
+        <div className="section-label">Engineering approach</div>
         <div className="approach-heading"><h2 id="approach-title">From business requirement to production signal.</h2><p>I care about the full path: clear contracts, predictable failure modes, measurable performance, and a release path the team can trust.</p></div>
         <div className="capability-grid">{capabilities.map(({ icon: Icon, title, text }, index) => <article className="capability-card" key={title}><div className="capability-top"><Icon size={24} /><span>0{index + 1}</span></div><h3>{title}</h3><p>{text}</p></article>)}</div>
       </section>
 
       <section className="work-section" id="work" aria-labelledby="work-title"><div className="section-shell">
-        <div className="section-label"><span>02</span> Selected systems</div>
+        <div className="section-label">Selected systems</div>
         <div className="work-heading"><h2 id="work-title">Projects built around real engineering problems.</h2><p>Architecture, resilience, and system-design choices—not tutorial-only feature lists.</p></div>
         <div className="project-list">{projects.map((project) => <article className={`project-card project-${project.accent}`} key={project.title}>
           <div className="project-index">{project.number}</div><div className="project-main"><h3>{project.title}</h3><p className="project-description">{project.description}</p><div className="project-outcome"><Sparkles size={18} /><span>{project.outcome}</span></div><div className="tag-list">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></div>
@@ -236,7 +233,7 @@ function Home() {
       </div></section>
 
       <section className="section-shell experience-section" id="experience" aria-labelledby="experience-title">
-        <div className="section-label"><span>03</span> Experience</div><div className="experience-layout">
+        <div className="section-label">Experience</div><div className="experience-layout">
           <div className="experience-intro"><h2 id="experience-title">Building advisor and policy platforms across Asian insurance markets.</h2><p>Progressed from Associate Software Developer to Software Developer while owning backend delivery, system integration, release readiness, and production outcomes.</p></div>
           <article className="role-card"><div className="role-topline"><div><span className="role-company">Sun Life Global Solutions</span><h3>Software Developer · Analyst</h3></div><span className="role-date">Jul 2022 — Present</span></div>
             <ul><li><CheckCircle2 /> Architected Spring Boot BFF services with Okta M2M security, cutting client response time from 4s to 3s.</li><li><CheckCircle2 /> Designed Kafka-based microservices processing 1,000+ business notifications per day.</li><li><CheckCircle2 /> Automated Jenkins, Docker, and Kubernetes delivery flows, reducing release time by 25%.</li><li><CheckCircle2 /> Helped automate advisor rules and policy workflows for 2,000+ advisors, reducing manual effort by 60%.</li><li><CheckCircle2 /> Supported insurance advisor and policy applications across the Philippines, Malaysia, and Hong Kong markets, coordinating SIT, UAT, release readiness, and stakeholder validation.</li></ul>
@@ -245,16 +242,15 @@ function Home() {
       </section>
 
       <section className="stack-section" id="stack" aria-labelledby="stack-title"><div className="section-shell">
-        <div className="section-label"><span>04</span> Technical toolkit</div><div className="stack-heading"><h2 id="stack-title">Tools chosen for the problem, not the trend.</h2><p>A Java-first stack with enough platform depth to own the path to production.</p></div>
+        <div className="section-label">Technical toolkit</div><div className="stack-heading"><h2 id="stack-title">Tools chosen for the problem, not the trend.</h2><p>A Java-first stack with enough platform depth to own the path to production.</p></div>
         <div className="toolkit-grid">{toolkit.map(({ icon: Icon, label, items }) => <article className="toolkit-row" key={label}><div className="toolkit-icon"><Icon size={21} /></div><div><h3>{label}</h3><p>{items}</p></div></article>)}</div>
       </div></section>
 
       <section className="blog-section section-shell" id="notes" aria-labelledby="notes-title">
-        <div className="section-label"><span>05</span> Engineering journal</div><div className="blog-heading"><div><h2 id="notes-title">Engineering ideas, made practical.</h2><p>A readable engineering blog where I break down backend architecture, distributed systems, reliability trade-offs, and lessons from building production software.</p></div><Link className="header-cta" to="/blog">Browse all articles <ArrowUpRight size={16} /></Link></div>
+        <div className="section-label">Engineering journal</div><div className="blog-heading"><div><h2 id="notes-title">Engineering ideas, made practical.</h2><p>A readable engineering blog where I break down backend architecture, distributed systems, reliability trade-offs, and lessons from building production software.</p></div><Link className="header-cta" to="/blog">Browse all articles <ArrowUpRight size={16} /></Link></div>
         <div className="blog-grid">{articles.map((article, index) => <article className="blog-card" key={article.slug}><div className="blog-card-meta"><span>0{index + 1}</span><span>{article.readingTime}</span></div><div className="blog-icon"><BookOpen size={21} /></div><span className="blog-category">{article.category}</span><h3>{article.title}</h3><p>{article.excerpt}</p><Link className="blog-link" to={`/blog/${article.slug}`} aria-label={`Read ${article.title}`}>Read full article <ArrowUpRight size={15} /></Link></article>)}</div>
       </section>
 
-      <footer className="site-footer section-shell"><div><span className="brand-mark">AJ</span><p>Designed around systems, signals, and measurable outcomes.</p></div><button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button><span className="copyright">© 2026 Abhay Jaiswal</span></footer>
     </main>
   );
 }
@@ -263,7 +259,7 @@ function BlogIndex() {
   useEffect(() => { document.title = "Engineering Notes | Abhay Jaiswal"; }, []);
   return (
     <main className="blog-index"><InnerHeader />
-      <section className="blog-index-hero section-shell"><Link className="article-back" to="/"><ArrowLeft size={16} /> Back to portfolio</Link><div className="section-label"><span>JOURNAL</span> Backend engineering articles</div><h1>Ideas are more useful when they survive contact with production.</h1><p>Readable articles about system design, backend decisions, failure modes, and the trade-offs behind reliable software.</p></section>
+      <section className="blog-index-hero section-shell"><Link className="article-back" to="/"><ArrowLeft size={16} /> Back to portfolio</Link><div className="section-label">Engineering journal · Backend articles</div><h1>Ideas are more useful when they survive contact with production.</h1><p>Readable articles about system design, backend decisions, failure modes, and the trade-offs behind reliable software.</p></section>
       <section className="blog-archive section-shell" aria-label="Published engineering notes">{articles.map((article, index) => <Link className="archive-row" to={`/blog/${article.slug}`} key={article.slug}><span className="archive-number">0{index + 1}</span><div className="archive-main"><span className="blog-category">{article.category}</span><h2>{article.title}</h2><p>{article.excerpt}</p></div><div className="archive-meta"><span>{article.published}</span><span><Clock3 size={14} /> {article.readingTime}</span></div><BookOpen className="archive-icon" size={22} /></Link>)}</section>
     </main>
   );
