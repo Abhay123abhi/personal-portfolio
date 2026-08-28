@@ -60,6 +60,7 @@
 html { color-scheme: dark; scroll-behavior: smooth; background: var(--ink); }
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--page-background);
   color: var(--paper);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -162,7 +163,7 @@ a { -webkit-tap-highlight-color: transparent; }
   object-fit: cover; object-position: center; filter: saturate(0.94) contrast(1.03);
 }
 .portrait-card figcaption { position: relative; padding: 18px 8px 7px; text-align: center; }
-.portrait-card figcaption span { color: var(--paper); font-size: 15px; font-weight: 750; }
+.portrait-card figcaption span { color: #eef3ec; font-size: 15px; font-weight: 750; }
 
 .impact-strip { padding-block: 22px 0; border-block: 1px solid var(--line); background: var(--band); }
 .impact-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; }
