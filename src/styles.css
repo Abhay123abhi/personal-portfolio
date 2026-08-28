@@ -79,11 +79,11 @@ a { -webkit-tap-highlight-color: transparent; }
   align-items: center; min-height: calc(100svh - 76px); padding-block: 64px;
 }
 .hero::before {
-  position: absolute; z-index: -1; top: 9%; right: -8%; width: 480px; height: 480px; border-radius: 50%; content: "";
+  position: absolute; z-index: -1; top: 9%; right: 0; width: 480px; height: 480px; border-radius: 50%; content: "";
   background: radial-gradient(circle, rgba(199, 255, 74, 0.065), transparent 68%); filter: blur(8px); pointer-events: none;
 }
 .hero::after {
-  position: absolute; z-index: -2; top: 7%; right: -2%; width: 48%; height: 78%; content: ""; opacity: 0.22;
+  position: absolute; z-index: -2; top: 7%; right: 0; width: 48%; height: 78%; content: ""; opacity: 0.22;
   background-image: linear-gradient(rgba(221, 255, 227, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(221, 255, 227, 0.12) 1px, transparent 1px);
   background-size: 28px 28px; mask-image: radial-gradient(circle, #000 0%, transparent 72%); pointer-events: none;
 }
