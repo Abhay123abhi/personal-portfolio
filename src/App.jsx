@@ -240,7 +240,7 @@ function Home() {
           <li><strong>1,000+ / day</strong><p>Designed Kafka microservices for asynchronous business notifications.</p></li>
           <li><strong>25% faster</strong><p>Automated release delivery with Jenkins, Docker, and Kubernetes.</p></li>
           <li><strong>2,000+ advisors</strong><p>Automated rules and policy workflows, reducing manual effort by 60%.</p></li>
-          <li><strong>React</strong><p>Hands-on experience contributing to React UI components and frontend updates alongside my primary Java backend work.</p></li>
+          <li><strong>Frontend Development</strong><p>Developed React and Ionic UI components for a campaign scheduling application, integrating backend APIs to support responsive web and mobile workflows.</p></li>
         </ul>
         <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
       </section>
