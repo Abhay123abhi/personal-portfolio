@@ -185,7 +185,7 @@ function ProjectMap({ index }) {
         aria-controls={`architecture-detail-${index}`}
         onClick={() => setSelected(stageIndex)}
       >
-        <span className="stage-heading"><span>0{stageIndex + 1}</span><strong>{stage.title}</strong></span>
+        <span className="stage-heading"><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
         {stageIndex < architecture.stages.length - 1 && <ArrowRight className="stage-connector" size={17} aria-hidden="true" />}
       </button>)}
@@ -205,8 +205,8 @@ function Profile() {
     </div>
   </aside>;
 }
-function SectionHeading({ number, label, title, children }) {
-  return <header className="section-heading"><div className="section-label"><span>{number}</span>{label}</div><h2>{title}</h2>{children}</header>;
+function SectionHeading({ label, title, children }) {
+  return <header className="section-heading"><div className="section-label">{label}</div><h2>{title}</h2>{children}</header>;
 }
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend Engineer");
@@ -219,7 +219,7 @@ function Home() {
         <div className="impact-row">{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
-        <SectionHeading number="01" label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
+        <SectionHeading label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
         <div className="projects">{projects.map((project,index) => <article className="project" key={project.id}>
           <ProjectMap index={index} />
           <div className="project-body"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
@@ -231,7 +231,7 @@ function Home() {
         </article>)}</div>
       </section>
       <section className="experience-section" id="experience">
-        <SectionHeading number="02" label="Experience" title="Built in production." />
+        <SectionHeading label="Experience" title="Built in production." />
         <article className="career"><div className="career-heading"><span className="company-mark" aria-hidden="true">SL</span><div><h3>Sun Life Global Solutions</h3><p>Software Developer · Analyst</p></div></div>
         <div className="career-date">July 2022 — Present</div>
         <p className="career-lead">Backend delivery for advisor and policy platforms across Asian insurance markets.</p>
@@ -243,7 +243,7 @@ function Home() {
         </ul>
         <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
       </section>
-      <section className="craft-section" id="skills"><SectionHeading number="03" label="Engineering toolkit" title="The tools behind the work." />
+      <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="skills-list">{skills.map(skill => <article key={skill.group}><h3>{skill.group}</h3><p>{skill.items}</p></article>)}</div>
       </section>
       <section className="journal-bridge"><div><span className="section-label">Engineering journal</span><h2>Decisions worth writing down.</h2><p>Notes on reliability, backend architecture, and distributed systems.</p></div><Link to="/blog" aria-label="Read the engineering journal"><ArrowUpRight size={26} /></Link></section>
