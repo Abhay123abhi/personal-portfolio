@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import {
-  ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check,
-  Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X,
-} from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Code2 } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -62,12 +59,6 @@ const skills = [
   { group: "Delivery & reliability", items: "Docker, Kubernetes, Jenkins, Prometheus, Grafana, Loki, JUnit, Mockito" },
 ];
 
-const systemLayers = [
-  { id: "01", label: "Entry", title: "Secure edge", nodes: ["REST contract", "OAuth2 / Okta", "BFF / Gateway"] },
-  { id: "02", label: "Core", title: "Domain services", nodes: ["Business rules", "Idempotency", "PostgreSQL"] },
-  { id: "03", label: "Events", title: "Async backbone", nodes: ["Outbox", "Kafka topics", "Retry / DLQ"] },
-  { id: "04", label: "Signals", title: "Production truth", nodes: ["Metrics", "Logs + traces", "Alerts"] },
-];
 
 const articles = [
   {
@@ -120,119 +111,120 @@ const articles = [
   },
 ];
 
+
 function usePageTitle(title) {
   useEffect(() => { document.title = title; }, [title]);
 }
-
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
-
-function Brand() {
-  return <Link to="/" className="brand" aria-label="Abhay Jaiswal, home"><span>AJ</span><b>Abhay Jaiswal</b></Link>;
+function SocialLinks({ labelled = false }) {
+  return <div className={labelled ? "social-links labelled" : "social-links"}>
+    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={19} />{labelled && "GitHub"}</a>
+    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} />{labelled && "LinkedIn"}</a>
+    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "Twitter"}</a>
+    <a href={`mailto:${EMAIL}`} aria-label="Email Abhay"><Mail size={19} />{labelled && "Email"}</a>
+  </div>;
 }
-
 function Header({ inner = false }) {
   const [open, setOpen] = useState(false);
-  const go = (id) => { setOpen(false); document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); };
-  return (
-    <header className="header">
-      <Brand />
-      <button className="menu-button" type="button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
-      <nav className={open ? "nav open" : "nav"} aria-label="Primary navigation">
-        {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Journal</Link></> : <><button onClick={() => go("work")}>Work</button><button onClick={() => go("experience")}>Experience</button><button onClick={() => go("skills")}>Skills</button><Link to="/blog">Journal</Link></>}
-      </nav>
-      <a className="header-contact" href={`mailto:${EMAIL}`}>Let’s talk <ArrowUpRight size={16} /></a>
-    </header>
-  );
+  const { pathname } = useLocation();
+  useEffect(() => { setOpen(false); }, [pathname]);
+  return <header className="header">
+    <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
+    <nav className={open ? "nav open" : "nav"} aria-label="Primary navigation">
+      {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Journal</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><Link to="/blog">Journal</Link></>}
+    </nav>
+    <a className="header-contact" href={`mailto:${EMAIL}`}>Get in touch <ArrowUpRight size={16} /></a>
+    <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
+  </header>;
 }
-
-function SectionIntro({ index, label, title, copy }) {
-  return <div className="section-intro"><div className="section-kicker"><span>{index}</span>{label}</div><h2>{title}</h2>{copy && <p>{copy}</p>}</div>;
+function ProjectMap({ index }) {
+  const maps = [
+    { label: "Investigation workflow", input: "Telemetry", hub: "Investigation", outputs: ["Evidence", "Narrative"], caption: "Correlate first. Explain with evidence." },
+    { label: "Provider aggregation", input: "Search", hub: "Aggregator", outputs: ["Guardian", "NYT"], caption: "One contract. Multiple publishers." },
+    { label: "Message delivery", input: "Client", hub: "WebSocket", outputs: ["Room", "History"], caption: "Live delivery. Persistent conversations." },
+  ];
+  const map = maps[index];
+  return <div className={`project-map map-${index}`}>
+    <div className="map-meta"><Code2 size={16} /><span>{map.label}</span><span className="map-index">0{index + 1}</span></div>
+    <svg viewBox="0 0 660 180" role="img" aria-label={`${map.input} connects to ${map.hub}, which connects to ${map.outputs.join(" and ")}. Conceptual overview.`}>
+      <defs><marker id={`arrow-${index}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker></defs>
+      <g className="map-lines" fill="none" stroke="currentColor" strokeWidth="1.5" markerEnd={`url(#arrow-${index})`}><path d="M 168 90 H 251" /><path d="M 409 90 H 445 V 48 H 485" /><path d="M 409 90 H 445 V 132 H 485" /></g>
+      <rect className="map-node" x="18" y="64" width="150" height="52" rx="8" />
+      <rect className="map-hub" x="251" y="57" width="158" height="66" rx="10" />
+      <rect className="map-node" x="485" y="22" width="157" height="52" rx="8" />
+      <rect className="map-node" x="485" y="106" width="157" height="52" rx="8" />
+      <g textAnchor="middle" dominantBaseline="central"><text x="93" y="90">{map.input}</text><text className="hub-text" x="330" y="90">{map.hub}</text><text x="564" y="48">{map.outputs[0]}</text><text x="564" y="132">{map.outputs[1]}</text></g>
+    </svg>
+    <div className="map-mobile" aria-hidden="true"><span>{map.input}</span><ArrowDown size={16} /><strong>{map.hub}</strong><ArrowDown size={16} /><div>{map.outputs.map(output => <span key={output}>{output}</span>)}</div></div>
+    <div className="map-caption"><span>{map.caption}</span><small>Conceptual overview</small></div>
+  </div>;
 }
-
+function Profile() {
+  return <aside className="profile-rail" aria-label="About Abhay">
+    <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
+    <h1>Abhay<br />Jaiswal<span>.</span></h1>
+    <p className="profile-role">Java Backend Engineer</p>
+    <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
+    <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={17} /></a>
+    <SocialLinks />
+    <div className="profile-note"><span className="availability-dot" /> Open to backend / SDE-2 roles</div>
+    <a className="rail-journal" href="#work">Explore my work <ArrowDown size={16} /></a>
+  </aside>;
+}
+function SectionHeading({ number, label, title, children }) {
+  return <header className="section-heading"><div className="section-label"><span>{number}</span>{label}</div><h2>{title}</h2>{children}</header>;
+}
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend Engineer");
-  return (
-    <main>
-      <Header />
-      <section className="hero wrap">
-        <div className="hero-status"><i /> Available for SDE-2 / Backend opportunities</div>
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <h1>I build backend systems that stay <em>fast, clear,</em> and <em>reliable.</em></h1>
-            <p className="hero-summary">Four years of product engineering across secure APIs, event-driven microservices, system integrations, and production delivery.</p>
-            <div className="hero-actions">
-              <button className="primary-action" type="button" onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}>See selected work <ArrowDown size={18} /></button>
-              <a className="text-action" href={RESUME} target="_blank" rel="noreferrer"><Download size={17} /> Download résumé</a>
-            </div>
-          </div>
-          <div className="hero-visual">
-            <figure className="portrait-block"><div className="portrait-image"><img src="/profile.png" alt="Abhay Jaiswal, Java backend engineer" width="640" height="640" fetchPriority="high" /></div><figcaption><strong>Abhay Jaiswal</strong><span>Java Backend Engineer</span></figcaption></figure>
-          </div>
-        </div>
-        <div className="impact-row">{impact.map(([value, label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+  return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
+    <Profile />
+    <main id="content" className="studio-main">
+      <section className="introduction" aria-labelledby="intro-title">
+        <div className="intro-topline"><span>Software engineering</span><span>2022 — Present</span></div>
+        <h2 id="intro-title">Thoughtful systems.<br /><span>Dependable products.</span></h2>
+        <p>Four years of taking backend features from requirements to production—across APIs, integrations, performance, and release delivery.</p>
+        <div className="impact-row">{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
-
-      <section className="work section-pad" id="work">
-        <div className="wrap"><SectionIntro index="01" label="Selected work" title="Systems designed around real failure modes." copy="Each project starts with the engineering problem—not a list of technologies." />
-          <div className="case-list">{projects.map((project) => <article className={`case-study ${project.color}`} key={project.title}>
-            <div className="case-number">{project.id}</div>
-            <div className="case-title"><span>{project.eyebrow}</span><h3>{project.title}</h3><p>{project.statement}</p></div>
-            <div className="case-details"><div><b>Problem</b><p>{project.problem}</p></div><div><b>What I built</b><p>{project.build}</p></div><ul>{project.stack.map((item) => <li key={item}>{item}</li>)}</ul></div>
-            <div className="case-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={18} /> Source code <ArrowUpRight size={15} /></a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={15} /></a>}</div>
-          </article>)}</div>
-        </div>
-      </section>
-
-      <section className="experience section-pad wrap" id="experience">
-        <SectionIntro index="02" label="Experience" title="Ownership from API contract to production release." />
-        <div className="experience-grid">
-          <div className="role-meta"><span>2022 — Present</span><h3>Software Developer<br />Analyst</h3><a href="https://www.sunlife.com/slgs/en/" target="_blank" rel="noreferrer">Sun Life Global Solutions <ArrowUpRight size={15} /></a><p>Gurugram · Insurance technology</p></div>
-          <div className="role-story">
-            <p className="role-lead">Building advisor and policy platforms used across Asian insurance markets.</p>
-            <ul>
-              <li><Check /> Architected Spring Boot BFF services with Okta M2M security, reducing client response time from 4s to 3s.</li>
-              <li><Check /> Designed Kafka microservices processing 1,000+ business notifications every day.</li>
-              <li><Check /> Automated Jenkins, Docker, and Kubernetes delivery, cutting release time by 25%.</li>
-              <li><Check /> Automated advisor rules and policy workflows for 2,000+ advisors, reducing manual effort by 60%.</li>
-              <li><Check /> Coordinated SIT, UAT, release readiness, and stakeholder validation across the Philippines, Malaysia, and Hong Kong.</li>
-            </ul>
+      <section className="work-section" id="work">
+        <SectionHeading number="01" label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
+        <div className="projects">{projects.map((project,index) => <article className="project" key={project.id}>
+          <ProjectMap index={index} />
+          <div className="project-body"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
+          <p className="project-statement">{project.statement}</p>
+          <ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
+          <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
+          <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
           </div>
-        </div>
+        </article>)}</div>
       </section>
-
-      <section className="blueprint section-pad" id="blueprint"><div className="wrap">
-        <SectionIntro index="03" label="System thinking" title="I design the happy path—and everything around it." copy="A strong backend is more than endpoints. It has explicit trust boundaries, data ownership, failure handling, and production signals." />
-        <div className="blueprint-board">
-          <div className="blueprint-head"><span>REFERENCE / PRODUCTION SERVICE</span><span>REQUEST → STATE → EVENT → SIGNAL</span></div>
-          <div className="system-flow">{systemLayers.map((layer, index) => <article className="system-layer" key={layer.id}>
-            <div className="layer-title"><span>{layer.id} / {layer.label}</span><h3>{layer.title}</h3></div>
-            <div className="layer-nodes">{layer.nodes.map((node) => <div className="system-node" key={node}><i />{node}</div>)}</div>
-            {index < systemLayers.length - 1 && <div className="flow-arrow" aria-hidden="true"><span>flow</span><ArrowRight size={18} /></div>}
-          </article>)}</div>
-          <div className="blueprint-foot"><span><i className="legend solid" /> synchronous boundary</span><span><i className="legend dotted" /> asynchronous hand-off</span><strong>Designed for retries, replay, and partial failure.</strong></div>
-        </div>
-      </div></section>
-
-      <section className="skills section-pad" id="skills"><div className="wrap">
-        <SectionIntro index="04" label="Technical toolkit" title="Java-first. Distributed by design. Ready for production." />
-        <div className="skills-list">{skills.map((skill, index) => <article key={skill.group}><span>0{index + 1}</span><h3>{skill.group}</h3><p>{skill.items}</p></article>)}</div>
-      </div></section>
-
+      <section className="experience-section" id="experience">
+        <SectionHeading number="02" label="Experience" title="Built in production." />
+        <article className="career"><div className="career-heading"><span className="company-mark" aria-hidden="true">SL</span><div><h3>Sun Life Global Solutions</h3><p>Software Developer · Analyst</p></div></div>
+        <div className="career-date">July 2022 — Present</div>
+        <p className="career-lead">Backend delivery for advisor and policy platforms across Asian insurance markets.</p>
+        <ul className="career-results">
+          <li><strong>4s → 3s</strong><p>Reduced client response time through Spring Boot BFF services, payload optimization, and Okta M2M security.</p></li>
+          <li><strong>1,000+ / day</strong><p>Designed Kafka microservices for asynchronous business notifications.</p></li>
+          <li><strong>25% faster</strong><p>Automated release delivery with Jenkins, Docker, and Kubernetes.</p></li>
+          <li><strong>2,000+ advisors</strong><p>Automated rules and policy workflows, reducing manual effort by 60%.</p></li>
+        </ul>
+        <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
+      </section>
+      <section className="craft-section" id="skills"><SectionHeading number="03" label="Engineering toolkit" title="The tools behind the work." />
+        <div className="skills-list">{skills.map(skill => <article key={skill.group}><h3>{skill.group}</h3><p>{skill.items}</p></article>)}</div>
+      </section>
+      <section className="journal-bridge"><div><span className="section-label">Engineering journal</span><h2>Decisions worth writing down.</h2><p>Notes on reliability, backend architecture, and distributed systems.</p></div><Link to="/blog" aria-label="Read the engineering journal"><ArrowUpRight size={26} /></Link></section>
       <Contact />
     </main>
-  );
+  </div></>;
 }
-
 function Contact() {
-  return <footer className="contact"><div className="wrap contact-grid"><div><span className="footer-label">Have a backend problem worth solving?</span><h2>Let’s build something dependable.</h2></div><div className="contact-links"><a href={`mailto:${EMAIL}`}><Mail /> {EMAIL}</a><a href={LINKEDIN} target="_blank" rel="noreferrer"><Linkedin /> LinkedIn <ArrowUpRight size={15} /></a><a href={GITHUB} target="_blank" rel="noreferrer"><Github /> GitHub <ArrowUpRight size={15} /></a><a href={TWITTER} target="_blank" rel="noreferrer"><span className="x-social-icon" aria-hidden="true">𝕏</span> X / Twitter <ArrowUpRight size={15} /></a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Abhay Jaiswal</span><span>Designed for clarity. Engineered for speed.</span></div></footer>;
+  return <footer className="contact" id="contact"><span className="section-label">Let’s connect</span><h2>Have a good<br />problem to solve<span>?</span></h2><a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL} <ArrowUpRight size={20} /></a><SocialLinks labelled /><div className="footer-bottom"><span>© {new Date().getFullYear()} Abhay Jaiswal</span><Link to="/">Back to portfolio</Link></div></footer>;
 }
-
 function BlogIndex() {
   usePageTitle("Engineering Journal — Abhay Jaiswal");
   return <main><Header inner /><section className="blog-hero wrap"><Link className="back" to="/"><ArrowLeft size={16} /> Portfolio</Link><p className="eyebrow">Engineering journal · {articles.length} articles</p><h1>Notes from building for the <em>unhappy path.</em></h1><p>Practical writing about backend architecture, distributed systems, reliability, and production trade-offs.</p></section><section className="archive wrap">{articles.map((article) => <Link to={`/blog/${article.slug}`} className="archive-row" key={article.slug}><b>{article.number}</b><div><small>{article.category}</small><h2>{article.title}</h2><p>{article.excerpt}</p></div><span>{article.published}<br />{article.readingTime}</span><ArrowUpRight /></Link>)}</section><Contact /></main>;
