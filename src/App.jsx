@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -121,11 +121,11 @@ function ScrollToTop() {
   return null;
 }
 function SocialLinks({ labelled = false }) {
-  return <div className={labelled ? "social-links labelled" : "social-links"}>
-    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={19} />{labelled && "GitHub"}</a>
-    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} />{labelled && "LinkedIn"}</a>
-    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "Twitter"}</a>
-    <a href={`mailto:${EMAIL}`} aria-label="Email Abhay"><Mail size={19} />{labelled && "Email"}</a>
+  return <div className={labelled ? "social-links labelled" : "social-links"} aria-label="Social and email links">
+    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay"><Mail size={20} />{labelled && "Gmail"}</a>
+    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={20} />{labelled && "LinkedIn"}</a>
+    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={20} />{labelled && "GitHub"}</a>
+    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "X / Twitter"}</a>
   </div>;
 }
 function Header({ inner = false }) {
@@ -134,11 +134,11 @@ function Header({ inner = false }) {
   useEffect(() => { setOpen(false); }, [pathname]);
   return <header className="header">
     <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
-    <nav className={open ? "nav open" : "nav"} aria-label="Primary navigation">
+    <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Journal</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><Link to="/blog">Journal</Link></>}
     </nav>
-    <a className="header-contact" href={`mailto:${EMAIL}`}>Get in touch <ArrowUpRight size={16} /></a>
-    <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
+    <div className="header-social"><SocialLinks labelled /></div>
+    <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
 const projectArchitectures = [
@@ -185,7 +185,7 @@ function ProjectMap({ index }) {
         aria-controls={`architecture-detail-${index}`}
         onClick={() => setSelected(stageIndex)}
       >
-        <span className="stage-heading"><span>0{stageIndex + 1}</span><strong>{stage.title}</strong></span>
+        <span className="stage-heading"><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
         {stageIndex < architecture.stages.length - 1 && <ArrowRight className="stage-connector" size={17} aria-hidden="true" />}
       </button>)}
@@ -197,17 +197,16 @@ function ProjectMap({ index }) {
 function Profile() {
   return <aside className="profile-rail" aria-label="About Abhay">
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
-    <h1>Abhay<br />Jaiswal<span>.</span></h1>
-    <p className="profile-role">Java Backend Engineer</p>
-    <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
-    <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={17} /></a>
-    <SocialLinks />
-    <div className="profile-note"><span className="availability-dot" /> Open to backend / SDE-2 roles</div>
-    <a className="rail-journal" href="#work">Explore my work <ArrowDown size={16} /></a>
+    <div className="profile-identity">
+      <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
+      <p className="profile-role">Java Backend Engineer</p>
+      <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
+      <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
+    </div>
   </aside>;
 }
-function SectionHeading({ number, label, title, children }) {
-  return <header className="section-heading"><div className="section-label"><span>{number}</span>{label}</div><h2>{title}</h2>{children}</header>;
+function SectionHeading({ label, title, children }) {
+  return <header className="section-heading"><div className="section-label">{label}</div><h2>{title}</h2>{children}</header>;
 }
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend Engineer");
@@ -220,7 +219,7 @@ function Home() {
         <div className="impact-row">{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
-        <SectionHeading number="01" label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
+        <SectionHeading label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
         <div className="projects">{projects.map((project,index) => <article className="project" key={project.id}>
           <ProjectMap index={index} />
           <div className="project-body"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
@@ -232,7 +231,7 @@ function Home() {
         </article>)}</div>
       </section>
       <section className="experience-section" id="experience">
-        <SectionHeading number="02" label="Experience" title="Built in production." />
+        <SectionHeading label="Experience" title="Built in production." />
         <article className="career"><div className="career-heading"><span className="company-mark" aria-hidden="true">SL</span><div><h3>Sun Life Global Solutions</h3><p>Software Developer · Analyst</p></div></div>
         <div className="career-date">July 2022 — Present</div>
         <p className="career-lead">Backend delivery for advisor and policy platforms across Asian insurance markets.</p>
@@ -244,7 +243,7 @@ function Home() {
         </ul>
         <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
       </section>
-      <section className="craft-section" id="skills"><SectionHeading number="03" label="Engineering toolkit" title="The tools behind the work." />
+      <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="skills-list">{skills.map(skill => <article key={skill.group}><h3>{skill.group}</h3><p>{skill.items}</p></article>)}</div>
       </section>
       <section className="journal-bridge"><div><span className="section-label">Engineering journal</span><h2>Decisions worth writing down.</h2><p>Notes on reliability, backend architecture, and distributed systems.</p></div><Link to="/blog" aria-label="Read the engineering journal"><ArrowUpRight size={26} /></Link></section>
