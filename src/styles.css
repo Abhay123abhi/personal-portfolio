@@ -46,10 +46,14 @@ button { font: inherit; }
 .primary-action { display: inline-flex; min-height: 52px; align-items: center; gap: 30px; padding: 0 19px; border: 1px solid var(--ink); background: var(--blue); color: white; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 6px 6px 0 var(--ink); transition: transform .18s, box-shadow .18s; }
 .primary-action:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
 .text-action { display: inline-flex; align-items: center; gap: 8px; padding-block: 8px; border-bottom: 1px solid; font-size: 12px; font-weight: 700; }
-.hero-visual { position: relative; display: flex; overflow: hidden; justify-content: center; flex-direction: column; padding: 52px 0 52px 52px; }
-.hero-visual::before { position: absolute; top: 4%; right: -20%; width: 370px; height: 370px; border-radius: 50%; background: var(--yellow); content: ""; }
-.portrait-block { position: relative; z-index: 1; overflow: hidden; width: min(100%, 390px); aspect-ratio: .82; border: 1px solid var(--ink); background: #d8d2c3; box-shadow: 14px 14px 0 var(--blue); }
-.portrait-block img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: saturate(.85) contrast(1.04); }
+.hero-visual { position: relative; display: flex; justify-content: center; flex-direction: column; padding: 52px 16px 52px 40px; min-width: 0; }
+.portrait-block { position: relative; width: min(100%, 390px); margin: 0; padding: 12px; border: 1px solid var(--ink); background: var(--white); box-shadow: 8px 8px 0 var(--blue); }
+.portrait-image { overflow: hidden; aspect-ratio: 1; background: var(--paper-2); }
+.portrait-block figcaption { display: grid; gap: 5px; padding: 19px 5px 8px; }
+.portrait-block figcaption strong { font-size: 18px; letter-spacing: -.035em; }
+.portrait-block figcaption span { color: var(--muted); font: 400 10px DM Mono, monospace; }
+.x-social-icon { display: inline-grid; width: 24px; height: 24px; place-items: center; color: var(--yellow); font-size: 22px; }
+.portrait-block img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .portrait-caption { position: relative; z-index: 2; display: flex; justify-content: space-between; width: min(100%, 390px); margin-top: 25px; font: 500 9px DM Mono, monospace; text-transform: uppercase; }
 .impact-row { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--ink); }
 .impact-cell { display: grid; min-height: 142px; align-content: center; padding: 22px 28px; border-right: 1px solid var(--ink); }
