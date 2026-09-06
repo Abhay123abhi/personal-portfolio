@@ -240,6 +240,7 @@ function Home() {
           <li><strong>1,000+ / day</strong><p>Designed Kafka microservices for asynchronous business notifications.</p></li>
           <li><strong>25% faster</strong><p>Automated release delivery with Jenkins, Docker, and Kubernetes.</p></li>
           <li><strong>2,000+ advisors</strong><p>Automated rules and policy workflows, reducing manual effort by 60%.</p></li>
+          <li><strong>React</strong><p>Hands-on experience contributing to React UI components and frontend updates alongside my primary Java backend work.</p></li>
         </ul>
         <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
       </section>
@@ -252,11 +253,14 @@ function Home() {
   </div></>;
 }
 function Contact() {
-  return <footer className="contact" id="contact"><span className="section-label">Let’s connect</span><h2>Have a good<br />problem to solve<span>?</span></h2><a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL} <ArrowUpRight size={20} /></a><SocialLinks labelled /><div className="footer-bottom"><span>© {new Date().getFullYear()} Abhay Jaiswal</span><Link to="/">Back to portfolio</Link></div></footer>;
+  return <footer className="contact compact-contact" id="contact">
+    <p>Let’s connect.</p>
+    <a className="contact-email" href={`mailto:${EMAIL}`}>Email me <ArrowUpRight size={18} /></a>
+  </footer>;
 }
 function BlogIndex() {
   usePageTitle("Engineering Journal — Abhay Jaiswal");
-  return <main><Header inner /><section className="blog-hero wrap"><Link className="back" to="/"><ArrowLeft size={16} /> Portfolio</Link><p className="eyebrow">Engineering journal · {articles.length} articles</p><h1>Notes from building for the <em>unhappy path.</em></h1><p>Practical writing about backend architecture, distributed systems, reliability, and production trade-offs.</p></section><section className="archive wrap">{articles.map((article) => <Link to={`/blog/${article.slug}`} className="archive-row" key={article.slug}><b>{article.number}</b><div><small>{article.category}</small><h2>{article.title}</h2><p>{article.excerpt}</p></div><span>{article.published}<br />{article.readingTime}</span><ArrowUpRight /></Link>)}</section><Contact /></main>;
+  return <main><Header inner /><section className="blog-hero wrap"><p className="eyebrow">Engineering journal · {articles.length} articles</p><h1>Notes from building for the <em>unhappy path.</em></h1><p>Practical writing about backend architecture, distributed systems, reliability, and production trade-offs.</p></section><section className="archive wrap">{articles.map((article) => <Link to={`/blog/${article.slug}`} className="archive-row" key={article.slug}><b>{article.number}</b><div><small>{article.category}</small><h2>{article.title}</h2><p>{article.excerpt}</p></div><span>{article.published}<br />{article.readingTime}</span><ArrowUpRight /></Link>)}</section><Contact /></main>;
 }
 
 function ArticlePage() {

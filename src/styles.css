@@ -227,3 +227,7 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
   html { scroll-behavior: auto; }
   *,*::before,*::after { transition: none !important; }
 }
+
+.compact-contact { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-block: 26px; }
+.compact-contact p { margin: 0; font-size: 18px; font-weight: 500; }
+.compact-contact .contact-email { font-size: 16px; min-height: 44px; }
