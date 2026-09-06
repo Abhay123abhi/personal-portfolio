@@ -8,6 +8,7 @@ import {
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
 const LINKEDIN = "https://www.linkedin.com/in/abhay983";
+const TWITTER = "https://x.com/abhayjaissssss";
 const RESUME = "/Abhay_Jaiswal_Resume.pdf";
 
 const impact = [
@@ -172,7 +173,7 @@ function Home() {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="portrait-block"><img src="/profile.png" alt="Abhay Jaiswal" /></div>
+            <figure className="portrait-block"><div className="portrait-image"><img src="/profile.png" alt="Abhay Jaiswal, Java backend engineer" width="640" height="640" fetchPriority="high" /></div><figcaption><strong>Abhay Jaiswal</strong><span>Java Backend Engineer</span></figcaption></figure>
             <div className="portrait-caption"><span>Backend first.</span><span>Production minded.</span></div>
           </div>
         </div>
@@ -231,7 +232,7 @@ function Home() {
 }
 
 function Contact() {
-  return <footer className="contact"><div className="wrap contact-grid"><div><span className="footer-label">Have a backend problem worth solving?</span><h2>Let’s build something dependable.</h2></div><div className="contact-links"><a href={`mailto:${EMAIL}`}><Mail /> {EMAIL}</a><a href={LINKEDIN} target="_blank" rel="noreferrer"><Linkedin /> LinkedIn <ArrowUpRight size={15} /></a><a href={GITHUB} target="_blank" rel="noreferrer"><Github /> GitHub <ArrowUpRight size={15} /></a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Abhay Jaiswal</span><span>Designed for clarity. Engineered for speed.</span></div></footer>;
+  return <footer className="contact"><div className="wrap contact-grid"><div><span className="footer-label">Have a backend problem worth solving?</span><h2>Let’s build something dependable.</h2></div><div className="contact-links"><a href={`mailto:${EMAIL}`}><Mail /> {EMAIL}</a><a href={LINKEDIN} target="_blank" rel="noreferrer"><Linkedin /> LinkedIn <ArrowUpRight size={15} /></a><a href={GITHUB} target="_blank" rel="noreferrer"><Github /> GitHub <ArrowUpRight size={15} /></a><a href={TWITTER} target="_blank" rel="noreferrer"><span className="x-social-icon" aria-hidden="true">𝕏</span> X / Twitter <ArrowUpRight size={15} /></a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Abhay Jaiswal</span><span>Designed for clarity. Engineered for speed.</span></div></footer>;
 }
 
 function BlogIndex() {
