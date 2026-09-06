@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -122,10 +122,10 @@ function ScrollToTop() {
 }
 function SocialLinks({ labelled = false }) {
   return <div className={labelled ? "social-links labelled" : "social-links"} aria-label="Social and email links">
-    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay"><Mail size={20} />{labelled && "Gmail"}</a>
-    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={20} />{labelled && "LinkedIn"}</a>
-    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={20} />{labelled && "GitHub"}</a>
-    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "X / Twitter"}</a>
+    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay" title="Email Abhay"><Mail size={20} />{labelled && "Gmail"}</a>
+    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><Linkedin size={20} />{labelled && "LinkedIn"}</a>
+    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><Github size={20} />{labelled && "GitHub"}</a>
+    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter" title="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "X / Twitter"}</a>
   </div>;
 }
 function Header({ inner = false }) {
@@ -137,7 +137,7 @@ function Header({ inner = false }) {
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Journal</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><Link to="/blog">Journal</Link></>}
     </nav>
-    <div className="header-social"><SocialLinks labelled /></div>
+    <div className="header-social"><SocialLinks /></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
