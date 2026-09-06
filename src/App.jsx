@@ -253,7 +253,10 @@ function Home() {
   </div></>;
 }
 function Contact() {
-  return <footer className="contact" id="contact"><span className="section-label">Let’s connect</span><h2>Have a good<br />problem to solve<span>?</span></h2><a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL} <ArrowUpRight size={20} /></a><SocialLinks labelled /></footer>;
+  return <footer className="contact compact-contact" id="contact">
+    <p>Let’s connect.</p>
+    <a className="contact-email" href={`mailto:${EMAIL}`}>Email me <ArrowUpRight size={18} /></a>
+  </footer>;
 }
 function BlogIndex() {
   usePageTitle("Engineering Journal — Abhay Jaiswal");
