@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -121,11 +121,11 @@ function ScrollToTop() {
   return null;
 }
 function SocialLinks({ labelled = false }) {
-  return <div className={labelled ? "social-links labelled" : "social-links"}>
-    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={19} />{labelled && "GitHub"}</a>
-    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} />{labelled && "LinkedIn"}</a>
-    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "Twitter"}</a>
-    <a href={`mailto:${EMAIL}`} aria-label="Email Abhay"><Mail size={19} />{labelled && "Email"}</a>
+  return <div className={labelled ? "social-links labelled" : "social-links"} aria-label="Social and email links">
+    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay"><Mail size={20} />{labelled && "Gmail"}</a>
+    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={20} />{labelled && "LinkedIn"}</a>
+    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={20} />{labelled && "GitHub"}</a>
+    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "X / Twitter"}</a>
   </div>;
 }
 function Header({ inner = false }) {
@@ -134,11 +134,11 @@ function Header({ inner = false }) {
   useEffect(() => { setOpen(false); }, [pathname]);
   return <header className="header">
     <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
-    <nav className={open ? "nav open" : "nav"} aria-label="Primary navigation">
+    <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Journal</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><Link to="/blog">Journal</Link></>}
     </nav>
-    <a className="header-contact" href={`mailto:${EMAIL}`}>Get in touch <ArrowUpRight size={16} /></a>
-    <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
+    <div className="header-social"><SocialLinks labelled /></div>
+    <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
 const projectArchitectures = [
@@ -197,13 +197,12 @@ function ProjectMap({ index }) {
 function Profile() {
   return <aside className="profile-rail" aria-label="About Abhay">
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
-    <h1>Abhay<br />Jaiswal<span>.</span></h1>
-    <p className="profile-role">Java Backend Engineer</p>
-    <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
-    <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={17} /></a>
-    <SocialLinks />
-    <div className="profile-note"><span className="availability-dot" /> Open to backend / SDE-2 roles</div>
-    <a className="rail-journal" href="#work">Explore my work <ArrowDown size={16} /></a>
+    <div className="profile-identity">
+      <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
+      <p className="profile-role">Java Backend Engineer</p>
+      <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
+      <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
+    </div>
   </aside>;
 }
 function SectionHeading({ number, label, title, children }) {
