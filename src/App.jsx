@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Code2 } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -141,26 +141,57 @@ function Header({ inner = false }) {
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
   </header>;
 }
+const projectArchitectures = [
+  {
+    name: "Incident investigation",
+    stages: [
+      { title: "Collect", nodes: ["Metrics", "Logs", "Traces"], detail: "Gather production signals within the incident window, keeping service and time context attached to the evidence." },
+      { title: "Investigate", nodes: ["Kafka event", "Correlation", "AI analysis"], detail: "Use an event-driven investigation to correlate telemetry and generate an explanation grounded in the collected evidence." },
+      { title: "Review", nodes: ["Evidence bundle", "Incident narrative"], detail: "Present the supporting evidence alongside the narrative so an engineer can verify the explanation and decide what to check next." },
+    ],
+    note: "Event-driven investigation",
+  },
+  {
+    name: "Multi-provider search",
+    stages: [
+      { title: "Request", nodes: ["React client", "Search API"], detail: "Accept a search request through a consistent API, regardless of each publisher's schema or pagination format." },
+      { title: "Aggregate", nodes: ["Guardian adapter", "NYT adapter"], detail: "Query independent provider strategies concurrently and normalize their responses into a common article model." },
+      { title: "Respond", nodes: ["Redis cache", "Normalized articles"], detail: "Cache hot queries and preserve useful results when a provider is slow or unavailable." },
+    ],
+    note: "Concurrent providers · Cached responses",
+  },
+  {
+    name: "Room-based messaging",
+    stages: [
+      { title: "Connect", nodes: ["React client", "Room membership"], detail: "Let participants join a room and manage conversation state in the React client." },
+      { title: "Deliver", nodes: ["Spring Boot", "WebSocket"], detail: "Use a persistent WebSocket connection to deliver messages to room participants without polling for every update." },
+      { title: "Persist", nodes: ["MongoDB", "Message history"], detail: "Store conversation history so messages remain available beyond the lifetime of a live connection." },
+    ],
+    note: "Live delivery · Persistent history",
+  },
+];
+
 function ProjectMap({ index }) {
-  const maps = [
-    { label: "Investigation workflow", input: "Telemetry", hub: "Investigation", outputs: ["Evidence", "Narrative"], caption: "Correlate first. Explain with evidence." },
-    { label: "Provider aggregation", input: "Search", hub: "Aggregator", outputs: ["Guardian", "NYT"], caption: "One contract. Multiple publishers." },
-    { label: "Message delivery", input: "Client", hub: "WebSocket", outputs: ["Room", "History"], caption: "Live delivery. Persistent conversations." },
-  ];
-  const map = maps[index];
-  return <div className={`project-map map-${index}`}>
-    <div className="map-meta"><Code2 size={16} /><span>{map.label}</span><span className="map-index">0{index + 1}</span></div>
-    <svg viewBox="0 0 660 180" role="img" aria-label={`${map.input} connects to ${map.hub}, which connects to ${map.outputs.join(" and ")}. Conceptual overview.`}>
-      <defs><marker id={`arrow-${index}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker></defs>
-      <g className="map-lines" fill="none" stroke="currentColor" strokeWidth="1.5" markerEnd={`url(#arrow-${index})`}><path d="M 168 90 H 251" /><path d="M 409 90 H 445 V 48 H 485" /><path d="M 409 90 H 445 V 132 H 485" /></g>
-      <rect className="map-node" x="18" y="64" width="150" height="52" rx="8" />
-      <rect className="map-hub" x="251" y="57" width="158" height="66" rx="10" />
-      <rect className="map-node" x="485" y="22" width="157" height="52" rx="8" />
-      <rect className="map-node" x="485" y="106" width="157" height="52" rx="8" />
-      <g textAnchor="middle" dominantBaseline="central"><text x="93" y="90">{map.input}</text><text className="hub-text" x="330" y="90">{map.hub}</text><text x="564" y="48">{map.outputs[0]}</text><text x="564" y="132">{map.outputs[1]}</text></g>
-    </svg>
-    <div className="map-mobile" aria-hidden="true"><span>{map.input}</span><ArrowDown size={16} /><strong>{map.hub}</strong><ArrowDown size={16} /><div>{map.outputs.map(output => <span key={output}>{output}</span>)}</div></div>
-    <div className="map-caption"><span>{map.caption}</span><small>Conceptual overview</small></div>
+  const [selected, setSelected] = useState(0);
+  const architecture = projectArchitectures[index];
+  return <div className="architecture">
+    <div className="architecture-heading"><span>System design</span><span>{architecture.name}</span></div>
+    <div className="architecture-stages" role="group" aria-label={architecture.name}>
+      {architecture.stages.map((stage, stageIndex) => <button
+        key={stage.title}
+        type="button"
+        className={selected === stageIndex ? "architecture-stage selected" : "architecture-stage"}
+        aria-pressed={selected === stageIndex}
+        aria-controls={`architecture-detail-${index}`}
+        onClick={() => setSelected(stageIndex)}
+      >
+        <span className="stage-heading"><span>0{stageIndex + 1}</span><strong>{stage.title}</strong></span>
+        <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
+        {stageIndex < architecture.stages.length - 1 && <ArrowRight className="stage-connector" size={17} aria-hidden="true" />}
+      </button>)}
+    </div>
+    <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p>{architecture.stages[selected].detail}</p></div>
+    <div className="architecture-caption"><span>{architecture.note}</span><span>Conceptual architecture</span></div>
   </div>;
 }
 function Profile() {
@@ -184,7 +215,6 @@ function Home() {
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <div className="intro-topline"><span>Software engineering</span><span>2022 — Present</span></div>
         <h2 id="intro-title">Thoughtful systems.<br /><span>Dependable products.</span></h2>
         <p>Four years of taking backend features from requirements to production—across APIs, integrations, performance, and release delivery.</p>
         <div className="impact-row">{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
