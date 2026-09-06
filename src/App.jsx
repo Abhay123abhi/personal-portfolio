@@ -164,7 +164,6 @@ function Home() {
         <div className="hero-status"><i /> Available for SDE-2 / Backend opportunities</div>
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Java Backend Engineer · Gurugram, India</p>
             <h1>I build backend systems that stay <em>fast, clear,</em> and <em>reliable.</em></h1>
             <p className="hero-summary">Four years of product engineering across secure APIs, event-driven microservices, system integrations, and production delivery.</p>
             <div className="hero-actions">
@@ -174,7 +173,6 @@ function Home() {
           </div>
           <div className="hero-visual">
             <figure className="portrait-block"><div className="portrait-image"><img src="/profile.png" alt="Abhay Jaiswal, Java backend engineer" width="640" height="640" fetchPriority="high" /></div><figcaption><strong>Abhay Jaiswal</strong><span>Java Backend Engineer</span></figcaption></figure>
-            <div className="portrait-caption"><span>Backend first.</span><span>Production minded.</span></div>
           </div>
         </div>
         <div className="impact-row">{impact.map(([value, label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
