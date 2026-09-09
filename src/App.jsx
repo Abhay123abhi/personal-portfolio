@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -288,7 +288,7 @@ function Header({ inner = false }) {
   return <header className="header">
     <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
-      {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><Link to="/blog">Blog</Link></>}
+      {inner ? <><Link to="/">Portfolio</Link><a href="/#skills">Stack</a><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
     </nav>
     <div className="header-social"><SocialLinks /></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
@@ -398,9 +398,16 @@ function Home() {
         <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
       </section>
       <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
-        <div className="skills-list">{skills.map(skill => <article key={skill.group}><h3>{skill.group}</h3><p>{skill.items}</p></article>)}</div>
+        <div className="toolkit-grid">{skills.map((skill, index) => {
+          const Icon = [Server, Network, Database, Activity][index];
+          const descriptions = ["Secure services & API contracts", "Async workflows & reliable delivery", "Persistence & query performance", "Release automation & observability"];
+          return <article className={`toolkit-card toolkit-card-${index}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
+            <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{descriptions[index]}</p></div></header>
+            <ul className="toolkit-tags" aria-label={skill.group + " skills"}>{skill.items.split(", ").map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
+          </article>;
+        })}</div>
       </section>
-      <section className="journal-bridge"><div><span className="section-label">Engineering journal</span><h2>Decisions worth writing down.</h2><p>Notes on reliability, backend architecture, and distributed systems.</p></div><Link to="/blog" aria-label="Read the engineering journal"><ArrowUpRight size={26} /></Link></section>
+      
       <Contact />
     </main>
   </div></>;
