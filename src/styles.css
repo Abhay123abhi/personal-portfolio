@@ -310,3 +310,16 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
 .introduction .impact-cell { padding: 23px 18px; border: 0; border-right: 1px solid var(--line); scroll-snap-align: start; }
 .introduction .impact-cell:last-child { border-right: 0; }
 .introduction .impact-cell span { max-width: 19ch; }
+
+/* Profile portrait: a quiet geometric backdrop, not a frame. */
+.profile-picture { position: relative; isolation: isolate; overflow: visible; }
+.profile-picture::before { content: ""; position: absolute; z-index: -1; inset: 12% 4% 0; border-radius: 42% 58% 55% 45% / 52% 40% 60% 48%; background: #f1e3df; transform: rotate(-8deg); }
+.profile-picture img { position: relative; display: block; }
+.profile-identity { padding-top: 24px; }
+.profile-role { display: inline-block; padding-bottom: 10px; border-bottom: 2px solid var(--accent); letter-spacing: .015em; }
+.profile-summary { color: #5b5b5b; margin-top: 3px; margin-bottom: 24px; }
+.profile-identity .resume-button { padding: 14px 18px; font-weight: 600; background: #242424; color: #fff; transition: background .18s, border-color .18s, box-shadow .18s; }
+.profile-identity .resume-button svg { box-sizing: content-box; padding: 7px; border: 1px solid #ffffff40; border-radius: 8px; }
+.profile-identity .resume-button:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 20px #b938201a; }
+@media (max-width: 900px) { .profile-identity { padding-top: 0; } }
+@media (prefers-reduced-motion: reduce) { .profile-identity .resume-button { transition: none; } }
