@@ -103,14 +103,6 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 .career-results strong { font-size: 16px; font-weight: 500; color: var(--accent); }
 .career-results p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
 .career-footnote { margin: 18px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.7; }
-.skills-list { border-top: 1px solid var(--line); }
-.skills-list article { display: grid; grid-template-columns: 170px minmax(0,1fr); gap: 25px; padding: 25px 0; border-bottom: 1px solid var(--line); }
-.skills-list h3 { margin: 0; font-size: 16px; font-weight: 500; line-height: 1.7; }
-.skills-list p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
-.journal-bridge { display: flex; align-items: center; gap: 24px; justify-content: space-between; margin: 65px 0; padding: 30px; border: 1px solid var(--line); border-radius: 14px; }
-.journal-bridge h2 { margin: 16px 0 12px; font-size: 24px; font-weight: 500; letter-spacing: -.03em; line-height: 1.25; }
-.journal-bridge p { margin: 0; font-size: 16px; color: var(--muted); line-height: 1.7; }
-.journal-bridge > a { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: var(--ink); color: white; flex: 0 0 auto; }
 .contact { margin-top: 35px; padding: 50px 0 25px; border-top: 1px solid var(--line); }
 .contact h2 { margin: 30px 0; font-size: clamp(2.6rem,4vw,3.75rem); font-weight: 500; line-height: 1.08; letter-spacing: -.05em; }
 .contact h2 > span { color: var(--accent); }
@@ -164,7 +156,6 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
   .profile-picture { width: min(100%, clamp(170px,25vh,230px)); }
   .profile-rail h1 { font-size: 3.1rem; }
   .impact-row { grid-template-columns: 1fr 1fr; row-gap: 26px; }
-  .skills-list article { grid-template-columns: 140px minmax(0,1fr); gap: 20px; }
   .detail-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
@@ -209,9 +200,6 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
   .project-heading h3 { font-size: 26px; }
   .career-heading h3 { font-size: 19px; }
   .career-results li { grid-template-columns: 1fr; gap: 10px; }
-  .skills-list article { grid-template-columns: 1fr; gap: 8px; }
-  .journal-bridge { padding: 22px; gap: 15px; }
-  .journal-bridge h2 { font-size: 22px; }
   .contact-email { font-size: 16px; gap: 6px; }
   .contact h2 { font-size: 2.65rem; }
   .wrap,main > .contact { width: calc(100% - 40px); }
@@ -231,3 +219,21 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
 .compact-contact { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-block: 26px; }
 .compact-contact p { margin: 0; font-size: 18px; font-weight: 500; }
 .compact-contact .contact-email { font-size: 16px; min-height: 44px; }
+
+/* Toolkit: grouped capabilities with readable, non-interactive skill tags. */
+.toolkit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.toolkit-card { --toolkit-color: #a8301b; --toolkit-tint: #fff2ed; min-width: 0; padding: 26px; border: 1px solid var(--line); border-top: 3px solid var(--toolkit-color); border-radius: 16px; background: #fff; box-shadow: 0 4px 18px #24242404; transition: border-color .2s, box-shadow .2s; }
+.toolkit-card-1 { --toolkit-color: #2957a4; --toolkit-tint: #edf3ff; }
+.toolkit-card-2 { --toolkit-color: #087365; --toolkit-tint: #eaf8f4; }
+.toolkit-card-3 { --toolkit-color: #7045a0; --toolkit-tint: #f5effc; }
+.toolkit-card-heading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+.toolkit-icon { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 12px; color: var(--toolkit-color); background: var(--toolkit-tint); }
+.toolkit-card-heading h3 { margin: 2px 0 7px; font-size: 1.15rem; line-height: 1.35; letter-spacing: -.025em; font-weight: 600; }
+.toolkit-card-heading p { margin: 0; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+.toolkit-tags { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 9px; padding: 20px 0 0; margin: 0; list-style: none; border-top: 1px solid var(--line); }
+.toolkit-tags li { max-width: 100%; padding: 7px 10px; border: 1px solid #e7e7e7; border-radius: 7px; background: #fafafa; color: #505050; font-size: .875rem; line-height: 1.5; overflow-wrap: anywhere; }
+.toolkit-tags .toolkit-primary { background: var(--toolkit-tint); border-color: transparent; color: var(--toolkit-color); font-weight: 600; }
+@media (hover: hover) { .toolkit-card:hover { border-color: var(--toolkit-color); box-shadow: 0 8px 24px #2424240b; } }
+@media (min-width: 901px) and (max-width: 1150px), (max-width: 650px) { .toolkit-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 650px) { .toolkit-card { padding: 22px; } }
+@media (prefers-reduced-motion: reduce) { .toolkit-card { transition: none; } }
