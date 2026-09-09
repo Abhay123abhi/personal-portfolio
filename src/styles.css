@@ -323,3 +323,32 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
 .profile-identity .resume-button:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 20px #b938201a; }
 @media (max-width: 900px) { .profile-identity { padding-top: 0; } }
 @media (prefers-reduced-motion: reduce) { .profile-identity .resume-button { transition: none; } }
+
+/* Restore the compact circular portrait and remove nested profile scrolling. */
+.profile-rail { max-height: none; overflow: visible; padding: 0 8px 0 0; }
+.profile-picture { width: min(100%, clamp(160px, 23vh, 220px)); margin: 0 0 22px; padding: 6px; border: 1px solid #dedbd8; border-radius: 50%; background: #fff; box-shadow: 0 10px 30px #24242408; }
+.profile-picture::before { content: none; }
+.profile-picture img { border-radius: 50%; }
+.profile-identity { padding-top: 0; border-top: 0; }
+.profile-rail h1 { font-size: clamp(2.5rem, 3.3vw, 3rem); line-height: 1.12; }
+.profile-role { display: block; margin: 14px 0 12px; padding: 0; border: 0; font-size: 1.0625rem; letter-spacing: 0; }
+.profile-summary { margin: 0 0 20px; line-height: 1.65; }
+.profile-identity .resume-button { padding: 14px 18px; min-height: 52px; box-shadow: none; font-weight: 500; }
+.profile-identity .resume-button svg { box-sizing: border-box; padding: 0; border: 0; border-radius: 0; }
+@media (min-width: 901px) and (max-height: 740px) {
+  .profile-picture { width: 145px; margin-bottom: 16px; }
+  .profile-rail h1 { font-size: 2.4rem; }
+  .profile-role { margin-block: 10px; }
+  .profile-summary { margin-bottom: 14px; }
+}
+/* Short windows and zoom must retain access to the entire profile. */
+@media (min-width: 901px) and (max-height: 620px) { .profile-rail { position: static; } }
+@media (max-width: 900px) {
+  .profile-rail { position: static; padding: 0 0 36px; }
+  .profile-picture { width: 200px; margin: 0; }
+}
+@media (max-width: 650px) {
+  .profile-picture { width: min(210px, 60vw); }
+  .profile-rail h1 { font-size: clamp(2.2rem, 9vw, 2.8rem); }
+  .profile-summary { margin: 0 auto 20px; }
+}
