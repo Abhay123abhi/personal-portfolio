@@ -303,3 +303,10 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
   .impact-cell:nth-last-child(2) { border-bottom: 1px solid var(--line); }
 }
 @media (prefers-reduced-motion: reduce) { .nav a, .resume-button { transition: none; } }
+
+/* Keep all four impact metrics on one row, with accessible local overflow. */
+.introduction .impact-row { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 0; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: #b9b9b9 #f4f4f4; }
+.introduction .impact-row:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.introduction .impact-cell { padding: 23px 18px; border: 0; border-right: 1px solid var(--line); scroll-snap-align: start; }
+.introduction .impact-cell:last-child { border-right: 0; }
+.introduction .impact-cell span { max-width: 19ch; }
