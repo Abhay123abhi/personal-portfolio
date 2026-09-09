@@ -288,7 +288,7 @@ function Header({ inner = false }) {
   return <header className="header">
     <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
-      {inner ? <><Link to="/">Portfolio</Link><a href="/#skills">Stack</a><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
+      {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
     </nav>
     <div className="header-social"><SocialLinks /></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
@@ -367,9 +367,9 @@ function Home() {
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <h2 id="intro-title">Thoughtful systems.<br /><span>Dependable products.</span></h2>
-        <p>Four years of taking backend features from requirements to production—across APIs, integrations, performance, and release delivery.</p>
-        <div className="impact-row">{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
+        <p>I turn complex business requirements into reliable Java services—with secure APIs, event-driven workflows, and measurable improvements in performance and delivery.</p>
+        <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
         <SectionHeading label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
