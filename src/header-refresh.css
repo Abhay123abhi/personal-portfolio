@@ -1,15 +1,15 @@
-/* Header refresh: clean navigation, no card-within-card treatment. */
+/* Header refresh: premium navigation that visually belongs to the page. */
 .header {
   position: sticky;
   top: 0;
   z-index: 60;
   min-height: 82px;
   padding: 14px 40px;
-  background: color-mix(in srgb, #fafafa 90%, transparent);
-  border-bottom: 1px solid rgba(36,36,36,.08);
+  background: linear-gradient(180deg, rgba(250,250,250,.90), rgba(250,250,250,.72));
+  border-bottom: 1px solid rgba(36,36,36,.06);
   box-shadow: none;
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
 }
 .brand { gap: 12px; }
 .brand-symbol {
@@ -68,16 +68,10 @@
   border-color: transparent;
 }
 
-.profile-stack-line {
-  margin: -8px 0 20px;
-  color: var(--muted);
-  font: 500 11px/1.7 var(--mono);
-  letter-spacing: .01em;
-}
-
 html[data-theme="dark"] .header {
-  background: rgba(9,12,16,.84);
-  border-bottom-color: rgba(255,255,255,.07);
+  background:
+    linear-gradient(180deg, rgba(10,13,17,.88), rgba(10,13,17,.68));
+  border-bottom-color: rgba(255,255,255,.055);
   box-shadow: none;
 }
 html[data-theme="dark"] .brand-symbol,
@@ -96,7 +90,42 @@ html[data-theme="dark"] .header-social .social-links a:hover {
   background: rgba(255,255,255,.07);
   border-color: transparent;
 }
-html[data-theme="dark"] .profile-stack-line { color: #858f9c; }
+
+/* Make the hero and header read as one continuous premium surface. */
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(255,124,89,.13), transparent 28rem),
+    radial-gradient(circle at 86% 8%, rgba(86,126,188,.08), transparent 26rem),
+    linear-gradient(180deg, #0b0e12 0%, #0c1015 48%, #090c10 100%);
+  background-attachment: fixed;
+}
+html[data-theme="dark"] .studio-layout { position: relative; }
+html[data-theme="dark"] .studio-layout::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: -44px -28px auto -28px;
+  height: 390px;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(255,124,89,.08), transparent 32%),
+    radial-gradient(circle at 78% 22%, rgba(89,120,178,.06), transparent 30%);
+  filter: blur(2px);
+  z-index: -1;
+}
+html[data-theme="dark"] .profile-picture {
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 18px 44px rgba(0,0,0,.30), 0 0 0 1px rgba(255,124,89,.10);
+}
+html[data-theme="dark"] .introduction h2 > span {
+  background: linear-gradient(90deg, #ff7c59 0%, #ff9a72 55%, #ff7355 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+html[data-theme="dark"] .profile-identity .resume-button {
+  background: linear-gradient(135deg, #ff8a68, #ff704d);
+  box-shadow: 0 12px 30px rgba(255,112,77,.18);
+}
 
 @media (max-width: 1150px) {
   .header { padding-inline: 28px; }
@@ -105,15 +134,14 @@ html[data-theme="dark"] .profile-stack-line { color: #858f9c; }
     border: 0;
     border-bottom: 1px solid var(--line);
     border-radius: 0;
-    background: #fafafa;
+    background: rgba(250,250,250,.96);
   }
   .nav a { padding: 13px 0; }
-  html[data-theme="dark"] .nav { background: #0c1015; }
+  html[data-theme="dark"] .nav { background: rgba(12,16,21,.97); }
 }
 
 @media (max-width: 650px) {
   .header { min-height: 72px; padding: 12px 16px; }
   .brand-symbol { font-size: 26px; }
   .header-social .social-links a { width: 36px; height: 36px; padding: 7px; }
-  .profile-stack-line { max-width: 360px; margin-inline: auto; }
 }
