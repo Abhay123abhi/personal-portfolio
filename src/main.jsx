@@ -7,6 +7,7 @@ import PortfolioBranding from "./PortfolioBranding";
 import "./styles.css";
 import "./dark-theme.css";
 import "./header-refresh.css";
+import "./showcase-refresh.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

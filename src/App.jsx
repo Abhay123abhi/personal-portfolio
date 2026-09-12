@@ -41,12 +41,12 @@ const projects = [
   },
   {
     id: "03",
-    eyebrow: "Real-time systems · Product build",
+    eyebrow: "Real-time systems · Reliable messaging",
     title: "Real-time Chat",
-    statement: "A responsive messaging experience backed by persistent room history.",
-    problem: "Real-time delivery, room membership, message history, and client state need to remain consistent across reconnects.",
-    build: "A WebSocket-based messaging flow with persistent MongoDB history and a responsive React client for rooms, emoji, files, and dark mode.",
-    stack: ["Spring Boot", "WebSocket", "MongoDB", "React", "Vite", "Docker"],
+    statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
+    problem: "Live chat needs more than WebSocket delivery: retries, reconnects, missed events, room presence, and persistent history all need predictable behavior.",
+    build: "Messages use a retry-safe REST write path, are persisted in MongoDB with room sequence and client request IDs, then broadcast over STOMP/WebSocket. Cursor-based history reconciles missed updates after reconnects, while session presence tracks online and offline room members.",
+    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions"],
     github: "https://github.com/Abhay123abhi/chat-app",
     color: "yellow",
   },
@@ -54,9 +54,9 @@ const projects = [
 
 const skills = [
   { group: "Backend", items: "Java 8–21, Spring Boot, Spring Security, JPA, Hibernate, REST APIs, BFF" },
-  { group: "Distributed systems", items: "Kafka, Redis, idempotency, outbox, retry/DLQ, eventual consistency" },
-  { group: "Data", items: "PostgreSQL, MySQL, MongoDB, indexing, query optimization, partitioning" },
-  { group: "Delivery & reliability", items: "Docker, Kubernetes, Jenkins, Prometheus, Grafana, Loki, JUnit, Mockito" },
+  { group: "Frontend", items: "React.js, JavaScript, Ionic, SPA, REST integration, Responsive UI" },
+  { group: "Data & distributed systems", items: "Kafka, Redis, PostgreSQL, MySQL, MongoDB, Idempotency, Outbox, Query optimization" },
+  { group: "DevOps & cloud", items: "Docker, Kubernetes, Jenkins, CI/CD, AWS, Prometheus, Grafana, Loki, JUnit, Mockito" },
 ];
 
 
@@ -316,11 +316,11 @@ const projectArchitectures = [
   {
     name: "Room-based messaging",
     stages: [
-      { title: "Connect", nodes: ["React client", "Room membership"], detail: "Let participants join a room and manage conversation state in the React client." },
-      { title: "Deliver", nodes: ["Spring Boot", "WebSocket"], detail: "Use a persistent WebSocket connection to deliver messages to room participants without polling for every update." },
-      { title: "Persist", nodes: ["MongoDB", "Message history"], detail: "Store conversation history so messages remain available beyond the lifetime of a live connection." },
+      { title: "Join", nodes: ["React client", "Guest room", "Live presence"], detail: "Create or join a guest room with a display name, then open a STOMP/SockJS session that carries room identity for live online and offline presence." },
+      { title: "Persist", nodes: ["REST write", "Request ID", "MongoDB"], detail: "Send through the durable REST endpoint first. A client message ID makes retries safe, a room sequence orders persisted messages, and MongoDB stores the message before any live broadcast." },
+      { title: "Deliver & recover", nodes: ["STOMP/WebSocket", "Room topic", "Cursor history"], detail: "Broadcast the saved message to connected room members. After reconnecting, the client loads cursor-based history and merges missed messages instead of relying on the live socket alone." },
     ],
-    note: "Live delivery · Persistent history",
+    note: "Durable REST writes · Live STOMP delivery · Reconnect recovery",
   },
 ];
 
@@ -400,7 +400,7 @@ function Home() {
       <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="toolkit-grid">{skills.map((skill, index) => {
           const Icon = [Server, Network, Database, Activity][index];
-          const descriptions = ["Secure services & API contracts", "Async workflows & reliable delivery", "Persistence & query performance", "Release automation & observability"];
+          const descriptions = ["Java services & API contracts", "Responsive product interfaces", "Messaging, caching & persistence", "Delivery, cloud & observability"];
           return <article className={`toolkit-card toolkit-card-${index}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
             <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{descriptions[index]}</p></div></header>
             <ul className="toolkit-tags" aria-label={skill.group + " skills"}>{skill.items.split(", ").map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
