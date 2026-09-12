@@ -17,7 +17,6 @@ const impact = [
 
 const projects = [
   {
-    id: "01",
     eyebrow: "Reliability engineering · Event-driven backend",
     title: "Incident Investigation Platform",
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
@@ -25,10 +24,8 @@ const projects = [
     build: "Alertmanager intake persists incident state and an outbox event atomically. Kafka dispatches an evidence worker that queries Prometheus, Loki, and Tempo, stores the report in PostgreSQL, and preserves resolution state.",
     stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL", "Prometheus", "Loki", "Tempo", "Grafana"],
     github: "https://github.com/Abhay123abhi/micro-observe-kafka",
-    color: "blue",
   },
   {
-    id: "02",
     eyebrow: "Full-stack product · Source-grounded AI",
     title: "News Intelligence",
     statement: "Aggregate multiple publishers, then turn the retrieved feed into grounded briefs, answers, and coverage comparisons.",
@@ -37,10 +34,8 @@ const projects = [
     stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "Render"],
     github: "https://github.com/Abhay123abhi/news_aggregator",
     live: "https://abhay123abhi-news-web.onrender.com",
-    color: "coral",
   },
   {
-    id: "03",
     eyebrow: "Real-time systems · Reliable messaging",
     title: "Real-time Chat",
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
@@ -48,28 +43,42 @@ const projects = [
     build: "Messages use a retry-safe REST write path, are persisted in MongoDB with room sequence and client request IDs, then broadcast over STOMP/WebSocket. Cursor-based history reconciles missed updates after reconnects, while session presence tracks online and offline room members.",
     stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions"],
     github: "https://github.com/Abhay123abhi/chat-app",
-    color: "yellow",
   },
 ];
 
 const skills = [
-  { group: "Backend", items: "Java 8–21, Spring Boot, Spring Security, JPA, Hibernate, REST APIs, BFF" },
-  { group: "Frontend", items: "React.js, JavaScript, Ionic, SPA, REST integration, Responsive UI" },
-  { group: "Data & distributed systems", items: "Kafka, Redis, PostgreSQL, MySQL, MongoDB, Idempotency, Outbox, Query optimization" },
-  { group: "DevOps & cloud", items: "Docker, Kubernetes, Jenkins, CI/CD, AWS, Prometheus, Grafana, Loki, JUnit, Mockito" },
+  {
+    group: "Backend",
+    description: "Java services & API contracts",
+    items: ["Java 8–21", "Spring Boot", "Spring Security", "JPA", "Hibernate", "REST APIs", "BFF"],
+  },
+  {
+    group: "Frontend",
+    description: "Responsive product interfaces",
+    items: ["React.js", "JavaScript", "Ionic", "SPA", "REST integration", "Responsive UI"],
+  },
+  {
+    group: "Data & distributed systems",
+    description: "Messaging, caching & persistence",
+    items: ["Kafka", "Redis", "PostgreSQL", "MySQL", "MongoDB", "Idempotency", "Outbox", "Query optimization"],
+  },
+  {
+    group: "DevOps & cloud",
+    description: "Delivery, cloud & observability",
+    items: ["Docker", "Kubernetes", "Jenkins", "CI/CD", "AWS", "Prometheus", "Grafana", "Loki", "JUnit", "Mockito"],
+  },
 ];
-
 
 const articles = [
   {
-    "category": "System design · Project notes",
-    "excerpt": "Why my incident workflow uses a transactional outbox, where duplicates remain, and what I would test before scaling it.",
-    "lead": "A box labelled Kafka makes an architecture diagram look asynchronous. It does not answer a more awkward question: what happens if the incident is saved but its investigation event is never published? In Micro Observe Kafka, that boundary is the reason for the outbox. This is a walkthrough of a local project, not a claim that I have operated it at large scale.",
-    "number": "01",
-    "published": "September 2026",
-    "quote": "Persisting the intent to send is different from proving that the work happened.",
-    "readingTime": "3 min read",
-    "sections": [
+    category: "System design · Project notes",
+    excerpt: "Why my incident workflow uses a transactional outbox, where duplicates remain, and what I would test before scaling it.",
+    lead: "A box labelled Kafka makes an architecture diagram look asynchronous. It does not answer a more awkward question: what happens if the incident is saved but its investigation event is never published? In Micro Observe Kafka, that boundary is the reason for the outbox. This is a walkthrough of a local project, not a claim that I have operated it at large scale.",
+    number: "01",
+    published: "September 2026",
+    quote: "Persisting the intent to send is different from proving that the work happened.",
+    readingTime: "3 min read",
+    sections: [
       [
         "Start with the invariant",
         "My requirement is that an accepted incident must retain a durable path to investigation. Saving a row and then publishing directly leaves a crash window between those operations. Publishing first has the opposite problem: the worker could receive an event for a transaction that later rolls back.",
@@ -96,28 +105,22 @@ const articles = [
         "My next checks would cover a broker outage followed by recovery, publication followed by a crash, repeated alerts, and a failed telemetry source. I would watch the age of the oldest pending outbox row, not only its count. A small backlog that never moves is still a reliability failure."
       ]
     ],
-    "slug": "transactional-outbox-incident-investigation",
-    "sources": [
-      [
-        "Project implementation and scope",
-        "https://github.com/Abhay123abhi/micro-observe-kafka"
-      ],
-      [
-        "Transactional outbox pattern — Chris Richardson",
-        "https://microservices.io/patterns/data/transactional-outbox.html"
-      ]
+    slug: "transactional-outbox-incident-investigation",
+    sources: [
+      ["Project implementation and scope", "https://github.com/Abhay123abhi/micro-observe-kafka"],
+      ["Transactional outbox pattern — Chris Richardson", "https://microservices.io/patterns/data/transactional-outbox.html"],
     ],
-    "title": "The database committed. What if Kafka never got the event?"
+    title: "The database committed. What if Kafka never got the event?"
   },
   {
-    "category": "Low-level design · Java",
-    "excerpt": "The boundaries behind News Intelligence: adapters, orchestration, deadlines, partial success, and an optional AI layer.",
-    "lead": "In my news aggregator, Guardian and NYT sit behind one search API. Calling that Strategy is correct, but incomplete. The more useful design discussion is about who owns normalization, what a timeout means, and how much useful work survives a dependency failure.",
-    "number": "02",
-    "published": "September 2026",
-    "quote": "An interface hides a vendor. A good contract also explains failure.",
-    "readingTime": "3 min read",
-    "sections": [
+    category: "Low-level design · Java",
+    excerpt: "The boundaries behind News Intelligence: adapters, orchestration, deadlines, partial success, and an optional AI layer.",
+    lead: "In my news aggregator, Guardian and NYT sit behind one search API. Calling that Strategy is correct, but incomplete. The more useful design discussion is about who owns normalization, what a timeout means, and how much useful work survives a dependency failure.",
+    number: "02",
+    published: "September 2026",
+    quote: "An interface hides a vendor. A good contract also explains failure.",
+    readingTime: "3 min read",
+    sections: [
       [
         "Give each abstraction one reason to change",
         "NewsProviderClient is the provider strategy: the aggregator depends on a shared search contract. GuardianClient and NytClient also act as adapters, translating vendor payloads into the common article model. Strategy and Adapter describe different responsibilities even when one class participates in both.",
@@ -144,28 +147,22 @@ const articles = [
         "The extension point matters more than the pattern count. A new publisher should implement the news contract. A new model provider should implement the AI contract. Neither change should require teaching the controller about vendor-specific response formats."
       ]
     ],
-    "slug": "provider-design-strategy-adapter-concurrency",
-    "sources": [
-      [
-        "News Intelligence design and implementation",
-        "https://github.com/Abhay123abhi/news_aggregator"
-      ],
-      [
-        "Java 21 virtual threads — Oracle",
-        "https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html"
-      ]
+    slug: "provider-design-strategy-adapter-concurrency",
+    sources: [
+      ["News Intelligence design and implementation", "https://github.com/Abhay123abhi/news_aggregator"],
+      ["Java 21 virtual threads — Oracle", "https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html"],
     ],
-    "title": "Strategy is the easy part: designing a reliable multi-provider API"
+    title: "Strategy is the easy part: designing a reliable multi-provider API"
   },
   {
-    "category": "System design · LLD design exercise",
-    "excerpt": "A worked design exercise covering database invariants, expiring holds, idempotent requests, and late payment callbacks.",
-    "lead": "Booking systems are a useful way to connect high-level architecture with low-level design. A class diagram can describe a Seat and a Booking, but it cannot stop two requests from confirming the same seat. This is a design exercise: the numbers and decisions below are illustrative, not results from a deployed booking service.",
-    "number": "03",
-    "published": "September 2026",
-    "quote": "The state machine explains what is legal. The database must enforce who wins.",
-    "readingTime": "4 min read",
-    "sections": [
+    category: "System design · LLD design exercise",
+    excerpt: "A worked design exercise covering database invariants, expiring holds, idempotent requests, and late payment callbacks.",
+    lead: "Booking systems are a useful way to connect high-level architecture with low-level design. A class diagram can describe a Seat and a Booking, but it cannot stop two requests from confirming the same seat. This is a design exercise: the numbers and decisions below are illustrative, not results from a deployed booking service.",
+    number: "03",
+    published: "September 2026",
+    quote: "The state machine explains what is legal. The database must enforce who wins.",
+    readingTime: "4 min read",
+    sections: [
       [
         "Define the invariant before picking a lock",
         "I would model inventory by show ID and seat ID: seat A1 can be booked for different shows. The invariant is one current owner of a seat for a particular show. A single row per show-seat, identified by a primary key, gives all contenders one place to coordinate.",
@@ -197,26 +194,21 @@ const articles = [
         "I would begin with PostgreSQL as the correctness boundary. A Redis lease could reduce contention, but a lease expiring while its owner is still running must not permit a stale write. The database condition still needs to reject that write. More infrastructure is not a substitute for an enforceable invariant."
       ]
     ],
-    "slug": "booking-concurrency-state-machine",
-    "sources": [
-      [
-        "Redis locking guarantees and expiry considerations",
-        "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/"
-      ]
-    ],
-    "title": "Two users, one seat: where a booking design becomes a concurrency problem"
+    slug: "booking-concurrency-state-machine",
+    sources: [["Redis locking guarantees and expiry considerations", "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/"]],
+    title: "Two users, one seat: where a booking design becomes a concurrency problem"
   },
   {
-    "slug": "event-driven-reliability",
-    "number": "04",
-    "category": "Distributed Systems",
-    "title": "The reliability details behind a Kafka consumer",
-    "excerpt": "Retries are only one piece. Idempotency, offsets, poison messages, and observability decide whether a flow survives production.",
-    "readingTime": "5 min read",
-    "published": "August 2026",
-    "lead": "A Kafka consumer can look complete after it deserializes a message and calls a service. In production, that is where the reliability conversation begins.",
-    "quote": "Exactly once is not a magic switch across every database, API, and side effect. State where the guarantee actually holds.",
-    "sections": [
+    slug: "event-driven-reliability",
+    number: "04",
+    category: "Distributed Systems",
+    title: "The reliability details behind a Kafka consumer",
+    excerpt: "Retries are only one piece. Idempotency, offsets, poison messages, and observability decide whether a flow survives production.",
+    readingTime: "5 min read",
+    published: "August 2026",
+    lead: "A Kafka consumer can look complete after it deserializes a message and calls a service. In production, that is where the reliability conversation begins.",
+    quote: "Exactly once is not a magic switch across every database, API, and side effect. State where the guarantee actually holds.",
+    sections: [
       [
         "Define the delivery contract",
         "Most business consumers should assume at-least-once delivery. Duplicates are expected, so the consumer needs a stable event identifier and an idempotency boundary around each side effect.",
@@ -235,16 +227,16 @@ const articles = [
     ]
   },
   {
-    "slug": "graceful-provider-fallbacks",
-    "number": "05",
-    "category": "Backend Design",
-    "title": "Designing graceful fallback for multi-provider APIs",
-    "excerpt": "How to keep an aggregator useful when upstream APIs are inconsistent, rate-limited, or temporarily unavailable.",
-    "readingTime": "5 min read",
-    "published": "August 2026",
-    "lead": "An aggregator promises one useful response while depending on APIs it does not control. It should absorb provider inconsistency instead of passing it directly to the client.",
-    "quote": "Graceful degradation is not hiding failure. It preserves useful work while communicating what became unavailable.",
-    "sections": [
+    slug: "graceful-provider-fallbacks",
+    number: "05",
+    category: "Backend Design",
+    title: "Designing graceful fallback for multi-provider APIs",
+    excerpt: "How to keep an aggregator useful when upstream APIs are inconsistent, rate-limited, or temporarily unavailable.",
+    readingTime: "5 min read",
+    published: "August 2026",
+    lead: "An aggregator promises one useful response while depending on APIs it does not control. It should absorb provider inconsistency instead of passing it directly to the client.",
+    quote: "Graceful degradation is not hiding failure. It preserves useful work while communicating what became unavailable.",
+    sections: [
       [
         "Normalize at the boundary",
         "Each provider adapter translates its response into one internal model. Authentication, pagination, provider fields, and error mapping stay inside the adapter.",
@@ -264,27 +256,30 @@ const articles = [
   }
 ];
 
-
 function usePageTitle(title) {
   useEffect(() => { document.title = title; }, [title]);
 }
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
-function SocialLinks({ labelled = false }) {
-  return <div className={labelled ? "social-links labelled" : "social-links"} aria-label="Social and email links">
-    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay" title="Email Abhay"><Mail size={20} />{labelled && "Gmail"}</a>
-    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><Linkedin size={20} />{labelled && "LinkedIn"}</a>
-    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><Github size={20} />{labelled && "GitHub"}</a>
-    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter" title="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span>{labelled && "X / Twitter"}</a>
+
+function SocialLinks() {
+  return <div className="social-links" aria-label="Social and email links">
+    <a href={`mailto:${EMAIL}`} aria-label="Gmail — email Abhay" title="Email Abhay"><Mail size={20} /></a>
+    <a href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><Linkedin size={20} /></a>
+    <a href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><Github size={20} /></a>
+    <a href={TWITTER} target="_blank" rel="noreferrer" aria-label="X / Twitter" title="X / Twitter"><span aria-hidden="true" className="x-mark">𝕏</span></a>
   </div>;
 }
+
 function Header({ inner = false }) {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   useEffect(() => { setOpen(false); }, [pathname]);
+
   return <header className="header">
     <Link className="brand" to="/" aria-label="Abhay Jaiswal, home"><span className="brand-symbol">a<span>j</span>.</span><b>Abhay Jaiswal</b></Link>
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
@@ -294,6 +289,7 @@ function Header({ inner = false }) {
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
+
 const projectArchitectures = [
   {
     name: "Incident investigation",
@@ -327,6 +323,7 @@ const projectArchitectures = [
 function ProjectMap({ index }) {
   const [selected, setSelected] = useState(0);
   const architecture = projectArchitectures[index];
+
   return <div className="architecture">
     <div className="architecture-heading"><span>System design</span><span>{architecture.name}</span></div>
     <div className="architecture-stages" role="group" aria-label={architecture.name}>
@@ -347,33 +344,37 @@ function ProjectMap({ index }) {
     <div className="architecture-caption"><span>{architecture.note}</span><span>Conceptual architecture</span></div>
   </div>;
 }
+
 function Profile() {
   return <aside className="profile-rail" aria-label="About Abhay">
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
-      <p className="profile-role">Java Backend Engineer</p>
-      <p className="profile-summary">I build secure APIs, event-driven services, and the systems that keep products running.</p>
+      <p className="profile-role">Java Full Stack Developer</p>
+      <p className="profile-summary">I build reliable Java and Spring Boot services with responsive React interfaces, supported by Docker and CI/CD for production delivery.</p>
       <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
     </div>
   </aside>;
 }
+
 function SectionHeading({ label, title, children }) {
   return <header className="section-heading"><div className="section-label">{label}</div><h2>{title}</h2>{children}</header>;
 }
+
 function Home() {
-  usePageTitle("Abhay Jaiswal — Java Backend Engineer");
+  usePageTitle("Abhay Jaiswal — Java Full Stack Developer");
+
   return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
-        <p>I turn complex business requirements into reliable Java services—with secure APIs, event-driven workflows, and measurable improvements in performance and delivery.</p>
+        <h2 id="intro-title">Java at the core.<br /><span>Full-stack in delivery.</span></h2>
+        <p>I build end-to-end applications across backend APIs, React interfaces, data, and delivery—focused on performance, reliability, and maintainable production systems.</p>
         <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
-        <SectionHeading label="Selected work" title="Behind the interface." ><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className="project" key={project.id}>
+        <SectionHeading label="Selected work" title="Behind the interface."><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
+        <div className="projects">{projects.map((project,index) => <article className="project" key={project.title}>
           <ProjectMap index={index} />
           <div className="project-body"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p>
@@ -400,24 +401,24 @@ function Home() {
       <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="toolkit-grid">{skills.map((skill, index) => {
           const Icon = [Server, Network, Database, Activity][index];
-          const descriptions = ["Java services & API contracts", "Responsive product interfaces", "Messaging, caching & persistence", "Delivery, cloud & observability"];
           return <article className={`toolkit-card toolkit-card-${index}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
-            <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{descriptions[index]}</p></div></header>
-            <ul className="toolkit-tags" aria-label={skill.group + " skills"}>{skill.items.split(", ").map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
+            <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{skill.description}</p></div></header>
+            <ul className="toolkit-tags" aria-label={`${skill.group} skills`}>{skill.items.map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
           </article>;
         })}</div>
       </section>
-      
       <Contact />
     </main>
   </div></>;
 }
+
 function Contact() {
   return <footer className="contact compact-contact" id="contact">
     <p>Let’s connect.</p>
     <a className="contact-email" href={`mailto:${EMAIL}`}>Email me <ArrowUpRight size={18} /></a>
   </footer>;
 }
+
 function BlogIndex() {
   usePageTitle("Engineering Journal — Abhay Jaiswal");
   return <main><Header inner /><section className="blog-hero wrap"><p className="eyebrow">Engineering journal · {articles.length} articles</p><h1>System design beyond <em>the diagram.</em></h1><p>Project notes and design exercises on Java, distributed systems, and low-level design—focused on trade-offs, failure cases, and how I would test them.</p></section><section className="archive wrap">{articles.map((article) => <Link to={`/blog/${article.slug}`} className="archive-row" key={article.slug}><b>{article.number}</b><div><small>{article.category}</small><h2>{article.title}</h2><p>{article.excerpt}</p></div><span>{article.published}<br />{article.readingTime}</span><ArrowUpRight /></Link>)}</section><Contact /></main>;
@@ -428,6 +429,7 @@ function ArticlePage() {
   const article = articles.find((item) => item.slug === (slug === "ai-incident-intelligence" ? "transactional-outbox-incident-investigation" : slug));
   usePageTitle(article ? `${article.title} — Abhay Jaiswal` : "Engineering Journal");
   if (!article) return <Navigate to="/blog" replace />;
+
   const share = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
   return <main><Header inner /><article className="article wrap"><Link className="back" to="/blog"><ArrowLeft size={16} /> Journal</Link><header><span>{article.category}</span><h1>{article.title}</h1><p>{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={15} /> {article.readingTime}</span><span>Abhay Jaiswal</span></div><a className="share" href={share} target="_blank" rel="noreferrer"><Share2 size={16} /> Share</a></header><div className="article-body"><p className="lead">{article.lead}</p>{article.sections.map((section, index) => <section key={section[0]}><h2>{section[0]}</h2><p>{section[1]}</p>{index === 1 && <blockquote>{article.quote}</blockquote>}<p>{section[2]}</p></section>)}{article.sources && <section><h2>References &amp; project context</h2><ul>{article.sources.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}</div></article><Contact /></main>;
 }
