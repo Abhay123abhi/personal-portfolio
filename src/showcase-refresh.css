@@ -1,0 +1,308 @@
+/* Selected-work and toolkit refinement. Loaded last so it can tune both themes cleanly. */
+
+/* ---------- System design: denser, clearer, less empty space ---------- */
+.architecture {
+  padding: 20px 22px 18px;
+}
+
+.architecture-heading {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+}
+
+.architecture-heading > span:last-child {
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.architecture-stages {
+  counter-reset: architecture-step;
+  gap: 12px;
+}
+
+.architecture-stage {
+  counter-increment: architecture-step;
+  min-height: 126px;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(36,42,49,.035);
+  overflow: visible;
+}
+
+.architecture-stage::before {
+  content: "0" counter(architecture-step);
+  position: absolute;
+  top: 12px;
+  right: 13px;
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+  font: 500 10px var(--mono);
+  letter-spacing: .08em;
+}
+
+.stage-heading {
+  padding-right: 28px;
+}
+
+.stage-heading strong {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+
+.stage-nodes {
+  gap: 6px;
+}
+
+.stage-nodes > span {
+  padding-top: 7px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.stage-connector {
+  right: -15px;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--line) 40%, transparent);
+}
+
+.architecture-detail {
+  grid-template-columns: 92px minmax(0,1fr);
+  gap: 14px;
+  min-height: 0;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.architecture-detail > strong {
+  align-self: start;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.architecture-detail p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.architecture-caption {
+  margin-top: 10px;
+  padding-inline: 2px;
+  font-size: 11px;
+}
+
+/* ---------- Toolkit: compact capability cards rather than large tag boxes ---------- */
+.craft-section .section-heading {
+  margin-bottom: 24px;
+}
+
+.toolkit-grid {
+  gap: 14px;
+}
+
+.toolkit-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 0;
+  padding: 0;
+  border-top-width: 1px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(44,38,32,.045);
+}
+
+.toolkit-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 100% 0%, var(--toolkit-tint), transparent 42%);
+  opacity: .76;
+}
+
+.toolkit-card::after {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: 0;
+  width: 3px;
+  height: 44px;
+  border-radius: 0 3px 3px 0;
+  background: var(--toolkit-color);
+}
+
+.toolkit-card-heading {
+  align-items: center;
+  gap: 13px;
+  margin: 0;
+  padding: 20px 22px 17px;
+}
+
+.toolkit-icon {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+  border-radius: 11px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--toolkit-color) 15%, transparent);
+}
+
+.toolkit-card-heading h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.toolkit-card-heading p {
+  font-size: .81rem;
+  line-height: 1.45;
+}
+
+.toolkit-tags {
+  gap: 7px;
+  padding: 15px 22px 20px;
+}
+
+.toolkit-tags li {
+  padding: 6px 9px;
+  border-radius: 8px;
+  font-size: .79rem;
+  line-height: 1.35;
+}
+
+.toolkit-tags .toolkit-primary {
+  font-weight: 650;
+}
+
+@media (hover: hover) {
+  .toolkit-card {
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+
+  .toolkit-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--toolkit-color) 42%, var(--line));
+    box-shadow: 0 17px 38px rgba(44,38,32,.075);
+  }
+
+  .architecture-stage:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* ---------- Light ---------- */
+html[data-theme="light"] .toolkit-card {
+  background: linear-gradient(180deg, rgba(255,254,251,.96), rgba(250,247,241,.92));
+  border-color: #ddd7ce;
+}
+
+html[data-theme="light"] .toolkit-tags {
+  border-color: #e3ddd5;
+}
+
+html[data-theme="light"] .toolkit-tags li {
+  color: #59636d;
+  background: rgba(247,244,239,.92);
+  border-color: #e1dbd3;
+}
+
+html[data-theme="light"] .toolkit-tags .toolkit-primary {
+  color: var(--toolkit-color);
+  background: color-mix(in srgb, var(--toolkit-tint) 82%, white);
+  border-color: color-mix(in srgb, var(--toolkit-color) 15%, #e1dbd3);
+}
+
+html[data-theme="light"] .architecture-detail {
+  background: rgba(255,253,249,.72);
+  border-color: #dfd8cf;
+}
+
+html[data-theme="light"] .architecture-stage {
+  box-shadow: 0 7px 18px rgba(51,44,37,.035);
+}
+
+/* ---------- Dark ---------- */
+html[data-theme="dark"] .toolkit-card {
+  background: linear-gradient(180deg, rgba(25,35,45,.96), rgba(18,27,36,.98));
+  border-color: #34414d;
+  box-shadow: 0 16px 38px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.018);
+}
+
+html[data-theme="dark"] .toolkit-card::before {
+  opacity: .44;
+}
+
+html[data-theme="dark"] .toolkit-tags {
+  border-color: #34414d;
+}
+
+html[data-theme="dark"] .toolkit-tags li {
+  color: #c0c8d0;
+  background: rgba(21,30,39,.92);
+  border-color: #35424e;
+}
+
+html[data-theme="dark"] .toolkit-tags .toolkit-primary {
+  color: var(--toolkit-color);
+  background: var(--toolkit-tint);
+  border-color: color-mix(in srgb, var(--toolkit-color) 22%, #34414d);
+}
+
+html[data-theme="dark"] .architecture-detail {
+  background: rgba(20,29,38,.72);
+  border-color: #35424e;
+}
+
+html[data-theme="dark"] .architecture-stage {
+  box-shadow: 0 8px 24px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.018);
+}
+
+html[data-theme="dark"] .stage-connector {
+  background: #202b35;
+}
+
+@media (max-width: 650px) {
+  .architecture {
+    padding: 17px;
+  }
+
+  .architecture-stages {
+    gap: 20px;
+  }
+
+  .architecture-stage {
+    min-height: 0;
+  }
+
+  .stage-connector {
+    right: calc(50% - 9px);
+    bottom: -19px;
+  }
+
+  .architecture-detail {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 13px 14px;
+  }
+
+  .toolkit-card-heading {
+    padding: 18px 18px 15px;
+  }
+
+  .toolkit-tags {
+    padding: 14px 18px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolkit-card,
+  .architecture-stage {
+    transition: none;
+  }
+}
