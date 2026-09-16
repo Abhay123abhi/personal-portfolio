@@ -371,12 +371,16 @@ function Home() {
       <section className="introduction" aria-labelledby="intro-title">
         <div className="hero-kicker"><span /> Java Backend Engineer · Gurugram, India</div>
         <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
+        <div className="hero-rule" aria-hidden="true"><span /></div>
         <p>I design APIs, event-driven workflows, and the reliability behind them. Four years building Java services—from the first request to the production release.</p>
-        <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label], index) => {
+          const Icon = [Server, Network, Activity, Database][index % 4];
+          return <div className={`impact-cell tone-${index % 3}`} key={label}><Icon size={17} strokeWidth={1.5} aria-hidden="true" /><strong>{value}</strong><span>{label}</span></div>;
+        })}</div>
       </section>
       <section className="work-section" id="work">
         <SectionHeading label="Selected work" title="Engineering behind the product."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className="project" key={project.title}>
+        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title}>
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
@@ -403,7 +407,7 @@ function Home() {
       <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="toolkit-grid">{skills.map((skill, index) => {
           const Icon = [Server, Network, Database, Activity][index];
-          return <article className={`toolkit-card toolkit-card-${index}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
+          return <article className={`toolkit-card toolkit-card-${index} tone-${index % 3}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
             <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{skill.description}</p></div></header>
             <ul className="toolkit-tags" aria-label={`${skill.group} skills`}>{skill.items.map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
           </article>;

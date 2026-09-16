@@ -68,5 +68,52 @@ export default function PortfolioMotion() {
       links.forEach(link => link.removeAttribute("aria-current"));
     };
   }, [pathname]);
+  // Pointer lighting enhances cards only on fine-pointer devices. No React renders per move.
+  useEffect(() => {
+    const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    let activeCard;
+    let frame = 0;
+    let point;
+    const clear = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (activeCard) {
+        activeCard.removeAttribute("data-spotlit");
+        activeCard.style.removeProperty("--pointer-x");
+        activeCard.style.removeProperty("--pointer-y");
+      }
+      activeCard = null;
+    };
+    const move = event => {
+      if (!preference.matches || !(event.target instanceof Element)) return;
+      const card = event.target.closest(".project, .toolkit-card, .impact-cell");
+      if (card !== activeCard) { clear(); activeCard = card; }
+      if (!card) return;
+      point = { x: event.clientX, y: event.clientY };
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (!activeCard) return;
+        const bounds = activeCard.getBoundingClientRect();
+        activeCard.style.setProperty("--pointer-x", `${point.x - bounds.left}px`);
+        activeCard.style.setProperty("--pointer-y", `${point.y - bounds.top}px`);
+        activeCard.setAttribute("data-spotlit", "true");
+      });
+    };
+    const leave = event => { if (!event.relatedTarget) clear(); };
+    document.addEventListener("pointermove", move, { passive: true });
+    document.addEventListener("pointerout", leave);
+    window.addEventListener("blur", clear);
+    window.addEventListener("scroll", clear, { passive: true });
+    preference.addEventListener("change", clear);
+    return () => {
+      clear();
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerout", leave);
+      window.removeEventListener("blur", clear);
+      window.removeEventListener("scroll", clear);
+      preference.removeEventListener("change", clear);
+    };
+  }, [pathname]);
   return pathname.startsWith("/blog/") ? <div className="reading-progress" aria-hidden="true" /> : null;
 }

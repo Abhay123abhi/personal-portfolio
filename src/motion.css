@@ -45,3 +45,21 @@
   .hero-kicker { animation: enter .7s backwards; }
   @media (max-width: 650px) { .flow-connector > span { animation-name: flow-down; } }
 }
+
+@keyframes portrait-orbit { to { transform: rotate(360deg); } }
+@keyframes rule-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .profile-picture::before { animation: portrait-orbit 30s linear infinite; }
+  .hero-rule > span { animation: rule-draw 1.2s .25s cubic-bezier(.2,.65,.3,1) backwards; }
+  .impact-cell { animation: enter .7s backwards; }
+  .impact-cell:nth-child(2) { animation-delay: .1s; }
+  .impact-cell:nth-child(3) { animation-delay: .2s; }
+  .impact-cell:nth-child(4) { animation-delay: .3s; }
+  @media (hover: hover) and (pointer: fine) {
+    .introduction .impact-cell { transition: border-color .25s, transform .25s; }
+    .introduction .impact-cell:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .project:hover { box-shadow: 0 20px 50px color-mix(in srgb, var(--accent) 6%, transparent); }
+    .architecture-stage:hover { transform: translateY(-2px); }
+  }
+}
+@media (max-width: 650px) { .profile-picture::before, .profile-picture::after { animation: none; } }
