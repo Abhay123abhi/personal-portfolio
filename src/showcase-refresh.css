@@ -196,77 +196,6 @@
   }
 }
 
-/* ---------- Light ---------- */
-html[data-theme="light"] .toolkit-card {
-  background: linear-gradient(180deg, rgba(255,254,251,.96), rgba(250,247,241,.92));
-  border-color: #ddd7ce;
-}
-
-html[data-theme="light"] .toolkit-tags {
-  border-color: #e3ddd5;
-}
-
-html[data-theme="light"] .toolkit-tags li {
-  color: #59636d;
-  background: rgba(247,244,239,.92);
-  border-color: #e1dbd3;
-}
-
-html[data-theme="light"] .toolkit-tags .toolkit-primary {
-  color: var(--toolkit-color);
-  background: color-mix(in srgb, var(--toolkit-tint) 82%, white);
-  border-color: color-mix(in srgb, var(--toolkit-color) 15%, #e1dbd3);
-}
-
-html[data-theme="light"] .architecture-detail {
-  background: rgba(255,253,249,.72);
-  border-color: #dfd8cf;
-}
-
-html[data-theme="light"] .architecture-stage {
-  box-shadow: 0 7px 18px rgba(51,44,37,.035);
-}
-
-/* ---------- Dark ---------- */
-html[data-theme="dark"] .toolkit-card {
-  background: linear-gradient(180deg, rgba(25,35,45,.96), rgba(18,27,36,.98));
-  border-color: #34414d;
-  box-shadow: 0 16px 38px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.018);
-}
-
-html[data-theme="dark"] .toolkit-card::before {
-  opacity: .44;
-}
-
-html[data-theme="dark"] .toolkit-tags {
-  border-color: #34414d;
-}
-
-html[data-theme="dark"] .toolkit-tags li {
-  color: #c0c8d0;
-  background: rgba(21,30,39,.92);
-  border-color: #35424e;
-}
-
-html[data-theme="dark"] .toolkit-tags .toolkit-primary {
-  color: var(--toolkit-color);
-  background: var(--toolkit-tint);
-  border-color: color-mix(in srgb, var(--toolkit-color) 22%, #34414d);
-}
-
-html[data-theme="dark"] .architecture-detail {
-  background: rgba(20,29,38,.72);
-  border-color: #35424e;
-}
-
-html[data-theme="dark"] .architecture-stage {
-  box-shadow: 0 8px 24px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.018);
-}
-
-html[data-theme="dark"] .stage-connector {
-  background: #202b35;
-}
-
 @media (max-width: 650px) {
   .architecture {
     padding: 17px;
@@ -306,3 +235,4 @@ html[data-theme="dark"] .stage-connector {
     transition: none;
   }
 }
+
