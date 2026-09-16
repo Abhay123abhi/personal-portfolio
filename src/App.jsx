@@ -7,7 +7,7 @@ const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
 const LINKEDIN = "https://www.linkedin.com/in/abhay983";
 const TWITTER = "https://x.com/abhayjaissssss";
-const RESUME = "/Abhay_Jaiswal_Resume.pdf";
+const RESUME = "/Abhay_SDE.pdf";
 
 const impact = [
   ["4+", "years shipping production software"],
