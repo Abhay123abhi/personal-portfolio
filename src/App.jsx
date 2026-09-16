@@ -1,4 +1,3 @@
-import SystemScene from "./SystemScene";
 import PortfolioMotion from "./PortfolioMotion";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -373,7 +372,6 @@ function Home() {
         <div className="hero-kicker"><span /> Java Backend Engineer · Gurugram, India</div>
         <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
         <p>I design APIs, event-driven workflows, and the reliability behind them. Four years building Java services—from the first request to the production release.</p>
-        <SystemScene />
         <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
@@ -400,7 +398,7 @@ function Home() {
           <li><strong>2,000+ advisors</strong><p>Automated rules and policy workflows, reducing manual effort by 60%.</p></li>
           <li><strong>Frontend Development</strong><p>Developed React and Ionic UI components for a campaign scheduling application, integrating backend APIs to support responsive web and mobile workflows.</p></li>
         </ul>
-        <p className="career-footnote">SIT, UAT, and release readiness across the Philippines, Malaysia, and Hong Kong.</p></article>
+        <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
       </section>
       <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="toolkit-grid">{skills.map((skill, index) => {

@@ -47,21 +47,7 @@ body { color: var(--ink); background: radial-gradient(ellipse at 12% 0%, color-m
 .introduction .impact-cell:first-child { padding-left: 0; }
 .introduction .impact-cell strong { color: var(--ink); font-size: clamp(1.9rem, 2.5vw, 2.5rem); font-weight: 500; }
 .impact-cell span { font-size: 12px; }
-.system-scene { margin: 30px 0 0; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
-.system-scene figcaption { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); font: 400 10px var(--mono); color: var(--muted); }
-.system-scene figcaption > span:first-child { display: flex; align-items: center; gap: 8px; color: var(--ink); }
-.system-scene i, .flow-indicator { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-.system-scene-scroll { background-image: radial-gradient(var(--grid) 1px, transparent 1px); background-size: 16px 16px; overflow-x: auto; scrollbar-width: thin; }
-.system-scene svg { display: block; width: 100%; min-width: 480px; padding: 8px; }
-.circuit-tracks { stroke: var(--line); stroke-width: 1.5; }
-.circuit-packets { stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 7 93; }
-.scene-node rect { fill: var(--surface); stroke: var(--line); }
-.scene-node text { fill: var(--ink); font: 500 13px "DM Sans", sans-serif; text-anchor: middle; }
-.scene-node .node-caption { fill: var(--muted); font: 400 10px var(--mono); }
-.scene-core rect { stroke: var(--accent); fill: var(--accent-soft); }
-.scene-node .node-symbol { fill: var(--accent); font: 500 14px var(--mono); }
-.wire-label { fill: var(--muted); font: 400 8px var(--mono); text-anchor: middle; }
-.scene-footer { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 12px 18px; color: var(--muted); font: 400 9px/1.6 var(--mono); }
+.flow-indicator { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .project, .career, .toolkit-card { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
 .project { border-radius: 16px; }
 .project:hover, .project:focus-within { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); box-shadow: var(--shadow); }
@@ -110,11 +96,8 @@ body { color: var(--ink); background: radial-gradient(ellipse at 12% 0%, color-m
 .article-body blockquote { color: var(--ink); background: var(--accent-soft); border-color: var(--accent); }
 .article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
 .skip-link { background: var(--signal); color: var(--button-text); }
-.theme-toggle, .motion-toggle { position: fixed; right: 20px; z-index: 90; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--muted); box-shadow: var(--shadow); font: 400 11px "DM Sans", sans-serif; }
+.theme-toggle { position: fixed; right: 20px; z-index: 90; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--muted); box-shadow: var(--shadow); font: 400 11px "DM Sans", sans-serif; }
 .theme-toggle { bottom: 20px; }
-.motion-toggle { bottom: 70px; }
-.motion-toggle:disabled { cursor: default; }
-.motion-toggle > span { color: var(--accent); font-size: 15px; }
 .theme-toggle-icon { display: grid; width: 24px; height: 24px; place-items: center; color: var(--accent); }
 .reading-progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 100; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
 @media (max-width: 1150px) { .nav { background: var(--paper); } }
@@ -133,9 +116,7 @@ body { color: var(--ink); background: radial-gradient(ellipse at 12% 0%, color-m
   .flow-connector > span { width: 2px; height: 10px; }
   .architecture-detail { grid-template-columns: 1fr; gap: 4px; }
   .architecture-caption > span:last-child { display: none; }
-  .scene-footer > span:last-child { display: none; }
-  .theme-toggle, .motion-toggle { right: 12px; bottom: 12px; min-height: 40px; padding: 7px 10px; }
-  .motion-toggle { right: auto; left: 12px; }
+  .theme-toggle { right: 12px; bottom: 12px; min-height: 40px; padding: 7px 10px; }
   .theme-toggle > span:last-child { display: none; }
   .compact-contact { padding-bottom: 70px; }
 }
