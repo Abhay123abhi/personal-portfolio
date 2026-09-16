@@ -38,3 +38,26 @@
   .reveal-pending { opacity: 1; transform: none; }
 }
 @media print { .reveal-pending { opacity: 1; transform: none; } .theme-toggle, .reading-progress { display: none; } }
+
+/* Continuous motion lives on the architecture, making the system flow visible. */
+@keyframes packet-travel { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes flow-travel { from { transform: translateX(-12px); } to { transform: translateX(28px); } }
+@keyframes flow-down { from { transform: translateY(-12px); } to { transform: translateY(28px); } }
+@keyframes node-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@media (prefers-reduced-motion: no-preference) {
+  .profile-picture::before { animation: none; }
+  .profile-picture::after { animation: node-breathe 3s ease-in-out infinite; }
+  .system-scene .circuit-packets path { animation: packet-travel 4s linear infinite; }
+  .system-scene:not(.scene-visible) .circuit-packets path { animation-play-state: paused; }
+  .flow-connector > span { animation: flow-travel 1.8s linear infinite; }
+  .architecture-stage:nth-child(2) .flow-connector > span { animation-delay: -.9s; }
+  .system-scene { animation: enter .8s .15s backwards; }
+  .hero-kicker { animation: enter .7s backwards; }
+  .scene-core rect { animation: node-breathe 4s ease-in-out infinite; }
+  @media (max-width: 650px) { .flow-connector > span { animation-name: flow-down; } }
+}
+html[data-motion="paused"] .circuit-packets path,
+html[data-motion="paused"] .flow-connector > span,
+html[data-motion="paused"] .scene-core rect,
+html[data-motion="paused"] .profile-picture::after { animation-play-state: paused; }
+@media print { .motion-toggle { display: none; } }

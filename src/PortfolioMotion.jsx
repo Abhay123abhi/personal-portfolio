@@ -1,9 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // Content stays visible until an observer has positively registered it.
 export default function PortfolioMotion() {
   const { pathname } = useLocation();
+  const [paused, setPaused] = useState(false);
+  const [reduced, setReduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.motion = paused || reduced ? "paused" : "playing";
+    return () => { delete document.documentElement.dataset.motion; };
+  }, [paused, reduced]);
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let observer;
@@ -68,5 +80,10 @@ export default function PortfolioMotion() {
       links.forEach(link => link.removeAttribute("aria-current"));
     };
   }, [pathname]);
-  return pathname.startsWith("/blog/") ? <div className="reading-progress" aria-hidden="true" /> : null;
+  return <>
+    <button className="motion-toggle" type="button" disabled={reduced} aria-pressed={paused || reduced} onClick={() => setPaused(value => !value)} aria-label={reduced ? "Motion disabled by your device preference" : paused ? "Play animation" : "Pause animation"}>
+      <span aria-hidden="true">{paused || reduced ? "▷" : "Ⅱ"}</span>{reduced ? "Reduced motion" : paused ? "Play motion" : "Pause motion"}
+    </button>
+    {pathname.startsWith("/blog/") && <div className="reading-progress" aria-hidden="true" />}
+  </>;
 }

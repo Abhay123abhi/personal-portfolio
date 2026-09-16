@@ -1,3 +1,4 @@
+import SystemScene from "./SystemScene";
 import PortfolioMotion from "./PortfolioMotion";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -326,7 +327,7 @@ function ProjectMap({ index }) {
   const architecture = projectArchitectures[index];
 
   return <div className="architecture">
-    <div className="architecture-heading"><span>System design</span><span>{architecture.name}</span></div>
+    <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
     <div className="architecture-stages" role="group" aria-label={architecture.name}>
       {architecture.stages.map((stage, stageIndex) => <button
         key={stage.title}
@@ -336,13 +337,13 @@ function ProjectMap({ index }) {
         aria-controls={`architecture-detail-${index}`}
         onClick={() => setSelected(stageIndex)}
       >
-        <span className="stage-heading"><strong>{stage.title}</strong></span>
+        <span className="stage-heading"><span className="stage-icon" aria-hidden="true">{stageIndex === 0 ? <Activity size={18} /> : stageIndex === 1 ? <Database size={18} /> : <Network size={18} />}</span><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
-        {stageIndex < architecture.stages.length - 1 && <ArrowRight className="stage-connector" size={17} aria-hidden="true" />}
+        {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
       </button>)}
     </div>
     <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
-    <div className="architecture-caption"><span>{architecture.note}</span><span>Conceptual architecture</span></div>
+    <div className="architecture-caption"><span>{architecture.note}</span><span>Illustrated data flow</span></div>
   </div>;
 }
 
@@ -351,8 +352,8 @@ function Profile() {
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
-      <p className="profile-role">Java Full Stack Developer</p>
-      <p className="profile-summary">I build reliable Java and Spring Boot services with responsive React interfaces, supported by Docker and CI/CD for production delivery.</p>
+      <p className="profile-role">Java Backend Engineer</p>
+      <p className="profile-summary">Java, Spring Boot, and event-driven systems. I turn complex workflows into reliable services that hold up in production.</p>
       <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
     </div>
   </aside>;
@@ -363,23 +364,25 @@ function SectionHeading({ label, title, children }) {
 }
 
 function Home() {
-  usePageTitle("Abhay Jaiswal — Java Full Stack Developer");
+  usePageTitle("Abhay Jaiswal — Java Backend Engineer");
 
   return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <h2 id="intro-title">Java at the core.<br /><span>Full-stack in delivery.</span></h2>
-        <p>I build end-to-end applications across backend APIs, React interfaces, data, and delivery—focused on performance, reliability, and maintainable production systems.</p>
+        <div className="hero-kicker"><span /> Java Backend Engineer · Gurugram, India</div>
+        <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
+        <p>I design APIs, event-driven workflows, and the reliability behind them. Four years building Java services—from the first request to the production release.</p>
+        <SystemScene />
         <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label]) => <div className="impact-cell" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </section>
       <section className="work-section" id="work">
-        <SectionHeading label="Selected work" title="Behind the interface."><p>The problems, architecture decisions, and systems I build.</p></SectionHeading>
+        <SectionHeading label="Selected work" title="Systems, not just screens."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
         <div className="projects">{projects.map((project,index) => <article className="project" key={project.title}>
+          <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
+          <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
-          <div className="project-body"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
-          <p className="project-statement">{project.statement}</p>
-          <ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
+          <div className="project-body"><ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
           <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
           <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
           </div>
