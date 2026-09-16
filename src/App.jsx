@@ -1,3 +1,4 @@
+import PortfolioMotion from "./PortfolioMotion";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
@@ -340,7 +341,7 @@ function ProjectMap({ index }) {
         {stageIndex < architecture.stages.length - 1 && <ArrowRight className="stage-connector" size={17} aria-hidden="true" />}
       </button>)}
     </div>
-    <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p>{architecture.stages[selected].detail}</p></div>
+    <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
     <div className="architecture-caption"><span>{architecture.note}</span><span>Conceptual architecture</span></div>
   </div>;
 }
@@ -435,5 +436,6 @@ function ArticlePage() {
 }
 
 export default function App() {
-  return <><ScrollToTop /><Routes><Route path="/" element={<Home />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
+  return <><ScrollToTop /><PortfolioMotion /><Routes><Route path="/" element={<Home />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
 }
+

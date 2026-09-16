@@ -1,0 +1,127 @@
+/* Obsidian & Champagne: one palette shared by every component. */
+:root, html[data-theme="light"] {
+  --paper: #f6f2e9;
+  --surface: #fffcf6;
+  --surface-soft: #eee8dc;
+  --ink: #29251f;
+  --muted: #71685d;
+  --accent: #806039;
+  --line: #d9d0c0;
+  --accent-soft: #eee3cf;
+  --button-text: #fffcf6;
+  --shadow: 0 14px 40px rgb(52 42 25 / 6%);
+  background: var(--paper);
+  color: var(--ink);
+}
+html[data-theme="dark"] {
+  --paper: #151412;
+  --surface: #211f1b;
+  --surface-soft: #1b1916;
+  --ink: #f1ebdd;
+  --muted: #b3aa9c;
+  --accent: #d3b780;
+  --line: #3c372e;
+  --accent-soft: #332c20;
+  --button-text: #211b12;
+  --shadow: 0 14px 40px rgb(0 0 0 / 18%);
+}
+body { color: var(--ink); background: var(--paper); }
+::selection { background: var(--accent); color: var(--button-text); }
+.header { background: color-mix(in srgb, var(--paper) 92%, transparent); border-bottom-color: var(--line); }
+.menu-button { color: var(--ink); }
+.header-social .social-links a:hover { background: var(--accent-soft); border-color: var(--line); }
+.nav a[aria-current], .nav a[aria-current]:hover { color: var(--accent); }
+.nav a[aria-current]::after { transform: scaleX(1); }
+.profile-summary { color: var(--muted); }
+.profile-picture {
+  isolation: isolate;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 44% 44% 38% 38%;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.profile-picture img { border-radius: 42% 42% 36% 36%; }
+.profile-picture::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  z-index: -1;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 42% 58% 55% 45% / 52% 40% 60% 48%;
+  background: transparent;
+  pointer-events: none;
+}
+.profile-picture::after {
+  content: "";
+  position: absolute;
+  inset: -45px;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 16%, transparent), transparent 68%);
+}
+.profile-identity .resume-button {
+  color: var(--button-text);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+}
+.profile-identity .resume-button:hover { color: var(--button-text); background: var(--accent); box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 20%, transparent); }
+.profile-identity .resume-button svg { border-color: currentColor; }
+.introduction h2 { font-weight: 500; line-height: 1.12; }
+.introduction h2 > span { color: var(--accent); }
+.section-label { text-transform: uppercase; letter-spacing: .13em; color: var(--accent); }
+.section-label::before { content: ""; width: 24px; height: 1px; background: var(--accent); }
+.section-heading h2 { letter-spacing: -.045em; }
+.impact-row, .project, .career, .toolkit-card {
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: var(--shadow);
+}
+.introduction .impact-row { border-radius: 10px; scrollbar-color: var(--line) var(--surface); }
+.introduction .impact-cell strong { color: var(--accent); }
+.introduction .impact-cell { border-color: var(--line); }
+.project { border-radius: 16px; }
+.project:hover, .project:focus-within { border-color: var(--accent); box-shadow: var(--shadow); }
+.architecture { background: var(--surface-soft); border-color: var(--line); }
+.architecture-stage { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: none; }
+.architecture-stage:hover { border-color: var(--accent); }
+.architecture-stage.selected { border-color: var(--accent); background: var(--accent-soft); box-shadow: none; }
+.stage-nodes > span { border-color: var(--line); }
+.stage-connector { color: var(--accent); background: var(--surface-soft); }
+.architecture-detail { background: var(--surface); border-color: var(--line); }
+.project-source { background: var(--surface-soft); border-color: var(--line); color: var(--ink); }
+.project-source:hover { background: var(--accent); color: var(--button-text); }
+.project-stack li, .toolkit-tags li { color: var(--muted); background: var(--surface-soft); border-color: var(--line); }
+.company-mark { background: var(--accent-soft); border-color: var(--line); color: var(--accent); }
+.toolkit-card { --toolkit-color: var(--accent); --toolkit-tint: var(--accent-soft); }
+.toolkit-tags { border-color: var(--line); }
+.toolkit-tags .toolkit-primary { color: var(--accent); background: var(--accent-soft); border-color: var(--line); }
+.toolkit-card::before { opacity: .45; }
+.toolkit-card::after { width: 2px; }
+.career-results li { position: relative; padding-left: 22px; }
+.career-results li::before { content: ""; position: absolute; left: 1px; top: 28px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.career-results li::after { content: ""; position: absolute; left: 3px; top: 40px; bottom: -15px; width: 1px; background: var(--line); transform-origin: top; }
+.career-results li:last-child::after { content: none; }
+.archive-row:hover { background: var(--accent-soft); }
+.article-body blockquote { color: var(--ink); background: var(--accent-soft); border-color: var(--accent); }
+.article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.skip-link { color: var(--button-text); background: var(--accent); }
+.theme-toggle {
+  position: fixed; right: 22px; bottom: 22px; z-index: 90;
+  display: inline-flex; align-items: center; gap: 9px;
+  min-height: 44px; padding: 7px 13px 7px 7px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow);
+  font-size: 13px; font-weight: 500;
+}
+.theme-toggle-icon { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
+.reading-progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 100; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+@media (max-width: 1150px) { .nav { background: var(--paper); } }
+@media (max-width: 650px) {
+  .theme-toggle { right: 14px; bottom: 14px; padding: 6px; width: 44px; height: 44px; justify-content: center; }
+  .theme-toggle > span:last-child { display: none; }
+  .profile-picture::after { inset: -24px; }
+  .archive-row:hover { background: transparent; }
+}

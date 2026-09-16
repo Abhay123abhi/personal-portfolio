@@ -1,0 +1,40 @@
+/* Animate decoration and navigation feedback, never move body copy in a loop. */
+@keyframes enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes frame-drift { from { transform: rotate(-8deg); } to { transform: rotate(7deg); } }
+@keyframes ambient-drift { from { transform: translate(-8px, 0); opacity: .5; } to { transform: translate(8px, 10px); opacity: .9; } }
+@keyframes connector-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@keyframes timeline-enter { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .profile-picture::before { animation: frame-drift 16s ease-in-out infinite alternate; }
+  .profile-picture::after { animation: ambient-drift 12s ease-in-out infinite alternate; }
+  .introduction h2, .blog-hero h1 { animation: enter .7s both; }
+  .introduction > p, .blog-hero > p:last-child { animation: enter .7s .1s both; }
+  .impact-row { animation: enter .7s .2s both; }
+  .reveal-pending { opacity: 0; transform: translateY(18px); }
+  .reveal-pending:focus-within { opacity: 1; transform: none; }
+  .reveal-in { animation: enter .65s cubic-bezier(.2,.65,.3,1) backwards; }
+  .toolkit-card.reveal-in:nth-child(even) { animation-delay: .08s; }
+  .career-results li.reveal-in::after { animation: timeline-enter .7s .15s both; }
+  .architecture-stage.selected .stage-connector { animation: connector-pulse .65s ease-out; }
+  .architecture-detail > p { animation: enter .25s both; }
+  .project-details[open] .detail-grid { animation: enter .25s both; }
+  .project, .toolkit-card, .architecture-stage, .resume-button, .archive-row, .theme-toggle, .social-links a {
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+  }
+  .project-source svg, .project-links svg, .toolkit-icon svg { transition: transform .25s ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .project:hover, .toolkit-card:hover { transform: translateY(-3px); }
+    .profile-identity .resume-button:hover, .theme-toggle:hover, .social-links a:hover { transform: translateY(-2px); }
+    .project-source:hover svg { transform: translate(2px, -2px); }
+    .project-links a:hover svg { transform: translateX(2px); }
+    .toolkit-card:hover .toolkit-icon svg { transform: rotate(-6deg); }
+    .archive-row:hover { transform: translateX(4px); }
+  }
+}
+@media (max-width: 650px) { .profile-picture::before, .profile-picture::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal-pending { opacity: 1; transform: none; }
+}
+@media print { .reveal-pending { opacity: 1; transform: none; } .theme-toggle, .reading-progress { display: none; } }
