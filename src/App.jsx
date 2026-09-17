@@ -363,16 +363,16 @@ function SectionHeading({ label, title, children }) {
 }
 
 function Home() {
-  usePageTitle("Abhay Jaiswal — Java Backend Engineer");
+  usePageTitle("Abhay Jaiswal — Backend-focused Full-Stack Engineer");
 
   return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <div className="hero-kicker"><span /> Java Backend Engineer · Gurugram, India</div>
+        <div className="hero-kicker"><span /> Backend-focused Full-Stack Engineer · Gurugram, India</div>
         <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
         <div className="hero-rule" aria-hidden="true"><span /></div>
-        <p>I design APIs, event-driven workflows, and the reliability behind them. Four years building Java services—from the first request to the production release.</p>
+        <p>I build reliable Java and Spring Boot services, event-driven workflows, and React interfaces. Four years delivering software from API design to production release.</p>
         <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label], index) => {
           const Icon = [Server, Network, Activity, Database][index % 4];
           return <div className={`impact-cell tone-${index % 3}`} key={label}><Icon size={17} strokeWidth={1.5} aria-hidden="true" /><strong>{value}</strong><span>{label}</span></div>;
