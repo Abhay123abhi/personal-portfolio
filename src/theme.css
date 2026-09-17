@@ -32,6 +32,16 @@ body { color: var(--ink); background: radial-gradient(ellipse at 0% 12%, color-m
 .profile-picture img { border-radius: 50%; object-fit: cover; }
 .profile-picture::before { content: ""; position: absolute; inset: -10px; z-index: -1; border: 1px solid transparent; border-radius: 50%; background: linear-gradient(var(--paper), var(--paper)) padding-box, conic-gradient(from 30deg, var(--mint), transparent 35%, var(--ice) 65%, var(--apricot), var(--mint)) border-box; opacity: .85; pointer-events: none; }
 .profile-picture::after { content: ""; position: absolute; width: 8px; height: 8px; right: 3px; top: 42px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 18px color-mix(in srgb, var(--signal) 60%, transparent); pointer-events: none; }
+@media (min-width: 901px) {
+  .profile-picture::after {
+    /* Center the light 30deg above the right edge of the outer ring.
+       Its radius is 50% + 9.5px (10px outset minus half its 1px border). */
+    left: calc(93.30127% + 8.22724px);
+    top: calc(25% - 4.75px);
+    right: auto;
+    transform: translate(-50%, -50%);
+  }
+}
 .profile-identity .resume-button { color: var(--button-text); background: var(--signal); border-color: var(--signal); border-radius: 9px; box-shadow: none; font-size: 14px; min-height: 48px; }
 .profile-identity .resume-button:hover { color: var(--button-text); background: var(--signal); border-color: var(--signal); box-shadow: 0 6px 24px color-mix(in srgb, var(--signal) 12%, transparent); }
 .profile-identity .resume-button svg { padding: 3px; border: 0; }
