@@ -8,7 +8,6 @@ import "./header-refresh.css";
 import "./showcase-refresh.css";
 import "./theme.css";
 import "./motion.css";
-import "./portfolio-polish.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
