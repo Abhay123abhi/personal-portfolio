@@ -1,4 +1,5 @@
 import PortfolioMotion from "./PortfolioMotion";
+import ProjectPreview from "./ProjectPreview";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
@@ -20,6 +21,7 @@ const projects = [
   {
     eyebrow: "Reliability engineering · Event-driven backend",
     title: "Incident Investigation Platform",
+    decision: "An outbox keeps investigation events recoverable during broker outages.",
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
     problem: "Incident evidence is scattered across metrics, logs, and traces, while repeated alerts and broker failures can create noise or interrupt investigation.",
     build: "Alertmanager intake persists incident state and an outbox event atomically. Kafka dispatches an evidence worker that queries Prometheus, Loki, and Tempo, stores the report in PostgreSQL, and preserves resolution state.",
@@ -29,6 +31,7 @@ const projects = [
   {
     eyebrow: "Full-stack product · Source-grounded AI",
     title: "News Intelligence",
+    decision: "Independent provider calls keep the feed useful when one publisher fails.",
     statement: "Aggregate multiple publishers, then turn the retrieved feed into grounded briefs, answers, and coverage comparisons.",
     problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
     build: "Guardian and NYT adapters run concurrently on Java 21 virtual threads, normalize and deduplicate results, and cache repeated searches in Redis. An optional Gemini layer adds daily briefs, feed-grounded Q&A, article summaries, and coverage comparison.",
@@ -39,6 +42,7 @@ const projects = [
   {
     eyebrow: "Real-time systems · Reliable messaging",
     title: "Real-time Chat",
+    decision: "Persist before broadcasting. Reconcile missed messages after reconnecting.",
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
     problem: "Live chat needs more than WebSocket delivery: retries, reconnects, missed events, room presence, and persistent history all need predictable behavior.",
     build: "Messages use a retry-safe REST write path, are persisted in MongoDB with room sequence and client request IDs, then broadcast over STOMP/WebSocket. Cursor-based history reconciles missed updates after reconnects, while session presence tracks online and offline room members.",
@@ -348,7 +352,7 @@ function ProjectMap({ index }) {
 
 function Profile() {
   return <aside className="profile-rail" aria-label="About Abhay">
-    <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
+    <div className="profile-picture"><picture><source srcSet="/profile.webp" type="image/webp" /><img src="/profile.png" alt="Abhay Jaiswal" width="1135" height="1135" fetchPriority="high" /></picture></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
       <p className="profile-role">Java Backend Engineer</p>
@@ -383,9 +387,9 @@ function Home() {
         <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title}>
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
-          <ProjectMap index={index} />
-          <div className="project-body"><ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
-          <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
+          <ProjectPreview index={index} />
+          <div className="project-body"><p className="project-decision"><span>Engineering focus</span>{project.decision}</p><ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
+          <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><ProjectMap index={index} /><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
           <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
           </div>
         </article>)}</div>

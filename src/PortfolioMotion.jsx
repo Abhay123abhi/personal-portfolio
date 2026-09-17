@@ -68,6 +68,30 @@ export default function PortfolioMotion() {
       links.forEach(link => link.removeAttribute("aria-current"));
     };
   }, [pathname]);
+  // Pause illustrated architecture motion while collapsed, off screen, or in a hidden tab.
+  useEffect(() => {
+    const maps = [...document.querySelectorAll(".architecture")];
+    if (!("IntersectionObserver" in window)) return;
+    const visible = new Set();
+    const sync = () => maps.forEach(node => {
+      node.toggleAttribute("data-motion-visible", visible.has(node) && !document.hidden);
+    });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) visible.add(target);
+        else visible.delete(target);
+      });
+      sync();
+    }, { threshold: 0.15 });
+    maps.forEach(node => observer.observe(node));
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      maps.forEach(node => node.removeAttribute("data-motion-visible"));
+    };
+  }, [pathname]);
+
   // Pointer lighting enhances cards only on fine-pointer devices. No React renders per move.
   useEffect(() => {
     const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
