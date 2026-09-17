@@ -351,8 +351,8 @@ function Profile() {
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
-      <p className="profile-role">Backend-focused Full-Stack Engineer</p>
-      <p className="profile-summary">Java, Spring Boot, and event-driven systems at the core, with hands-on React and Ionic experience.</p>
+      <p className="profile-role">Java Backend Engineer</p>
+      <p className="profile-summary">Java, Spring Boot, and event-driven systems. I turn complex workflows into reliable services that hold up in production.</p>
       <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
     </div>
   </aside>;
