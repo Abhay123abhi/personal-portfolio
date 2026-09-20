@@ -24,7 +24,7 @@ const projects = [
     problem: "Incident evidence is scattered across metrics, logs, and traces, while repeated alerts and broker failures can create noise or interrupt investigation.",
     build: "Alertmanager intake persists incident state and an outbox event atomically. Kafka dispatches an evidence worker that queries Prometheus, Loki, and Tempo, stores the report in PostgreSQL, and preserves resolution state.",
     stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL", "Prometheus", "Loki", "Tempo", "Grafana"],
-    github: "https://github.com/Abhay123abhi/micro-observe-kafka",
+    github: "https://github.com/Abhay123abhi/event-driven-incident-observability",
   },
   {
     eyebrow: "Full-stack product · Source-grounded AI",
@@ -33,7 +33,7 @@ const projects = [
     problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
     build: "Guardian and NYT adapters run concurrently on Java 21 virtual threads, normalize and deduplicate results, and cache repeated searches in Redis. An optional Gemini layer adds daily briefs, feed-grounded Q&A, article summaries, and coverage comparison.",
     stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "Render"],
-    github: "https://github.com/Abhay123abhi/news_aggregator",
+    github: "https://github.com/Abhay123abhi/ai-powered-news-intelligence",
     live: "https://abhay123abhi-news-web.onrender.com",
   },
   {
@@ -108,7 +108,7 @@ const articles = [
     ],
     slug: "transactional-outbox-incident-investigation",
     sources: [
-      ["Project implementation and scope", "https://github.com/Abhay123abhi/micro-observe-kafka"],
+      ["Project implementation and scope", "https://github.com/Abhay123abhi/event-driven-incident-observability"],
       ["Transactional outbox pattern — Chris Richardson", "https://microservices.io/patterns/data/transactional-outbox.html"],
     ],
     title: "The database committed. What if Kafka never got the event?"
@@ -150,7 +150,7 @@ const articles = [
     ],
     slug: "provider-design-strategy-adapter-concurrency",
     sources: [
-      ["News Intelligence design and implementation", "https://github.com/Abhay123abhi/news_aggregator"],
+      ["News Intelligence design and implementation", "https://github.com/Abhay123abhi/ai-powered-news-intelligence"],
       ["Java 21 virtual threads — Oracle", "https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html"],
     ],
     title: "Strategy is the easy part: designing a reliable multi-provider API"
@@ -351,8 +351,8 @@ function Profile() {
     <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
-      <p className="profile-role">Java Backend Engineer</p>
-      <p className="profile-summary">Java, Spring Boot, and event-driven systems. I turn complex workflows into reliable services that hold up in production.</p>
+      <p className="profile-role">Java Backend-Focused Full-Stack Developer</p>
+      <p className="profile-summary">Backend-heavy Java and Spring Boot systems with hands-on React and Ionic. I build reliable APIs, event-driven workflows, and production-ready interfaces.</p>
       <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
     </div>
   </aside>;
@@ -363,16 +363,15 @@ function SectionHeading({ label, title, children }) {
 }
 
 function Home() {
-  usePageTitle("Abhay Jaiswal — Java Backend Engineer");
+  usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
 
   return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
-        <div className="hero-kicker"><span /> Java Backend Engineer · Gurugram, India</div>
         <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
         <div className="hero-rule" aria-hidden="true"><span /></div>
-        <p>I design APIs, event-driven workflows, and the reliability behind them. Four years building Java services—from the first request to the production release.</p>
+        <p>I build reliable Java and Spring Boot services, event-driven workflows, and React interfaces. Four years delivering software from API design to production release.</p>
         <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label], index) => {
           const Icon = [Server, Network, Activity, Database][index % 4];
           return <div className={`impact-cell tone-${index % 3}`} key={label}><Icon size={17} strokeWidth={1.5} aria-hidden="true" /><strong>{value}</strong><span>{label}</span></div>;
