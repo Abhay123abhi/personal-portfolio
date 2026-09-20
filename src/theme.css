@@ -156,3 +156,90 @@ body { color: var(--ink); background: radial-gradient(ellipse at 0% 12%, color-m
   .theme-toggle > span:last-child { display: none; }
   .compact-contact { padding-bottom: 70px; }
 }
+
+
+/* Mobile architecture walkthrough: preserve the desktop composition while giving
+   stage labels and nodes enough width on narrow screens. */
+@media (max-width: 650px) {
+  .architecture {
+    margin-inline: 8px;
+    padding: 14px;
+  }
+
+  .architecture-heading {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+
+  .architecture-heading > span:last-child {
+    display: none;
+  }
+
+  .architecture-stages {
+    gap: 18px;
+  }
+
+  .architecture-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    min-height: 0;
+    padding: 14px;
+    text-align: left;
+  }
+
+  .stage-heading {
+    width: 100%;
+    padding-right: 24px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stage-heading strong {
+    font-size: 13px;
+  }
+
+  .stage-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+    width: 100%;
+  }
+
+  .stage-nodes > span {
+    flex: 0 1 auto;
+    padding: 0;
+    font-size: 11.5px;
+    line-height: 1.45;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .flow-connector {
+    top: 100%;
+    left: 50%;
+    width: 2px;
+    height: 19px;
+  }
+
+  .architecture-detail {
+    margin-top: 14px;
+    padding: 13px 0 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .architecture-detail p {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .architecture-caption {
+    margin-top: 9px;
+    font-size: 9px;
+  }
+}
