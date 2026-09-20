@@ -348,7 +348,7 @@ function ProjectMap({ index }) {
 
 function Profile() {
   return <aside className="profile-rail" aria-label="About Abhay">
-    <div className="profile-picture"><img src="/profile.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
+    <div className="profile-picture"><img src="/profile1.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
     <div className="profile-identity">
       <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
       <p className="profile-role">Java Backend-Focused Full-Stack Developer</p>
