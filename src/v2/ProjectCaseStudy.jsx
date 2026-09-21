@@ -35,8 +35,13 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <span><i /><i /><i /></span>
           <b>{architecture.name}</b>
         </div>
-        <div className="v2-case-canvas">
-          <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} />
+        <div className="v2-arch-surface">
+          <div className="v2-arch-grid" aria-hidden="true" />
+          <div className="v2-arch-glow v2-arch-glow-a" aria-hidden="true" />
+          <div className="v2-arch-glow v2-arch-glow-b" aria-hidden="true" />
+          <div className="v2-case-canvas">
+            <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} />
+          </div>
         </div>
         <div className="v2-case-mobile">
           <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={setSelected} />
