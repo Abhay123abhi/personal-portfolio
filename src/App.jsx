@@ -39,17 +39,18 @@ function Contact() {
 }
 
 function BlogIndex() {
-  usePageTitle("Engineering notes — Abhay Jaiswal");
+  usePageTitle("Blog — Abhay Jaiswal");
   return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><BlogShelf articles={articles} /></main>;
 }
 
 function ArticlePage() {
   const { slug } = useParams();
-  const article = articles.find((item) => item.slug === (slug === "ai-incident-intelligence" ? "transactional-outbox-incident-investigation" : slug));
-  usePageTitle(article ? `${article.title} — Abhay Jaiswal` : "Engineering Journal");
+  const aliases = { "ai-incident-intelligence": "transactional-outbox-incident-investigation", "booking-concurrency-idempotency-design": "booking-concurrency-state-machine" };
+  const article = articles.find((item) => item.slug === (aliases[slug] || slug));
+  usePageTitle(article ? `${article.title} — Abhay Jaiswal` : "Blog");
   if (!article) return <Navigate to="/blog" replace />;
 
-  return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><article className="article wrap"><Link className="back" to="/blog"><ArrowLeft size={16} /> Journal</Link><header><span>{article.category}</span><h1>{article.title}</h1><p>{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={15} /> {article.readingTime}</span><span>Abhay Jaiswal</span></div><LinkedInAction article={article} /></header><div className="article-body"><p className="lead">{article.lead}</p>{article.sections.map((section, index) => <section key={section[0]}><h2>{section[0]}</h2><p>{section[1]}</p>{index === 1 && <blockquote>{article.quote}</blockquote>}<p>{section[2]}</p></section>)}{article.sources && <section><h2>References &amp; project context</h2><ul>{article.sources.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}</div></article><Contact /></main>;
+  return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><article className="article wrap"><Link className="back" to="/blog"><ArrowLeft size={16} /> Blog</Link><header><span>{article.category}</span><h1>{article.title}</h1><p>{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={15} /> {article.readingTime}</span><span>Abhay Jaiswal</span></div><LinkedInAction article={article} /></header><div className="article-body"><p className="lead">{article.lead}</p>{article.sections.map(([heading, ...paragraphs], index) => <section key={`${index}-${heading}`}><h2>{heading}</h2>{paragraphs.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}{index === 1 && article.quote && <blockquote>{article.quote}</blockquote>}</section>)}{article.sources && <section><h2>References &amp; project context</h2><ul>{article.sources.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}</div></article><Contact /></main>;
 }
 
 export default function App() {

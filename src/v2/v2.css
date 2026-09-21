@@ -266,7 +266,7 @@ html.v2-home-active body {
 .v2-tool b{font:700 11px var(--mono,monospace)}.v2-tool small{color:#637377;font:500 8px var(--mono,monospace)}
 @keyframes v2-marquee{to{transform:translateX(-50%)}}
 
-.v2-journal-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+.v2-blog-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
 .v2-article-card { min-height:310px;padding:24px;border:1px solid var(--v2-line);border-radius:16px;background:#11171a;transition:transform .25s,border-color .25s; }
 .v2-article-card:hover{transform:translateY(-4px);border-color:rgba(143,224,199,.38)}
 .v2-article-card small{display:block;margin:28px 0 10px;color:var(--v2-mint);font:600 8px var(--mono,monospace);text-transform:uppercase;letter-spacing:.08em}.v2-article-card h3{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.035em}.v2-article-card p{color:var(--v2-muted);font-size:12px;line-height:1.65}.v2-article-card b{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:10px}
@@ -298,7 +298,7 @@ html.v2-home-active body {
   .v2-timeline-card{padding:24px 16px 22px 36px}.v2-timeline-rail{left:14px}.v2-timeline-head{gap:12px}.v2-company-mark{width:44px;height:44px;border-radius:11px}
   .v2-impact-ledger>div{grid-template-columns:1fr;gap:6px;padding:16px 0}.v2-impact-ledger strong{font-size:1.3rem}
   .v2-toolbelt{padding-block:74px}.v2-toolbelt-head{width:calc(100% - 2*var(--v2-pad));display:block;margin-bottom:25px}.v2-toolbelt-head>p{margin-top:12px}.v2-tool{min-width:150px;padding:12px 14px}.v2-tool-track{animation-duration:30s}
-  .v2-journal-grid{grid-template-columns:1fr}.v2-article-card{min-height:0;padding:20px}.v2-contact{width:calc(100% - 2*var(--v2-pad));padding:50px 18px;margin-bottom:16px}.v2-contact-actions>a{flex:1 1 calc(50% - 10px)}
+  .v2-blog-grid{grid-template-columns:1fr}.v2-article-card{min-height:0;padding:20px}.v2-contact{width:calc(100% - 2*var(--v2-pad));padding:50px 18px;margin-bottom:16px}.v2-contact-actions>a{flex:1 1 calc(50% - 10px)}
 }
 
 @media(prefers-reduced-motion:reduce){.v2-tool-track{animation:none!important}}
@@ -320,7 +320,7 @@ html.v2-home-active body {
 .v2-work .v2-kicker { color: var(--v2-blue); }
 .v2-experience .v2-kicker { color: var(--v2-violet); }
 .v2-toolbelt .v2-kicker { color: var(--v2-apricot); }
-.v2-journal .v2-kicker { color: var(--v2-blue); }
+.v2-blog .v2-kicker { color: var(--v2-blue); }
 .v2-contact .v2-kicker { color: var(--v2-mint); }
 
 .v2-experience .v2-timeline-card {
@@ -333,14 +333,14 @@ html.v2-home-active body {
     radial-gradient(circle at 12% 12%, rgba(228,168,110,.035), transparent 28%),
     transparent;
 }
-.v2-journal .v2-article-card:nth-child(1) { border-top-color: rgba(159,132,232,.5); }
-.v2-journal .v2-article-card:nth-child(2) { border-top-color: rgba(131,174,232,.5); }
-.v2-journal .v2-article-card:nth-child(3) { border-top-color: rgba(228,168,110,.5); }
+.v2-blog .v2-article-card:nth-child(1) { border-top-color: rgba(159,132,232,.5); }
+.v2-blog .v2-article-card:nth-child(2) { border-top-color: rgba(131,174,232,.5); }
+.v2-blog .v2-article-card:nth-child(3) { border-top-color: rgba(228,168,110,.5); }
 
 
 /* --------------------------------------------------------------------------
    Final v2 polish: production stats, branded toolbelt, stage feedback,
-   journal identity, contact micro-motion, and mobile reveal animation.
+   blog identity, contact micro-motion, and mobile reveal animation.
    -------------------------------------------------------------------------- */
 
 .v2-production {
@@ -558,7 +558,7 @@ html.v2-home-active body {
   white-space: nowrap;
 }
 
-/* Journal cards use three editorial tones rather than one global mint. */
+/* Blog cards use three editorial tones rather than one global mint. */
 .v2-article-card {
   --article-accent: var(--v2-mint);
   position: relative;
@@ -1886,8 +1886,8 @@ html.v2-home-active body {
     border-radius: 18px;
   }
 
-  /* Journal behaves like a swipeable reading shelf. */
-  .v2-journal-grid {
+  /* Blog behaves like a swipeable reading shelf. */
+  .v2-blog-grid {
     display: flex;
     gap: 12px;
     overflow-x: auto;
@@ -1896,7 +1896,7 @@ html.v2-home-active body {
     scrollbar-width: none;
   }
 
-  .v2-journal-grid::-webkit-scrollbar {
+  .v2-blog-grid::-webkit-scrollbar {
     display: none;
   }
 
@@ -2364,13 +2364,13 @@ html.v2-home-active body {
     margin-top: -3px;
   }
 
-  .v2-journal {
+  .v2-blog {
     background:
       radial-gradient(circle at 100% 12%, rgba(105,207,174,.045), transparent 27%),
       transparent;
   }
 
-  .v2-journal .v2-kicker {
+  .v2-blog .v2-kicker {
     color: #75cdb2;
   }
 
@@ -2983,7 +2983,7 @@ html.v2-home-active body {
     line-height: 1.55;
   }
 
-  /* Journal cards: shorter excerpt. */
+  /* Blog cards: shorter excerpt. */
   .v2-article-card p {
     display: -webkit-box;
     overflow: hidden;
@@ -3102,7 +3102,7 @@ html.v2-home-active body {
 .v2-capabilities,
 .v2-work,
 .v2-experience,
-.v2-journal {
+.v2-blog {
   position: relative;
   border: 1px solid rgba(130,155,164,.10);
   border-radius: 28px;
@@ -3127,7 +3127,7 @@ html.v2-home-active body {
     linear-gradient(145deg, #17140f, #121515 58%, #101619);
 }
 
-.v2-journal {
+.v2-blog {
   background:
     radial-gradient(circle at 95% 12%, rgba(117,205,178,.065), transparent 28%),
     linear-gradient(145deg, #101815, #101519 60%, #11151a);
@@ -3137,7 +3137,7 @@ html.v2-home-active body {
   .v2-capabilities,
   .v2-work,
   .v2-experience,
-  .v2-journal {
+  .v2-blog {
     width: calc(100% - 20px);
     margin: 18px 10px;
     padding: 52px 14px;
@@ -3541,7 +3541,7 @@ html.v2-home-active body {
   .v2-capabilities,
   .v2-work,
   .v2-experience,
-  .v2-journal {
+  .v2-blog {
     width: 100% !important;
     margin: 0 !important;
     padding: 58px 0 !important;
@@ -3553,7 +3553,7 @@ html.v2-home-active body {
   .v2-capabilities,
   .v2-work,
   .v2-experience,
-  .v2-journal {
+  .v2-blog {
     border-top: 1px solid rgba(130,155,164,.10) !important;
     border-bottom: 1px solid rgba(130,155,164,.08) !important;
   }
@@ -3673,7 +3673,7 @@ html.v2-home-active body {
     margin: 8px !important;
   }
 
-  /* Experience / journal also use the viewport more efficiently. */
+  /* Experience / blog also use the viewport more efficiently. */
   .v2-production {
     width: 100% !important;
     padding-left: 0;
@@ -3690,7 +3690,7 @@ html.v2-home-active body {
     padding-right: var(--v2-mobile-gutter);
   }
 
-  .v2-journal-grid {
+  .v2-blog-grid {
     padding-left: var(--v2-mobile-gutter);
     padding-right: var(--v2-mobile-gutter);
   }
@@ -3941,7 +3941,7 @@ html.v2-home-active body {
   .v2-capabilities,
   .v2-work,
   .v2-experience,
-  .v2-journal {
+  .v2-blog {
     border: 0 !important;
     border-radius: 0 !important;
     padding-left: 0 !important;
@@ -3954,7 +3954,7 @@ html.v2-home-active body {
   .v2-capabilities,
   .v2-work,
   .v2-experience,
-  .v2-journal {
+  .v2-blog {
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -4005,3 +4005,16 @@ html.v2-home-active body {
 .v2-desktop-menu{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:10px 14px;border:1px solid var(--v2-line);border-radius:999px;background:var(--v2-panel);color:var(--v2-text);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
 .v2-desktop-menu:hover{border-color:var(--v2-mint);color:var(--v2-mint)}
 .v2-desktop-menu:focus-visible{outline:2px solid var(--v2-mint);outline-offset:3px}
+
+/* Desktop diagrams use one open surface; the legend never covers nodes. */
+@media(min-width:761px){
+  .v2-case-visual .v2-case-window-head{display:none}
+  .v2-case-visual .v2-arch-surface{margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+  .v2-case-visual .v2-case-canvas{padding:14px 12px 0}
+  .v2-case-canvas .system-canvas-frame{border:0;border-radius:0;overflow:visible;background:none;box-shadow:none}
+  .v2-case-canvas .system-canvas{height:auto;aspect-ratio:auto;border:0;border-radius:0;overflow:visible;background:none;box-shadow:none}
+  .v2-case-canvas .system-canvas-svg{display:block;width:100%;height:auto;aspect-ratio:var(--diagram-aspect);max-height:none}
+  .v2-case-canvas .system-canvas-legend{position:static;display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 0;padding:12px 6px;border:0;background:none;transform:none;font-size:8px;line-height:1.5}
+  .v2-case-canvas .system-node-label{font-size:10px}
+  .v2-case-canvas .system-node-sub{font-size:7px}
+}

@@ -115,23 +115,4 @@ export const toolbelt = [
   { name: "Mockito", desc: "testing", icon: null, color: "86B817" },
 ];
 
-export const featuredArticles = [
-  {
-    category: "System design · Project notes",
-    title: "The database committed. What if Kafka never got the event?",
-    excerpt: "Transactional outbox boundaries, duplicates, recovery races, and what I would test before scaling it.",
-    href: "/blog/transactional-outbox-incident-investigation",
-  },
-  {
-    category: "Low-level design · Java",
-    title: "Strategy is the easy part: designing a reliable multi-provider API",
-    excerpt: "Adapters, orchestration, deadlines, partial success, and an optional AI layer.",
-    href: "/blog/provider-design-strategy-adapter-concurrency",
-  },
-  {
-    category: "System design · LLD",
-    title: "Designing seat holds, idempotency, and late payment callbacks",
-    excerpt: "Database invariants, expiring holds, retries, and compensation paths in a booking workflow.",
-    href: "/blog/booking-concurrency-idempotency-design",
-  },
-];
+export { featuredArticles } from "../blogArticles";

@@ -19,7 +19,7 @@ const mobileCommands = [
   { label: "Selected work", meta: "projects", href: "#work", icon: Briefcase, keywords: "work projects architecture systems" },
   { label: "Experience", meta: "production", href: "#experience", icon: Briefcase, keywords: "experience sun life production impact" },
   { label: "Stack", meta: "toolbelt", href: "#stack", icon: Layers, keywords: "stack tools java spring kafka docker aws" },
-  { label: "Engineering journal", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles journal writing" },
+  { label: "Blog", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles blog writing" },
   { label: "Contact", meta: "email · links", href: "#contact", icon: Mail, keywords: "contact email linkedin github" },
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
   { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
@@ -361,14 +361,14 @@ function Toolbelt() {
   );
 }
 
-function Journal() {
+function Blog() {
   return (
-    <section className="v2-section v2-journal">
+    <section className="v2-section v2-blog">
       <div className="v2-section-head">
-        <div><p className="v2-kicker">// ENGINEERING JOURNAL</p><h2>Notes beyond<br />the diagram.</h2></div>
+        <div><p className="v2-kicker">// Blog</p><h2>Notes beyond<br />the diagram.</h2></div>
         <Link className="v2-text-link" to="/blog">View all articles <ArrowUpRight size={16} /></Link>
       </div>
-      <div className="v2-journal-grid">
+      <div className="v2-blog-grid">
         {featuredArticles.map(article => (
           <Link to={article.href} className="v2-article-card" key={article.href}>
             <small>{article.category}</small>
@@ -441,7 +441,7 @@ export default function HomeV2() {
         <Work />
         <Experience />
         <Toolbelt />
-        <Journal />
+        <Blog />
         <ContactV2 />
       </main>
     </div>
