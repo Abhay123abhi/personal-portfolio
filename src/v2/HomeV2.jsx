@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Download, Github, Linkedin, Mail, Menu, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Download, Github, Linkedin, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeroScene from "./HeroScene";
@@ -147,13 +147,6 @@ function Experience() {
         <p>Four years delivering advisor and policy platforms across Asian insurance markets — backend services, event-driven workflows, frontend delivery, and production releases.</p>
       </div>
 
-      <div className="v2-exp-stats">
-        <div><strong>4+</strong><span>years in production</span></div>
-        <div><strong>3</strong><span>Asian markets supported</span></div>
-        <div><strong>2×</strong><span>Brighter Beginning awards</span></div>
-        <div><strong>1</strong><span>onsite UAT / release assignment</span></div>
-      </div>
-
       <article className="v2-timeline-card">
         <div className="v2-timeline-rail"><span /></div>
         <div className="v2-timeline-head">
@@ -251,7 +244,32 @@ export default function HomeV2() {
   useEffect(() => {
     document.documentElement.dataset.theme = "dark";
     document.documentElement.classList.add("v2-home-active");
-    return () => document.documentElement.classList.remove("v2-home-active");
+
+    const targets = document.querySelectorAll(
+      ".v2-production, .v2-cap-card, .v2-case-study, .v2-experience-intro, .v2-timeline-card, .v2-toolbelt-head, .v2-article-card, .v2-contact"
+    );
+    targets.forEach(target => target.classList.add("v2-reveal"));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      targets.forEach(target => target.classList.add("is-visible"));
+      return () => document.documentElement.classList.remove("v2-home-active");
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+    targets.forEach(target => observer.observe(target));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("v2-home-active");
+    };
   }, []);
 
   return (
