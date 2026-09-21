@@ -3305,3 +3305,147 @@ html.v2-home-active body {
     animation-duration: 18s !important;
   }
 }
+
+
+/* ==========================================================================
+   Mobile project insight blocks + richer hero solid palette
+   ========================================================================== */
+
+.v2-case-mobile-insights {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .v2-case-mobile-summary {
+    display: none !important;
+  }
+
+  .v2-case-mobile-insights {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 0 0 12px;
+  }
+
+  .v2-case-mobile-insights > div {
+    padding: 10px 11px;
+    border: 1px solid #29363c;
+    border-radius: 10px;
+    background: #11181b;
+  }
+
+  .v2-case-mobile-insights .problem {
+    border-color: rgba(228,168,110,.24);
+    background:
+      linear-gradient(90deg, rgba(228,168,110,.055), transparent),
+      #11181b;
+  }
+
+  .v2-case-mobile-insights .approach {
+    border-color: color-mix(in srgb, var(--case-accent) 28%, #29363c);
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--case-accent) 6%, transparent), transparent),
+      #11181b;
+  }
+
+  .v2-case-mobile-insights span {
+    display: block;
+    margin-bottom: 4px;
+    font: 650 7.5px/1 var(--mono, monospace);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .v2-case-mobile-insights .problem span {
+    color: #e4b17d;
+  }
+
+  .v2-case-mobile-insights .approach span {
+    color: var(--case-accent);
+  }
+
+  .v2-case-mobile-insights p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: #98a5a8;
+    font-size: 10.5px;
+    line-height: 1.52;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Hero objects: intentionally different from the mint/blue UI palette. */
+  .v2-solid-blue .v2-hero-face {
+    background: linear-gradient(
+      145deg,
+      rgba(188,168,128,.96),
+      rgba(117,96,73,.9)
+    ) !important;
+    border-color: rgba(230,209,169,.28) !important;
+  }
+
+  .v2-solid-blue {
+    filter: drop-shadow(0 16px 30px rgba(179,145,98,.22)) !important;
+    opacity: .52 !important;
+  }
+
+  .v2-solid-orb {
+    background:
+      radial-gradient(
+        circle at 30% 27%,
+        #fff2d5 0 11%,
+        #dfcfaf 34%,
+        #a9947b 64%,
+        #5d5148 100%
+      ) !important;
+    box-shadow:
+      0 18px 36px rgba(0,0,0,.24),
+      inset -12px -14px 22px rgba(78,61,45,.18) !important;
+    opacity: .48 !important;
+  }
+
+  .v2-solid-ring {
+    border-color: rgba(132,105,218,.86) !important;
+    box-shadow:
+      inset 10px 12px 20px rgba(255,255,255,.08),
+      inset -14px -16px 26px rgba(51,38,103,.28),
+      0 18px 38px rgba(101,79,194,.18) !important;
+    opacity: .46 !important;
+  }
+
+  .v2-solid-slate .v2-hero-face {
+    background: linear-gradient(
+      145deg,
+      rgba(118,124,139,.88),
+      rgba(61,66,78,.86)
+    ) !important;
+    border-color: rgba(159,165,178,.20) !important;
+  }
+
+  .v2-solid-slate {
+    opacity: .34 !important;
+    filter: drop-shadow(0 13px 24px rgba(54,58,68,.18)) !important;
+  }
+
+  /* keep each solid visually separated */
+  .v2-solid-blue {
+    right: 16px !important;
+    top: 8% !important;
+  }
+
+  .v2-solid-orb {
+    left: 17px !important;
+    top: 35% !important;
+  }
+
+  .v2-solid-ring {
+    right: 14px !important;
+    top: 61% !important;
+  }
+
+  .v2-solid-slate {
+    left: 18px !important;
+    bottom: 2% !important;
+  }
+}
