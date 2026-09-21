@@ -2,7 +2,6 @@ import PortfolioMotion from "./PortfolioMotion";
 import AmbientSystemBackground from "./AmbientSystemBackground";
 import CommandPalette from "./CommandPalette";
 import TechRail from "./TechRail";
-import ScrollSystemTrace from "./ScrollSystemTrace";
 import ProjectSystemCanvas from "./ProjectSystemCanvas";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -405,7 +404,7 @@ function SectionHeading({ label, title, children }) {
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
 
-  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><ScrollSystemTrace /><CommandPalette /><Header /><div className="studio-layout">
+  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><CommandPalette /><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
