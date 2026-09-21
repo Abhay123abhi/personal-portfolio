@@ -1,12 +1,51 @@
-import { useState } from "react";
-import { ArrowUpRight, Github } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowUpRight, Github, X } from "lucide-react";
 import ProjectSystemCanvas from "../ProjectSystemCanvas";
 import ProjectArchitectureMobile from "../ProjectArchitectureMobile";
 import { projectArchitectures } from "../projectArchitectureData";
 
 export default function ProjectCaseStudy({ project, projectIndex, reverse = false }) {
   const [selected, setSelected] = useState(0);
+  const [mobileArchitectureOpen, setMobileArchitectureOpen] = useState(false);
+  const architectureViewportRef = useRef(null);
+  const stageTabsRef = useRef(null);
   const architecture = projectArchitectures[projectIndex];
+
+  useEffect(() => {
+    if (!mobileArchitectureOpen || typeof window === "undefined") return undefined;
+    if (!window.matchMedia("(max-width: 760px)").matches) return undefined;
+
+    const frame = window.requestAnimationFrame(() => {
+      const viewport = architectureViewportRef.current;
+      if (!viewport) return;
+
+      const activeNodes = architecture.nodes.filter(node => node.stage === selected);
+      if (activeNodes.length) {
+        const viewBox = architecture.viewBox.split(/\s+/).map(Number);
+        const viewWidth = viewBox[2] || 1000;
+        const xs = activeNodes.map(node => node.x);
+        const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const desiredLeft = (centerX / viewWidth) * viewport.scrollWidth - viewport.clientWidth / 2;
+        const left = Math.max(0, Math.min(maxScroll, desiredLeft));
+
+        viewport.scrollTo({ left, behavior: "smooth" });
+      }
+
+      const tabs = stageTabsRef.current;
+      const activeTab = tabs?.querySelector("button.active");
+      if (tabs && activeTab) {
+        const maxTabScroll = Math.max(0, tabs.scrollWidth - tabs.clientWidth);
+        const desiredTabLeft = activeTab.offsetLeft + activeTab.offsetWidth / 2 - tabs.clientWidth / 2;
+        tabs.scrollTo({
+          left: Math.max(0, Math.min(maxTabScroll, desiredTabLeft)),
+          behavior: "smooth",
+        });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [architecture, mobileArchitectureOpen, selected]);
 
   return (
     <article className={`v2-case-study case-${projectIndex}${reverse ? " is-reverse" : ""}`}>
@@ -20,6 +59,17 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <div><span>Approach</span><p>{project.approach}</p></div>
         </div>
 
+        <div className="v2-case-mobile-insights">
+          <div className="problem">
+            <span>Problem</span>
+            <p>{project.problem}</p>
+          </div>
+          <div className="approach">
+            <span>Approach</span>
+            <p>{project.approach}</p>
+          </div>
+        </div>
+
         <div className="v2-case-stack">
           {project.stack.map(item => <span key={item}>{item}</span>)}
         </div>
@@ -28,14 +78,24 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>
           {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}
         </div>
+
+        <button
+          type="button"
+          className="v2-mobile-architecture-toggle"
+          aria-expanded={mobileArchitectureOpen}
+          onClick={() => setMobileArchitectureOpen(open => !open)}
+        >
+          <span>{mobileArchitectureOpen ? "Close architecture" : "Explore architecture"}</span>
+          {mobileArchitectureOpen ? <X size={15} /> : <ArrowDown size={15} />}
+        </button>
       </div>
 
-      <div className="v2-case-visual">
+      <div className={`v2-case-visual${mobileArchitectureOpen ? " is-mobile-open" : ""}`}>
         <div className="v2-case-window-head">
           <span><i /><i /><i /></span>
           <b>{architecture.name}</b>
         </div>
-        <div className="v2-arch-surface">
+        <div className="v2-arch-surface" ref={architectureViewportRef}>
           <div className="v2-arch-grid" aria-hidden="true" />
           <div className="v2-arch-glow v2-arch-glow-a" aria-hidden="true" />
           <div className="v2-arch-glow v2-arch-glow-b" aria-hidden="true" />
@@ -46,7 +106,7 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
         <div className="v2-case-mobile">
           <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={setSelected} />
         </div>
-        <div className="v2-stage-tabs" aria-label={`${project.title} architecture stages`}>
+        <div ref={stageTabsRef} className="v2-stage-tabs" aria-label={`${project.title} architecture stages`}>
           {architecture.stages.map((stage, index) => (
             <button key={stage.title} type="button" className={selected === index ? "active" : ""} onClick={() => setSelected(index)}>
               {stage.title}

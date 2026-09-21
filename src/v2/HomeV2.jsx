@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, MoreHorizontal, Search, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
@@ -141,13 +141,12 @@ function V2Nav() {
           <button
             className="v2-mobile-search-trigger"
             type="button"
-            aria-label="Search and navigate portfolio"
+            aria-label="Open portfolio menu"
             aria-haspopup="dialog"
             aria-expanded={paletteOpen}
             onClick={() => setPaletteOpen(true)}
           >
-            <Search size={16} />
-            <MoreHorizontal size={17} />
+            <Menu size={18} />
           </button>
 
           <div className="v2-nav-actions">
@@ -345,7 +344,7 @@ function Toolbelt() {
     <section className="v2-section v2-toolbelt" id="stack">
       <div className="v2-toolbelt-head">
         <div><p className="v2-kicker">// STACK</p><h2>The toolbelt.</h2></div>
-        <p><span className="v2-toolbelt-desktop-copy">What I actually reach for in production — hover to pause.</span><span className="v2-toolbelt-mobile-copy">Production tools in motion.</span></p>
+        <p><span className="v2-toolbelt-desktop-copy">What I actually reach for in production — hover to pause.</span><span className="v2-toolbelt-mobile-copy">Touch & hold to pause.</span></p>
       </div>
       <div className="v2-tool-rows">
         {rows.map((row, rowIndex) => (
