@@ -3525,3 +3525,200 @@ html.v2-home-active body {
     overflow-y: visible;
   }
 }
+
+
+/* ==========================================================================
+   Mobile layout flattening — wider content, fewer nested cards
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  :root {
+    --v2-mobile-gutter: 12px;
+  }
+
+  /* Sections should feel like full-width chapters, not cards inside cards. */
+  .v2-section,
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 58px 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    border-top: 1px solid rgba(130,155,164,.10) !important;
+    border-bottom: 1px solid rgba(130,155,164,.08) !important;
+  }
+
+  /* One consistent readable gutter for headings/copy. */
+  .v2-section > .v2-section-head,
+  .v2-experience-intro,
+  .v2-timeline-card,
+  .v2-toolbelt-head {
+    width: auto !important;
+    margin-left: var(--v2-mobile-gutter) !important;
+    margin-right: var(--v2-mobile-gutter) !important;
+  }
+
+  .v2-section-head {
+    margin-bottom: 28px !important;
+  }
+
+  /* Capabilities keep horizontal exploration, but use the full viewport. */
+  .v2-cap-grid {
+    width: 100%;
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-cap-card {
+    flex-basis: 88%;
+  }
+
+  /* Work section: remove the outer project-card shell.
+     Each project becomes a full-width chapter with only a subtle separator. */
+  .v2-case-list {
+    width: 100%;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  .v2-case-study,
+  .v2-case-study.is-reverse {
+    display: block !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 30px var(--v2-mobile-gutter) 34px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .v2-case-study + .v2-case-study {
+    border-top: 1px solid color-mix(in srgb, var(--case-accent) 18%, rgba(130,155,164,.14)) !important;
+  }
+
+  .v2-case-copy {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .v2-case-copy h3 {
+    max-width: 11ch;
+    font-size: clamp(2.15rem, 10.8vw, 3rem);
+    line-height: .94;
+  }
+
+  .v2-case-statement {
+    max-width: 32rem;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  /* Problem / Approach stay distinct, but stop creating another card layer. */
+  .v2-case-mobile-insights {
+    gap: 0 !important;
+    margin: 18px 0 14px !important;
+  }
+
+  .v2-case-mobile-insights > div {
+    padding: 12px 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(130,155,164,.16) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .v2-case-mobile-insights > div:last-child {
+    border-bottom: 1px solid rgba(130,155,164,.16) !important;
+  }
+
+  .v2-case-mobile-insights p {
+    max-width: 34rem;
+    font-size: 11px;
+    line-height: 1.58;
+  }
+
+  .v2-case-stack {
+    width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .v2-case-actions {
+    margin-top: 10px;
+  }
+
+  /* The architecture is the one place where a contained surface is useful. */
+  .v2-mobile-architecture-toggle {
+    margin-top: 12px;
+    min-height: 42px;
+  }
+
+  .v2-case-visual.is-mobile-open {
+    width: 100%;
+    margin-top: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    margin: 8px !important;
+  }
+
+  /* Experience / journal also use the viewport more efficiently. */
+  .v2-production {
+    width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .v2-production-head {
+    margin-left: var(--v2-mobile-gutter);
+    margin-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-production-rail {
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-journal-grid {
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-article-card {
+    flex-basis: 88%;
+  }
+
+  /* Contact keeps one intentional container, but with less side loss. */
+  .v2-contact {
+    width: calc(100% - 2 * var(--v2-mobile-gutter)) !important;
+    margin: 18px var(--v2-mobile-gutter) 14px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --v2-mobile-gutter: 10px;
+  }
+
+  .v2-case-study,
+  .v2-case-study.is-reverse {
+    padding-top: 26px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .v2-cap-card,
+  .v2-article-card {
+    flex-basis: 91%;
+  }
+}
