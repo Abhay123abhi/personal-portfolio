@@ -1176,3 +1176,189 @@ html[data-theme="light"] .career-results li:hover {
   .career-results li,
   .tech-rail-track span.tech-pill { transition: none; }
 }
+
+
+/* --------------------------------------------------------------------------
+   Unified stack + header cleanup
+   -------------------------------------------------------------------------- */
+
+.header,
+html[data-scroll-direction="down"][data-scrolled="true"] .header,
+html[data-scroll-direction="up"][data-scrolled="true"] .header {
+  top: 0;
+  z-index: 120;
+}
+.header {
+  width: min(calc(100% - 28px), 1380px);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: color-mix(in srgb, var(--page-glass-strong) 98%, transparent);
+}
+html[data-theme="dark"] .header {
+  background: color-mix(in srgb, #10191d 96%, transparent);
+}
+html[data-theme="light"] .header {
+  background: color-mix(in srgb, white 96%, transparent);
+}
+
+/* Global stack is now the single skills section. */
+.engineering-toolkit-rail {
+  scroll-margin-top: 100px;
+  margin-top: clamp(96px, 11vw, 150px);
+  padding: 22px 0 24px;
+  border-block: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  background:
+    radial-gradient(circle at 12% 50%, color-mix(in srgb, var(--mint) 6%, transparent), transparent 28%),
+    radial-gradient(circle at 88% 50%, color-mix(in srgb, var(--ice) 5%, transparent), transparent 28%);
+}
+.engineering-toolkit-rail .tech-rail-header {
+  padding: 0 4px 16px;
+}
+.engineering-toolkit-rail .tech-rail-header span:first-child {
+  font-size: 10px;
+  color: var(--accent);
+}
+.engineering-toolkit-rail .tech-rail-header span:last-child {
+  color: color-mix(in srgb, var(--muted) 80%, transparent);
+}
+.engineering-toolkit-rail .tech-rail-window {
+  padding-block: 3px;
+}
+.tech-rail:hover .tech-rail-track,
+.project-tech-marquee:hover .tech-rail-track {
+  animation-play-state: running !important;
+}
+
+/* Project tech becomes a compact moving rail rather than static chips. */
+.project-tech-marquee {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 22px;
+  padding: 11px 0 12px;
+  border-block: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-soft) 35%, transparent) 50%, transparent);
+}
+.project-tech-label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--accent);
+  font: 600 8px/1 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+.project-tech-marquee .tech-rail-window {
+  mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+}
+.project-tech-marquee .tech-rail-track {
+  gap: 7px;
+  animation-duration: 26s;
+}
+.project-tech-marquee .tech-pill {
+  min-height: 30px !important;
+  padding: 5px 9px 5px 6px !important;
+  border-radius: 9px !important;
+  box-shadow: none !important;
+  background: color-mix(in srgb, var(--surface-soft) 90%, transparent) !important;
+  font-size: 8.5px !important;
+}
+.project-tech-marquee .tech-pill-icon {
+  width: 19px;
+  height: 19px;
+  flex-basis: 19px;
+  border-radius: 6px;
+}
+.project-tech-marquee .tech-pill-icon img {
+  width: 13px;
+  height: 13px;
+}
+.project-tech-marquee .tech-pill-fallback {
+  font-size: 6px !important;
+}
+
+/* Improve stage density when a project has five stages (incident AI path). */
+.architecture-stages:has(.architecture-stage:nth-child(5)) {
+  gap: 7px;
+}
+.architecture-stages:has(.architecture-stage:nth-child(5)) .architecture-stage {
+  padding-block: 10px;
+}
+.architecture-stages:has(.architecture-stage:nth-child(5)) .stage-heading strong {
+  font-size: 11px;
+}
+.architecture-stages:has(.architecture-stage:nth-child(5)) .stage-nodes > span {
+  font-size: 8.5px;
+}
+
+/* Extra vertical room for the expanded incident AI canvas. */
+.project[data-project-index="01"] .system-canvas,
+.project[data-project-index="01"] .system-canvas-svg {
+  min-height: 430px;
+}
+
+/* Dark/light marquee polish */
+html[data-theme="dark"] .engineering-toolkit-rail,
+html[data-theme="dark"] .project-tech-marquee {
+  background:
+    linear-gradient(90deg, transparent, rgb(255 255 255 / 1.5%), transparent),
+    color-mix(in srgb, var(--surface-soft) 34%, transparent);
+}
+html[data-theme="light"] .engineering-toolkit-rail,
+html[data-theme="light"] .project-tech-marquee {
+  background:
+    linear-gradient(90deg, transparent, rgb(255 255 255 / 78%), transparent),
+    color-mix(in srgb, var(--accent-soft) 24%, transparent);
+}
+
+/* Mobile: keep the header flush and the marquees legible without feeling crowded. */
+@media (max-width: 900px) {
+  .header,
+  html[data-scroll-direction="down"][data-scrolled="true"] .header,
+  html[data-scroll-direction="up"][data-scrolled="true"] .header {
+    top: 0;
+  }
+  .engineering-toolkit-rail {
+    margin-top: 90px;
+  }
+  .project[data-project-index="01"] .system-canvas,
+  .project[data-project-index="01"] .system-canvas-svg {
+    min-height: 390px;
+  }
+}
+@media (max-width: 650px) {
+  .header,
+  html[data-scroll-direction="down"][data-scrolled="true"] .header,
+  html[data-scroll-direction="up"][data-scrolled="true"] .header {
+    top: 0;
+    width: calc(100% - 10px);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .engineering-toolkit-rail {
+    margin-top: 72px;
+    padding-block: 17px 19px;
+  }
+  .engineering-toolkit-rail .tech-rail-header span:last-child {
+    display: none;
+  }
+  .project-tech-marquee {
+    margin-bottom: 18px;
+  }
+  .project-tech-marquee .tech-rail-track {
+    animation-duration: 22s;
+  }
+  .project[data-project-index="01"] .system-canvas,
+  .project[data-project-index="01"] .system-canvas-svg {
+    min-height: 345px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-tech-marquee .tech-rail-track,
+  .engineering-toolkit-rail .tech-rail-track {
+    animation: none !important;
+    transform: none !important;
+    flex-wrap: wrap;
+    width: auto;
+  }
+}
