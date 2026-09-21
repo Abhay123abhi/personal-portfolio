@@ -2,13 +2,16 @@ export default function HeroScene() {
   return (
     <div className="v2-scene" aria-hidden="true">
       <div className="v2-scene-grid" />
-      <div className="v2-shape v2-shape-cube"><span /><span /><span /></div>
+      <div className="v2-scene-glow v2-scene-glow-a" />
+      <div className="v2-scene-glow v2-scene-glow-b" />
+
       <div className="v2-shape v2-shape-ring" />
-      <div className="v2-shape v2-shape-capsule" />
+      <div className="v2-shape v2-shape-cube" />
       <div className="v2-shape v2-shape-orb" />
-      <div className="v2-shape v2-shape-square" />
-      <div className="v2-shape v2-shape-disc" />
-      <div className="v2-shape v2-shape-small-cube" />
+      <div className="v2-shape v2-shape-capsule" />
+      <div className="v2-shape v2-shape-diamond" />
+      <div className="v2-shape v2-shape-mini-cube" />
+
       <div className="v2-flow">
         <span className="v2-flow-node node-api">API</span>
         <span className="v2-flow-node node-kafka">Kafka</span>
@@ -18,8 +21,6 @@ export default function HeroScene() {
         <i className="v2-flow-line line-b"><b /></i>
         <i className="v2-flow-line line-c"><b /></i>
       </div>
-      <div className="v2-scene-glow v2-scene-glow-a" />
-      <div className="v2-scene-glow v2-scene-glow-b" />
     </div>
   );
 }
