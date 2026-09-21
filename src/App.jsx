@@ -309,7 +309,7 @@ function ProjectMap({ index }) {
 
   useEffect(() => {
     const element = document.querySelector(`[data-project-map="${index}"]`);
-    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.matchMedia("(max-width: 700px)").matches) return;
 
     let timer;
     let step = 0;
@@ -343,7 +343,7 @@ function ProjectMap({ index }) {
 
   return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
     <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
-    <div className="architecture-desktop">
+    <div className="architecture-desktop architecture-canvas-desktop">
       <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
     </div>
     <div className="architecture-mobile-only">
