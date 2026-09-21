@@ -364,11 +364,11 @@ function ProjectMap({ index }) {
         {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
       </button>)}
     </div>
-    <div className="architecture-insight architecture-desktop">
-      <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true">
+    <div className="architecture-bottom architecture-desktop">
+      <div className="architecture-detail architecture-detail-compact" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true">
         <div className="architecture-detail-heading">
-          <span>Stage {String(selected + 1).padStart(2, "0")}</span>
           <strong>{architecture.stages[selected].title}</strong>
+          <span className="architecture-detail-meta">{architecture.stages[selected].nodes.join(" · ")}</span>
         </div>
         <p key={selected}>{architecture.stages[selected].detail}</p>
       </div>
