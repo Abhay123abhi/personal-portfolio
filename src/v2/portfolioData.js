@@ -55,7 +55,6 @@ export const capabilities = [
 
 export const projects = [
   {
-    index: "01",
     eyebrow: "Reliability engineering · Event-driven backend",
     title: "Incident Investigation Platform",
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
@@ -66,7 +65,6 @@ export const projects = [
     live: null,
   },
   {
-    index: "02",
     eyebrow: "Full-stack product · Source-grounded AI",
     title: "News Intelligence",
     statement: "Aggregate multiple publishers, then turn the feed into grounded briefs, answers, and coverage comparisons.",
@@ -77,7 +75,6 @@ export const projects = [
     live: "https://abhay123abhi-news-web.onrender.com",
   },
   {
-    index: "03",
     eyebrow: "Real-time systems · Reliable messaging",
     title: "Real-time Chat",
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
