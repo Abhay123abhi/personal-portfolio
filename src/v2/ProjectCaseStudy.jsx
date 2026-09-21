@@ -44,9 +44,13 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
         <div className="v2-stage-tabs" aria-label={`${project.title} architecture stages`}>
           {architecture.stages.map((stage, index) => (
             <button key={stage.title} type="button" className={selected === index ? "active" : ""} onClick={() => setSelected(index)}>
-              <span>{String(index + 1).padStart(2, "0")}</span>{stage.title}
+              {stage.title}
             </button>
           ))}
+        </div>
+        <div className="v2-stage-explainer" aria-live="polite">
+          <strong>{architecture.stages[selected].title}</strong>
+          <p key={selected}>{architecture.stages[selected].detail}</p>
         </div>
         <p className="v2-stage-note">{architecture.note}</p>
       </div>
