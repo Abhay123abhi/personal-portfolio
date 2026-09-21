@@ -126,7 +126,7 @@ export function V2Nav({ inner = false }) {
 
           <div className="v2-nav-links">
             {links.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
-            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Quick menu</button>
+            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
           </div>
 
           <button

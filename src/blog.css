@@ -78,3 +78,25 @@ html[data-theme=light] .blog-studio [data-topic="Frontend"]{--bs-accent:#4c639a}
 .bs-card-copy>p{font-size:14px}
 @media(max-width:1100px){.bs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.bs-grid{grid-template-columns:1fr;gap:18px}.bs-card h3{font-size:19px}}
+
+/* A compact, deliberately staggered topic constellation. */
+.bs-topics{display:block;width:min(100%,560px);max-width:560px;min-height:0;aspect-ratio:560/350;justify-self:center;margin:6px 0 30px}
+.bs-topics .bs-orb{position:absolute;left:var(--orb-x);top:var(--orb-y);width:var(--orb-size);height:auto;align-self:auto;animation:bs-drift 7s ease-in-out infinite;animation-delay:calc(var(--i) * -.9s)}
+.bs-orb:nth-child(1){--orb-x:3%;--orb-y:10%;--orb-size:22%}
+.bs-orb:nth-child(2){--orb-x:30%;--orb-y:1%;--orb-size:15%}
+.bs-orb:nth-child(3){--orb-x:50%;--orb-y:11%;--orb-size:23%}
+.bs-orb:nth-child(4){--orb-x:79%;--orb-y:1%;--orb-size:19%}
+.bs-orb:nth-child(5){--orb-x:2%;--orb-y:63%;--orb-size:17%}
+.bs-orb:nth-child(6){--orb-x:27%;--orb-y:49%;--orb-size:20%}
+.bs-orb:nth-child(7){--orb-x:53%;--orb-y:55%;--orb-size:24%}
+.bs-orb:nth-child(8){--orb-x:82%;--orb-y:57%;--orb-size:14%}
+.bs-topics>p{position:absolute;right:0;bottom:-25px;margin:0}
+.bs-card-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:0 20px 16px;margin-top:auto}
+.bs-card-actions .bs-read,.bs-card-actions .bs-linkedin{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin:0;min-height:36px;font-size:11px;text-decoration:none}
+.bs-card-actions .bs-linkedin{color:var(--muted)}
+.bs-card-actions .bs-linkedin:hover{color:var(--bs-accent)}
+.bs-card-copy{padding-bottom:10px}
+.bs-card-copy>p{margin-bottom:8px}
+@keyframes bs-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,-5px)}}
+@media(prefers-reduced-motion:reduce){.bs-topics .bs-orb{animation:none}}
+@media(min-width:651px) and (max-width:1280px){.bs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

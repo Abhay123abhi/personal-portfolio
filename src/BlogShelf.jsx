@@ -19,8 +19,8 @@ function Illustration({ article }) {
 }
 function Card({ article }) {
   return <article className="bs-card" data-topic={article.topic}>
-    <Link className="bs-card-main" to={`/blog/${article.slug}`}><Illustration article={article} /><div className="bs-card-copy"><span className="bs-category">{article.topic} <span> / {article.readingTime}</span></span><h3>{article.title}</h3><p>{article.excerpt}</p><span className="bs-read">Read article <ArrowUpRight size={16} /></span></div></Link>
-    {article.linkedinUrl && <div className="bs-card-footer"><LinkedInAction article={article} /></div>}
+    <Link className="bs-card-main" to={`/blog/${article.slug}`}><Illustration article={article} /><div className="bs-card-copy"><span className="bs-category">{article.topic} <span> / {article.readingTime}</span></span><h3>{article.title}</h3><p>{article.excerpt}</p></div></Link>
+    <div className="bs-card-actions"><Link className="bs-read" to={`/blog/${article.slug}`}>Read article <ArrowUpRight size={16} /></Link><LinkedInAction article={article} /></div>
   </article>;
 }
 export function BlogShelf({ articles }) {
@@ -29,7 +29,7 @@ export function BlogShelf({ articles }) {
   const filtered = articles.filter(a => (topic === "All" || a.topic === topic || (topic === "Backend" && ["Security", "Delivery", "Frontend"].includes(a.topic))) && `${a.title} ${a.excerpt} ${a.category}`.toLowerCase().includes(query.trim().toLowerCase()));
   const chooseTopic = (value, scroll = false) => { setTopic(value); if (scroll) document.getElementById("blog-shelf").scrollIntoView({ block: "start" }); };
   return <div className="blog-studio wrap">
-    <section className="bs-hero"><div><p className="bs-eyebrow">// NOTES FROM BUILDING</p><h1>Behind the code.<br /><span>Inside the decisions.</span><i aria-hidden="true">✦</i></h1><p className="bs-intro">System design, LLD, and patterns put into practice. Notes from my projects — the trade-offs, the failures, and the decisions behind the code.</p></div>
+    <section className="bs-hero"><div><p className="bs-eyebrow">// NOTES FROM BUILDING</p><h1>Behind the code.<br /><span>Inside the decisions.</span><i aria-hidden="true">✦</i></h1><p className="bs-intro">I read widely, sketch systems, and put design ideas to the test in code. These notes bring together lessons from technical books, LLD practice, and hands-on projects — the trade-offs I question, the failures I investigate, and the decisions I keep refining.</p></div>
       <div className="bs-topics" aria-label="Filter articles by topic">{blogTopics.map((t, i) => <button key={t} className="bs-orb" data-topic={t} style={{"--i":i}} aria-pressed={topic === t} onClick={() => chooseTopic(topic === t ? "All" : t, true)}><strong>{t === "Observability" ? <>Observa<wbr />bility</> : t}</strong></button>)}<p>Explore a topic ↗</p></div>
     </section>
     <section id="blog-shelf" aria-label="Engineering articles"><div className="bs-section-title bs-toolbar"><h2>Engineering in practice</h2>{topic !== "All" && <button className="bs-reset" onClick={() => chooseTopic("All")}>All topics <span aria-hidden="true">↗</span></button>}<label className="bs-search"><Search size={17} /><input aria-label="Search articles" placeholder="Find a topic or idea…" value={query} onChange={e => setQuery(e.target.value)} type="search" /></label></div>
