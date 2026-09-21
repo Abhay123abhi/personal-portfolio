@@ -1,3 +1,18 @@
+function Cube({ className }) {
+  return (
+    <div className={`v2-geo v2-cube-wrap ${className}`}>
+      <div className="v2-cube-3d">
+        <span className="face front" />
+        <span className="face back" />
+        <span className="face right" />
+        <span className="face left" />
+        <span className="face top" />
+        <span className="face bottom" />
+      </div>
+    </div>
+  );
+}
+
 export default function HeroScene() {
   return (
     <div className="v2-scene" aria-hidden="true">
@@ -5,22 +20,12 @@ export default function HeroScene() {
       <div className="v2-scene-glow v2-scene-glow-a" />
       <div className="v2-scene-glow v2-scene-glow-b" />
 
-      <div className="v2-shape v2-shape-ring" />
-      <div className="v2-shape v2-shape-cube" />
-      <div className="v2-shape v2-shape-orb" />
-      <div className="v2-shape v2-shape-capsule" />
-      <div className="v2-shape v2-shape-diamond" />
-      <div className="v2-shape v2-shape-mini-cube" />
-
-      <div className="v2-flow">
-        <span className="v2-flow-node node-api">API</span>
-        <span className="v2-flow-node node-kafka">Kafka</span>
-        <span className="v2-flow-node node-worker">Worker</span>
-        <span className="v2-flow-node node-data">Data</span>
-        <i className="v2-flow-line line-a"><b /></i>
-        <i className="v2-flow-line line-b"><b /></i>
-        <i className="v2-flow-line line-c"><b /></i>
-      </div>
+      <Cube className="v2-cube-blue" />
+      <div className="v2-geo v2-geo-ring" />
+      <div className="v2-geo v2-geo-orb" />
+      <Cube className="v2-cube-mint" />
+      <Cube className="v2-cube-distant-a" />
+      <Cube className="v2-cube-distant-b" />
     </div>
   );
 }
