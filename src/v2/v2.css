@@ -3780,3 +3780,66 @@ html.v2-home-active body {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+
+/* ==========================================================================
+   Mobile architecture — responsive stage focus, no oversized canvas
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open {
+    overflow: hidden !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    width: auto !important;
+    max-width: none !important;
+    margin: 8px !important;
+    overflow: hidden !important;
+    touch-action: auto !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 8px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-frame,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-svg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas {
+    min-height: 220px !important;
+    aspect-ratio: 1.45 / 1 !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas.is-stage-focused {
+    min-height: 220px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .system-canvas-legend {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: 100%;
+    padding: 7px 9px 9px !important;
+    gap: 7px 10px !important;
+    font-size: 6.5px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs {
+    overflow-x: auto !important;
+    scroll-snap-type: none !important;
+    scrollbar-width: none;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs::-webkit-scrollbar {
+    display: none;
+  }
+}
