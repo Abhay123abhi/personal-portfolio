@@ -27,7 +27,7 @@ const projects = [
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
     problem: "Incident evidence is scattered across metrics, logs, and traces, while repeated alerts and broker failures can create noise or interrupt investigation.",
     build: "Alertmanager intake persists incident state and an outbox event atomically. Kafka dispatches an evidence worker that queries Prometheus, Loki, and Tempo, stores the report in PostgreSQL, and preserves resolution state.",
-    stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL", "Prometheus", "Loki", "Tempo", "Grafana"],
+    stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL + pgvector", "Prometheus", "Loki", "Tempo", "Grafana", "Gemini AI", "RAG", "Transactional outbox"],
     github: "https://github.com/Abhay123abhi/event-driven-incident-observability",
   },
   {
@@ -36,7 +36,7 @@ const projects = [
     statement: "Aggregate multiple publishers, then turn the retrieved feed into grounded briefs, answers, and coverage comparisons.",
     problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
     build: "Guardian and NYT adapters run concurrently on Java 21 virtual threads, normalize and deduplicate results, and cache repeated searches in Redis. An optional Gemini layer adds daily briefs, feed-grounded Q&A, article summaries, and coverage comparison.",
-    stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "Render"],
+    stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "REST APIs", "Render"],
     github: "https://github.com/Abhay123abhi/ai-powered-news-intelligence",
     live: "https://abhay123abhi-news-web.onrender.com",
   },
@@ -46,7 +46,7 @@ const projects = [
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
     problem: "Live chat needs more than WebSocket delivery: retries, reconnects, missed events, room presence, and persistent history all need predictable behavior.",
     build: "Messages use a retry-safe REST write path, are persisted in MongoDB with room sequence and client request IDs, then broadcast over STOMP/WebSocket. Cursor-based history reconciles missed updates after reconnects, while session presence tracks online and offline room members.",
-    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions"],
+    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions", "Idempotency"],
     github: "https://github.com/Abhay123abhi/chat-app",
   },
 ];
@@ -299,32 +299,33 @@ const projectArchitectures = [
   {
     name: "Incident investigation",
     stages: [
-      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Prometheus evaluates service telemetry and Alertmanager sends firing or resolved webhooks with the alert fingerprint to the incident intake path." },
-      { title: "Preserve", nodes: ["Incident API", "PostgreSQL", "Outbox"], detail: "Persist the incident and investigation event atomically. Repeated firing alerts reuse the active fingerprint, while unpublished work remains durable for retry." },
-      { title: "Investigate", nodes: ["Kafka", "Evidence worker", "Prometheus · Loki · Tempo"], detail: "Kafka decouples intake from investigation. The worker collects a bounded metrics, logs, and traces window and records partial-source failures instead of dropping the report." },
-      { title: "Review", nodes: ["Incident Desk", "Grafana", "History API"], detail: "Store the completed evidence report in PostgreSQL so incident history stays queryable through the API and inspectable in the Incident Desk and Grafana." },
+      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Prometheus evaluates service telemetry and Alertmanager sends firing or resolved webhooks. The incident service deduplicates active incidents by fingerprint before creating new work." },
+      { title: "Preserve", nodes: ["Incident API", "PostgreSQL", "Transactional outbox"], detail: "Incident state and the investigation request are persisted in one transaction. A scheduled outbox publisher sends unpublished events to Kafka and retries them safely after broker failures." },
+      { title: "Investigate", nodes: ["Kafka worker", "Prometheus", "Loki", "Tempo"], detail: "The investigation worker loads the incident, collects a five-minute evidence window from metrics, error logs, and traces, redacts sensitive log values, and completes a deterministic evidence-backed analysis even when one telemetry source is unavailable." },
+      { title: "Enrich with AI", nodes: ["AI topic", "Gemini embeddings", "pgvector RAG", "Gemini RCA"], detail: "After deterministic investigation completes, a second outbox event can trigger the AI service. Live evidence is embedded, similar runbooks and past incidents are retrieved from pgvector, and Gemini returns a structured root-cause hypothesis with confidence, supporting/counter evidence, recommendations, and missing information." },
+      { title: "Review", nodes: ["PostgreSQL", "Incident Desk", "Grafana", "AI investigation API"], detail: "The normal incident report and AI hypothesis are persisted separately. Operators can review durable incident history, telemetry evidence, dashboards, and the optional AI investigation without making the core incident workflow depend on the model." },
     ],
-    note: "Alert → durable outbox → Kafka → evidence-backed report",
+    note: "Alert → durable outbox → evidence investigation → optional RAG/Gemini RCA → operator review",
   },
   {
     name: "News intelligence",
     stages: [
-      { title: "Request", nodes: ["React client", "Search API"], detail: "Keep publisher credentials and provider contracts behind one backend API while the UI sends a single search request." },
-      { title: "Fan out", nodes: ["Virtual threads", "Guardian", "NYT"], detail: "Run independent provider adapters concurrently so one slow source does not serialize the whole request and available results can survive a single-provider failure." },
-      { title: "Normalize", nodes: ["Adapter layer", "Dedupe & sort", "Redis"], detail: "Convert both publisher payloads into one article model, remove duplicates, sort and paginate the merged feed, then cache repeat searches with cache-aside behavior." },
-      { title: "Ground AI", nodes: ["Gemini", "Citation validation", "AI cache"], detail: "Optional AI uses only the retrieved feed, returns structured source IDs, validates those citations server-side, caches repeated requests, and can be disabled without breaking news search." },
+      { title: "Request", nodes: ["React client", "Search API", "Redis search cache"], detail: "The client uses one backend search contract. The backend normalizes the keyword and page request and first checks the Redis-backed search cache." },
+      { title: "Fan out", nodes: ["Virtual-thread executor", "Guardian", "NYT", "Timeout budget"], detail: "On a cache miss, enabled provider adapters run concurrently with CompletableFuture on the configured executor. Each provider has a timeout, and useful partial results survive when another publisher fails." },
+      { title: "Normalize", nodes: ["Adapter layer", "Deduplicate", "Sort & paginate", "Redis"], detail: "Guardian and NYT responses are mapped into one article model, merged and deduplicated, sorted and paginated, then cached so repeated searches avoid unnecessary provider calls." },
+      { title: "Ground AI", nodes: ["AI workspace", "Gemini", "Citation validation", "AI Redis cache"], detail: "Summary, why-it-matters, daily brief, ask, and compare endpoints send only supplied articles to Gemini. Structured source IDs are validated server-side, requests are rate-limited, and AI responses use their own Redis cache while search remains usable without AI." },
     ],
-    note: "Parallel providers → normalized feed → cached, grounded AI",
+    note: "Redis cache → concurrent providers → normalized feed → citation-validated Gemini workspace",
   },
   {
     name: "Room-based messaging",
     stages: [
-      { title: "Write", nodes: ["React client", "REST message API", "Client message ID"], detail: "Send messages through the retry-safe REST path first, using a client message ID so a repeated request cannot silently create a different duplicate write." },
-      { title: "Persist", nodes: ["Spring Boot", "MongoDB", "Room sequence"], detail: "Persist each room message before live delivery and assign a room sequence used for deterministic ordering and cursor-based history." },
-      { title: "Broadcast", nodes: ["STOMP/WebSocket", "Room topic", "Presence"], detail: "After persistence, publish the saved message to connected room members over STOMP/WebSocket while session presence tracks who is currently online." },
-      { title: "Recover", nodes: ["History cursor", "Merge missed", "Reconnect sync"], detail: "On reconnect, load messages after the confirmed cursor and merge them with live events by ID and sequence so history and WebSocket delivery converge." },
+      { title: "Write", nodes: ["React client", "clientMessageId", "REST message API"], detail: "The UI creates a client message ID and optimistically tracks pending state. Sends use the retryable REST path so the same request ID can be retried after transient failures." },
+      { title: "Persist", nodes: ["Striped room lock", "MongoDB", "Atomic room sequence"], detail: "The backend serializes writers per room with striped locks, rejects reuse of the same request ID with different content, atomically increments the room sequence, and persists the message before live delivery." },
+      { title: "Broadcast", nodes: ["STOMP/SockJS", "Room topic", "Presence topic"], detail: "After persistence, Spring publishes the saved message to the room topic. Separate WebSocket connect/disconnect events maintain in-memory room presence and broadcast online/offline snapshots." },
+      { title: "Recover", nodes: ["Cursor history", "Periodic sync", "Reconnect", "Merge by ID & sequence"], detail: "The client loads recent history, repeatedly fetches messages after its confirmed sequence cursor, reconnects STOMP automatically, and merges history with live events so a missed WebSocket notification is recovered from MongoDB." },
     ],
-    note: "Durable REST write → persist → live broadcast → reconnect recovery",
+    note: "Idempotent REST write → sequenced MongoDB state → STOMP live delivery → cursor recovery",
   },
 ];
 
@@ -422,7 +423,7 @@ function Home() {
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
-          <div className="project-body"><ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
+          <div className="project-body"><TechRail items={project.stack} compact title="Project stack" />
           <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
           <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
           </div>
@@ -442,15 +443,7 @@ function Home() {
         </ul>
         <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
       </section>
-      <TechRail groups={skills} /><section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
-        <div className="toolkit-grid">{skills.map((skill, index) => {
-          const Icon = [Server, Network, Database, Activity][index];
-          return <article className={`toolkit-card toolkit-card-${index} tone-${index % 3}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
-            <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{skill.description}</p></div></header>
-            <ul className="toolkit-tags" aria-label={`${skill.group} skills`}>{skill.items.map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
-          </article>;
-        })}</div>
-      </section>
+      <TechRail groups={skills} id="skills" title="Engineering toolkit" />
       <Contact />
     </main>
   </div></>;
