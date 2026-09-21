@@ -74,6 +74,11 @@ const skills = [
   },
 ];
 
+const allTechnologies = [...new Set([
+  ...skills.flatMap(group => group.items),
+  ...projects.flatMap(project => project.stack),
+])];
+
 const articles = [
   {
     category: "System design · Project notes",
@@ -443,7 +448,7 @@ function Home() {
         </ul>
         <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
       </section>
-      <TechRail groups={skills} id="skills" title="Engineering toolkit" />
+      <TechRail items={allTechnologies} id="skills" title="Engineering toolkit" />
       <Contact />
     </main>
   </div></>;
