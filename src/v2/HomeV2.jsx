@@ -72,17 +72,13 @@ function Hero() {
         <div className="v2-hero-portrait">
           <div className="v2-portrait-frame">
             <img src={identity.photo} alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" />
-            <div className="v2-portrait-code" aria-hidden="true">
-              <span>Spring Boot</span><span>Kafka</span><span>Redis</span><span>React</span>
-            </div>
           </div>
-          <div className="v2-availability"><i /> Open to backend / SDE-2 opportunities</div>
         </div>
       </div>
 
-      <div className="v2-metrics">
+      <div className="v2-metrics" role="region" aria-label="Career impact metrics" tabIndex={0}>
         {metrics.map(metric => (
-          <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>
+          <div className="v2-metric-card" key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>
         ))}
       </div>
       <a href="#capabilities" className="v2-scroll-cue" aria-label="Scroll to capabilities"><span /><small>scroll</small></a>
@@ -98,9 +94,8 @@ function CapabilityGrid() {
         <p>Backend-heavy engineering with enough product context to take a feature from contract to interface to production support.</p>
       </div>
       <div className="v2-cap-grid">
-        {capabilities.map((item, index) => (
+        {capabilities.map((item) => (
           <article className={"v2-cap-card cap-" + item.key} key={item.key}>
-            <span className="v2-cap-number">0{index + 1}</span>
             <p className="v2-cap-eyebrow">{item.eyebrow}</p>
             <h3>{item.title}</h3>
             <b>{item.subtitle}</b>
@@ -220,10 +215,10 @@ function ContactV2() {
       <h2>Let’s build something<br /><span>reliable.</span></h2>
       <p>Backend, distributed systems, Java, production engineering — or a product that needs all four. My inbox is open.</p>
       <div className="v2-contact-actions">
-        <a className="v2-primary" href={"mailto:" + identity.email}><Mail size={16} /> Email me</a>
-        <a className="v2-secondary" href={identity.linkedin} target="_blank" rel="noreferrer"><Linkedin size={16} /> LinkedIn</a>
-        <a className="v2-secondary" href={identity.github} target="_blank" rel="noreferrer"><Github size={16} /> GitHub</a>
-        <a className="v2-secondary" href={identity.resume} target="_blank" rel="noreferrer"><Download size={16} /> Résumé</a>
+        <a className="v2-api-action" href={"mailto:" + identity.email}><Mail size={16} /> /email</a>
+        <a className="v2-api-action" href={identity.linkedin} target="_blank" rel="noreferrer"><Linkedin size={16} /> /linkedin</a>
+        <a className="v2-api-action" href={identity.github} target="_blank" rel="noreferrer"><Github size={16} /> /github</a>
+        <a className="v2-api-action" href={identity.resume} target="_blank" rel="noreferrer"><Download size={16} /> /resume</a>
       </div>
       <footer><span>Abhay Jaiswal</span><span>Gurugram, India</span><span>{identity.email}</span></footer>
     </section>
