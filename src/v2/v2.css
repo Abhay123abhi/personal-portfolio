@@ -888,3 +888,22 @@ html.v2-home-active body {
     margin-top: 5px;
   }
 }
+
+
+/* Production metrics belong to the Experience / Built in production block. */
+.v2-experience .v2-production {
+  width: 100%;
+  margin: 34px 0 40px;
+  padding: 0;
+}
+
+.v2-experience .v2-production-rail {
+  width: 100%;
+}
+
+@media (max-width: 760px) {
+  .v2-experience .v2-production {
+    margin: 24px 0 30px;
+    padding: 0;
+  }
+}
