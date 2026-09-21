@@ -19,7 +19,6 @@ export function prepareArticles(posts) {
     if (!Array.isArray(post.flow) || post.flow.length !== 3 || post.flow.some(v => typeof v !== 'string' || !v.trim())) fail('flow needs three short text labels.');
     if (!Array.isArray(post.sections) || !post.sections.length || post.sections.some(section => !Array.isArray(section) || section.length < 2 || section.some(v => typeof v !== 'string' || !v.trim()))) fail('each section needs a heading and at least one paragraph.');
     for (const key of ['category', 'lead', 'quote', 'published']) if (post[key] != null && typeof post[key] !== 'string') fail(`${key} must be text.`);
-    if (post.featured != null && typeof post.featured !== 'boolean') fail('featured must be true or false.');
     if (post.linkedinUrl && !/^https:\/\/(www\.)?linkedin\.com\/(posts\/|feed\/update\/|pulse\/)[^\s]+$/.test(post.linkedinUrl)) fail('linkedinUrl must be an actual LinkedIn post/article URL.');
     if (post.sources != null && (!Array.isArray(post.sources) || post.sources.some(ref => !Array.isArray(ref) || ref.length !== 2 || typeof ref[0] !== 'string' || !ref[0].trim() || typeof ref[1] !== 'string' || !/^https?:\/\/[^\s]+$/.test(ref[1])))) fail('sources must be [label, http(s) URL] pairs.');
     const lead = post.lead || post.excerpt;

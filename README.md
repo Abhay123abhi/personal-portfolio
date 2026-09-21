@@ -28,4 +28,4 @@ npm run blog:check
 npm run build
 ```
 
-Edit the starter text before deploying. Cards, article pages, homepage highlights, and preview metadata update from this one catalog. See [Adding blog articles](docs/ADDING_BLOG_POSTS.md) for fields and examples.
+Edit the starter text before deploying. Cards, article pages, and preview metadata update from this one catalog. See [Adding blog articles](docs/ADDING_BLOG_POSTS.md) for fields and examples.

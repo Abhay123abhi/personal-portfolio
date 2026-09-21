@@ -17,7 +17,7 @@ const entry = {
   published: new Date().toISOString().slice(0, 10),
   flow: ['Request', 'Decision', 'Result'],
   sections: [['The problem', 'Describe the problem in your own words.'], ['The design', 'Explain your approach and the trade-offs.'], ['What I learned', 'Describe the outcome or what you would test.']],
-  featured: false, linkedinUrl: null
+  linkedinUrl: null
 };
 const next = [entry, ...posts];
 prepareArticles(next);

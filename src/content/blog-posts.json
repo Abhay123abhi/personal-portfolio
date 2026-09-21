@@ -49,8 +49,7 @@
       "Incident",
       "Outbox",
       "Kafka"
-    ],
-    "featured": true
+    ]
   },
   {
     "category": "Low-level design · Java",
@@ -102,8 +101,7 @@
       "Providers",
       "Adapters",
       "API"
-    ],
-    "featured": true
+    ]
   },
   {
     "category": "System design · LLD design exercise",
@@ -156,8 +154,7 @@
       "Hold",
       "Payment",
       "Confirm"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "event-driven-reliability",

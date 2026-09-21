@@ -26,7 +26,6 @@ Alternatively, copy an existing object in that file, separate entries with comma
     ["The design", "Your explanation of the trade-offs."],
     ["What I learned", "Your outcome and next questions."]
   ],
-  "featured": false,
   "linkedinUrl": null
 }
 ```
@@ -44,10 +43,9 @@ Alternatively, copy an existing object in that file, separate entries with comma
 | `lead` | Optional introduction; defaults to the excerpt. |
 | `category` | Optional detailed label on the article page; defaults to the topic. |
 | `quote` | Optional callout after the second section. |
-| `featured` | Optional boolean. The first three true entries in catalog order appear on the portfolio homepage. Set an older entry to false when replacing it. |
 | `linkedinUrl` | Actual post URL after you publish on LinkedIn; otherwise omit it or use null. Only a valid post URL enables Read on LinkedIn. |
 | `sources` | Optional list of `["Source label", "https://example.com/reference"]` pairs. |
 
-Catalog order controls blog order. The helper inserts new articles first. Reading time is calculated automatically. Cards, search, existing topic filters/colours, article routes, homepage highlights, and static social-preview pages all use the same catalog.
+Catalog order controls blog order. The helper inserts new articles first. Reading time is calculated automatically. Cards, search, existing topic filters/colours, article routes, and static social-preview pages all use the same catalog.
 
 `npm run blog:check` rejects duplicate/unsafe slugs, unknown topics, missing fields, malformed sections, and invalid links. New *topics* are a separate design change: update `src/blogContent.js` and the circle layout/colour rules in `src/blog.css`; adding articles under existing topics requires no such changes.

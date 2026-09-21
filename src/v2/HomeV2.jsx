@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
+import { ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
@@ -10,7 +10,6 @@ import {
   projects,
   experienceMetrics,
   toolbelt,
-  featuredArticles,
 } from "./portfolioData";
 
 const mobileCommands = [
@@ -126,7 +125,6 @@ export function V2Nav({ inner = false }) {
 
           <div className="v2-nav-links">
             {links.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
-            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
           </div>
 
           <button
@@ -141,10 +139,7 @@ export function V2Nav({ inner = false }) {
           </button>
 
           <div className="v2-nav-actions">
-            <a className="v2-header-resume" href={identity.resume} target="_blank" rel="noreferrer">
-              <span>résumé</span>
-              <FileDown size={15} />
-            </a>
+            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
           </div>
         </nav>
       </header>
@@ -224,7 +219,7 @@ function Hero() {
           <p className="v2-hero-role">{identity.headline}</p>
           <p className="v2-hero-summary">{identity.summary}</p>
           <div className="v2-hero-actions">
-            <a className="v2-primary" href="#work">See the systems <ArrowDown size={16} /></a>
+            <a className="v2-primary" href={identity.resume} target="_blank" rel="noreferrer">View résumé <FileDown size={16} /></a>
           </div>
         </div>
 
@@ -361,27 +356,6 @@ function Toolbelt() {
   );
 }
 
-function Blog() {
-  return (
-    <section className="v2-section v2-blog">
-      <div className="v2-section-head">
-        <div><p className="v2-kicker">// Blog</p><h2>Notes beyond<br />the diagram.</h2></div>
-        <Link className="v2-text-link" to="/blog">View all articles <ArrowUpRight size={16} /></Link>
-      </div>
-      <div className="v2-blog-grid">
-        {featuredArticles.map(article => (
-          <Link to={article.href} className="v2-article-card" key={article.href}>
-            <small>{article.category}</small>
-            <h3>{article.title}</h3>
-            <p>{article.excerpt}</p>
-            <b>Read article <ArrowUpRight size={14} /></b>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function ContactV2() {
   return (
     <section className="v2-contact" id="contact">
@@ -441,7 +415,6 @@ export default function HomeV2() {
         <Work />
         <Experience />
         <Toolbelt />
-        <Blog />
         <ContactV2 />
       </main>
     </div>

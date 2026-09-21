@@ -3511,7 +3511,7 @@ html.v2-home-active body {
     height: 54px;
   }
 
-  /* Keep hamburger and résumé controls attached to the fixed header. */
+  /* Keep menu controls attached to the fixed header. */
   .v2-mobile-search-trigger,
   .v2-nav-actions {
     position: relative;
@@ -4018,3 +4018,6 @@ html.v2-home-active body {
   .v2-case-canvas .system-node-label{font-size:10px}
   .v2-case-canvas .system-node-sub{font-size:7px}
 }
+
+/* Mobile uses its existing hamburger entry to Explore. */
+@media (max-width:760px){.v2-nav-actions{display:none}}
