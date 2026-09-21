@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Search, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, MoreHorizontal, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
@@ -31,6 +31,7 @@ function V2Nav() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef(null);
 
   const links = [
@@ -54,6 +55,13 @@ function V2Nav() {
     setQuery("");
     setActiveIndex(0);
   };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const runCommand = (item) => {
     closePalette();
@@ -118,7 +126,7 @@ function V2Nav() {
 
   return (
     <>
-      <header className="v2-nav-shell">
+      <header className={`v2-nav-shell${scrolled ? " is-scrolled" : ""}`}>
         <nav className="v2-nav" aria-label="Primary">
           <a className="v2-brand" href="#top" aria-label="Abhay Jaiswal home">aj<span>.</span></a>
 
@@ -133,18 +141,20 @@ function V2Nav() {
           <button
             className="v2-mobile-search-trigger"
             type="button"
+            aria-label="Search and navigate portfolio"
             aria-haspopup="dialog"
             aria-expanded={paletteOpen}
             onClick={() => setPaletteOpen(true)}
           >
-            <Search size={15} />
-            <span>Search / jump</span>
-            <kbd>⌕</kbd>
+            <Search size={16} />
+            <MoreHorizontal size={17} />
           </button>
 
           <div className="v2-nav-actions">
-            <a className="v2-nav-icon" href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={17} /></a>
-            <a className="v2-nav-icon" href={identity.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={17} /></a>
+            <a className="v2-header-resume" href={identity.resume} target="_blank" rel="noreferrer">
+              <span>résumé</span>
+              <FileDown size={15} />
+            </a>
           </div>
         </nav>
       </header>
@@ -225,12 +235,14 @@ function Hero() {
           <p className="v2-hero-summary">{identity.summary}</p>
           <div className="v2-hero-actions">
             <a className="v2-primary" href="#work">See the systems <ArrowDown size={16} /></a>
-            <a className="v2-secondary" href={identity.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={15} /></a>
           </div>
         </div>
 
         <div className="v2-hero-portrait">
-          <div className="v2-portrait-frame">
+          <div className="v2-portrait-orbit v2-portrait-orbit-a" aria-hidden="true" />
+          <div className="v2-portrait-orbit v2-portrait-orbit-b" aria-hidden="true" />
+          <div className="v2-portrait-glow" aria-hidden="true" />
+          <div className="v2-portrait-frame v2-portrait-frame-circle">
             <img src={identity.photo} alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" />
           </div>
         </div>
@@ -333,7 +345,7 @@ function Toolbelt() {
     <section className="v2-section v2-toolbelt" id="stack">
       <div className="v2-toolbelt-head">
         <div><p className="v2-kicker">// STACK</p><h2>The toolbelt.</h2></div>
-        <p>What I reach for across backend, data, delivery, observability, and product work.</p>
+        <p><span className="v2-toolbelt-desktop-copy">What I actually reach for in production — hover to pause.</span><span className="v2-toolbelt-mobile-copy">Production tools in motion.</span></p>
       </div>
       <div className="v2-tool-rows">
         {rows.map((row, rowIndex) => (
