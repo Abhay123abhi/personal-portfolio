@@ -21,7 +21,16 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <div><span>Approach</span><p>{project.approach}</p></div>
         </div>
 
-        <p className="v2-case-mobile-summary">{project.approach}</p>
+        <div className="v2-case-mobile-insights">
+          <div className="problem">
+            <span>Problem</span>
+            <p>{project.problem}</p>
+          </div>
+          <div className="approach">
+            <span>Approach</span>
+            <p>{project.approach}</p>
+          </div>
+        </div>
 
         <div className="v2-case-stack">
           {project.stack.map(item => <span key={item}>{item}</span>)}
