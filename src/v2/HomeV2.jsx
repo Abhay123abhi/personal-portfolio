@@ -76,18 +76,14 @@ function Hero() {
         </div>
       </div>
 
-      <a href="#production" className="v2-scroll-cue" aria-label="Scroll to production impact"><span /><small>scroll</small></a>
+      <a href="#capabilities" className="v2-scroll-cue" aria-label="Scroll to capabilities"><span /><small>scroll</small></a>
     </section>
   );
 }
 
 function ProductionStats() {
   return (
-    <section className="v2-production" id="production" aria-label="Built in production">
-      <div className="v2-production-head">
-        <p className="v2-kicker">// BUILT IN PRODUCTION</p>
-        <p>Production context beyond a project demo.</p>
-      </div>
+    <div className="v2-production" aria-label="Built in production metrics">
       <div className="v2-production-rail" tabIndex={0}>
         {productionStats.map((item) => (
           <article className="v2-production-stat" key={item.label}>
@@ -96,7 +92,7 @@ function ProductionStats() {
           </article>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -146,6 +142,8 @@ function Experience() {
         <h2>Built in production.</h2>
         <p>Four years delivering advisor and policy platforms across Asian insurance markets — backend services, event-driven workflows, frontend delivery, and production releases.</p>
       </div>
+
+      <ProductionStats />
 
       <article className="v2-timeline-card">
         <div className="v2-timeline-rail"><span /></div>
@@ -277,7 +275,6 @@ export default function HomeV2() {
       <V2Nav />
       <main>
         <Hero />
-        <ProductionStats />
         <CapabilityGrid />
         <Work />
         <Experience />
