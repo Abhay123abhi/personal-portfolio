@@ -3843,3 +3843,91 @@ html.v2-home-active body {
     display: none;
   }
 }
+
+
+/* ==========================================================================
+   Architecture path isolation — desktop unchanged, mobile focused view
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    display: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-mobile {
+    display: block !important;
+    margin: 8px !important;
+    padding: 0 !important;
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 80% 8%, color-mix(in srgb, var(--case-accent) 9%, transparent), transparent 34%),
+      var(--case-surface);
+    border: 1px solid color-mix(in srgb, var(--case-accent) 24%, var(--v2-line));
+  }
+
+  .architecture-mobile-focused {
+    position: relative;
+    min-height: 238px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.012), transparent),
+      var(--case-surface);
+  }
+
+  .architecture-mobile-focused .system-canvas-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .18;
+    pointer-events: none;
+  }
+
+  .architecture-mobile-focused-svg {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 238px;
+  }
+
+  .architecture-mobile-focused .system-edge {
+    stroke: color-mix(in srgb, var(--case-accent) 18%, #6b7b7f);
+  }
+
+  .architecture-mobile-focused .system-edge.reached {
+    stroke: color-mix(in srgb, var(--case-accent) 48%, #708084);
+  }
+
+  .architecture-mobile-focused .system-edge.active {
+    stroke: var(--case-accent);
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--case-accent) 48%, transparent));
+  }
+
+  .architecture-mobile-focused .system-node rect {
+    fill: color-mix(in srgb, var(--case-surface-2) 86%, #0c1114);
+    stroke: color-mix(in srgb, var(--case-accent) 16%, #536368);
+  }
+
+  .architecture-mobile-focused .system-node.reached rect {
+    stroke: color-mix(in srgb, var(--case-accent) 34%, #536368);
+  }
+
+  .architecture-mobile-focused .system-node.active rect {
+    fill: color-mix(in srgb, var(--case-accent) 13%, var(--case-surface-2));
+    stroke: var(--case-accent);
+    filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--case-accent) 14%, transparent));
+  }
+
+  .architecture-mobile-focused .system-node.active .system-node-dot,
+  .architecture-mobile-focused .system-packet {
+    fill: var(--case-accent);
+  }
+
+  .architecture-mobile-focused .system-node-label {
+    fill: #e3e9e7;
+  }
+
+  .architecture-mobile-focused .system-node-sub {
+    fill: #8fa0a4;
+  }
+}
