@@ -418,7 +418,7 @@ function Home() {
       </section>
       <section className="work-section" id="work">
         <SectionHeading label="Selected work" title="Engineering behind the product."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title} data-project-index={index}>
+        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title} data-project-index={String(index + 1).padStart(2, "0")}>
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
