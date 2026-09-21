@@ -3,6 +3,8 @@ import AmbientSystemBackground from "./AmbientSystemBackground";
 import CommandPalette from "./CommandPalette";
 import TechRail from "./TechRail";
 import ProjectSystemCanvas from "./ProjectSystemCanvas";
+import ProjectArchitectureMobile from "./ProjectArchitectureMobile";
+import { projectArchitectures } from "./projectArchitectureData";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Command, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
@@ -300,40 +302,6 @@ function Header({ inner = false }) {
   </header>;
 }
 
-const projectArchitectures = [
-  {
-    name: "Incident investigation",
-    stages: [
-      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Prometheus evaluates service telemetry and Alertmanager sends firing or resolved webhooks. The incident service deduplicates active incidents by fingerprint before creating new work." },
-      { title: "Preserve", nodes: ["Incident API", "PostgreSQL", "Transactional outbox"], detail: "Incident state and the investigation request are persisted in one transaction. A scheduled outbox publisher sends unpublished events to Kafka and retries them safely after broker failures." },
-      { title: "Investigate", nodes: ["Kafka worker", "Prometheus", "Loki", "Tempo"], detail: "The investigation worker loads the incident, collects a five-minute evidence window from metrics, error logs, and traces, redacts sensitive log values, and completes a deterministic evidence-backed analysis even when one telemetry source is unavailable." },
-      { title: "Enrich with AI", nodes: ["AI topic", "Gemini embeddings", "pgvector RAG", "Gemini RCA"], detail: "After deterministic investigation completes, a second outbox event can trigger the AI service. Live evidence is embedded, similar runbooks and past incidents are retrieved from pgvector, and Gemini returns a structured root-cause hypothesis with confidence, supporting/counter evidence, recommendations, and missing information." },
-      { title: "Review", nodes: ["PostgreSQL", "Incident Desk", "Grafana", "AI investigation API"], detail: "The normal incident report and AI hypothesis are persisted separately. Operators can review durable incident history, telemetry evidence, dashboards, and the optional AI investigation without making the core incident workflow depend on the model." },
-    ],
-    note: "Alert → durable outbox → evidence investigation → optional RAG/Gemini RCA → operator review",
-  },
-  {
-    name: "News intelligence",
-    stages: [
-      { title: "Request", nodes: ["React client", "Search API", "Redis search cache"], detail: "The client uses one backend search contract. The backend normalizes the keyword and page request and first checks the Redis-backed search cache." },
-      { title: "Fan out", nodes: ["Virtual-thread executor", "Guardian", "NYT", "Timeout budget"], detail: "On a cache miss, enabled provider adapters run concurrently with CompletableFuture on the configured executor. Each provider has a timeout, and useful partial results survive when another publisher fails." },
-      { title: "Normalize", nodes: ["Adapter layer", "Deduplicate", "Sort & paginate", "Redis"], detail: "Guardian and NYT responses are mapped into one article model, merged and deduplicated, sorted and paginated, then cached so repeated searches avoid unnecessary provider calls." },
-      { title: "Ground AI", nodes: ["AI workspace", "Gemini", "Citation validation", "AI Redis cache"], detail: "Summary, why-it-matters, daily brief, ask, and compare endpoints send only supplied articles to Gemini. Structured source IDs are validated server-side, requests are rate-limited, and AI responses use their own Redis cache while search remains usable without AI." },
-    ],
-    note: "Redis cache → concurrent providers → normalized feed → citation-validated Gemini workspace",
-  },
-  {
-    name: "Room-based messaging",
-    stages: [
-      { title: "Write", nodes: ["React client", "clientMessageId", "REST message API"], detail: "The UI creates a client message ID and optimistically tracks pending state. Sends use the retryable REST path so the same request ID can be retried after transient failures." },
-      { title: "Persist", nodes: ["Striped room lock", "MongoDB", "Atomic room sequence"], detail: "The backend serializes writers per room with striped locks, rejects reuse of the same request ID with different content, atomically increments the room sequence, and persists the message before live delivery." },
-      { title: "Broadcast", nodes: ["STOMP/SockJS", "Room topic", "Presence topic"], detail: "After persistence, Spring publishes the saved message to the room topic. Separate WebSocket connect/disconnect events maintain in-memory room presence and broadcast online/offline snapshots." },
-      { title: "Recover", nodes: ["Cursor history", "Periodic sync", "Reconnect", "Merge by ID & sequence"], detail: "The client loads recent history, repeatedly fetches messages after its confirmed sequence cursor, reconnects STOMP automatically, and merges history with live events so a missed WebSocket notification is recovered from MongoDB." },
-    ],
-    note: "Idempotent REST write → sequenced MongoDB state → STOMP live delivery → cursor recovery",
-  },
-];
-
 function ProjectMap({ index }) {
   const [selected, setSelected] = useState(0);
   const [autoPlaying, setAutoPlaying] = useState(false);
@@ -368,10 +336,20 @@ function ProjectMap({ index }) {
     };
   }, [architecture.stages.length, index]);
 
+  const selectStage = (stageIndex) => {
+    setAutoPlaying(false);
+    setSelected(stageIndex);
+  };
+
   return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
     <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
-    <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
-    <div className="architecture-stages" role="group" aria-label={architecture.name}>
+    <div className="architecture-desktop">
+      <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
+    </div>
+    <div className="architecture-mobile-only">
+      <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={selectStage} />
+    </div>
+    <div className="architecture-stages architecture-desktop" role="group" aria-label={architecture.name}>
       {architecture.stages.map((stage, stageIndex) => <button
         key={stage.title}
         type="button"
@@ -379,15 +357,15 @@ function ProjectMap({ index }) {
         data-stage={String(stageIndex + 1).padStart(2, "0")}
         aria-pressed={selected === stageIndex}
         aria-controls={`architecture-detail-${index}`}
-        onClick={() => { setAutoPlaying(false); setSelected(stageIndex); }}
+        onClick={() => selectStage(stageIndex)}
       >
         <span className="stage-heading"><span className="stage-icon" aria-hidden="true">{stageIndex === 0 ? <Activity size={18} /> : stageIndex === 1 ? <Database size={18} /> : <Network size={18} />}</span><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
         {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
       </button>)}
     </div>
-    <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
-    <div className="architecture-caption"><span>{architecture.note}</span><span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span></div>
+    <div className="architecture-detail architecture-desktop" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
+    <div className="architecture-caption architecture-desktop"><span>{architecture.note}</span><span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span></div>
   </div>;
 }
 
