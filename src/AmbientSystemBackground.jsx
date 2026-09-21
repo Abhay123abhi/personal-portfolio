@@ -28,6 +28,9 @@ export default function AmbientSystemBackground() {
       <div className="ambient-orb ambient-orb-a" />
       <div className="ambient-orb ambient-orb-b" />
       <div className="ambient-scan" />
+      <div className="ambient-code ambient-code-a"><span>@Transactional</span><span>incident.save(...)</span><span>outbox.publish(...)</span></div>
+      <div className="ambient-code ambient-code-b"><span>Guardian ─┐</span><span>NYT ──────┼→ normalize → Redis</span><span>Gemini ← grounded feed</span></div>
+      <div className="ambient-code ambient-code-c"><span>POST /messages</span><span>MongoDB → STOMP</span><span>cursor → reconnect sync</span></div>
       <svg className="ambient-network" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
         <g className="ambient-routes">
           {routes.map((route, index) => (
