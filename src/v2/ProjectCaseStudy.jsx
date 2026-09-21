@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Github, X } from "lucide-react";
 import ProjectSystemCanvas from "../ProjectSystemCanvas";
 import ProjectArchitectureMobile from "../ProjectArchitectureMobile";
 import { projectArchitectures } from "../projectArchitectureData";
 
 export default function ProjectCaseStudy({ project, projectIndex, reverse = false }) {
   const [selected, setSelected] = useState(0);
+  const [mobileArchitectureOpen, setMobileArchitectureOpen] = useState(false);
   const architecture = projectArchitectures[projectIndex];
 
   return (
@@ -20,6 +21,8 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <div><span>Approach</span><p>{project.approach}</p></div>
         </div>
 
+        <p className="v2-case-mobile-summary">{project.approach}</p>
+
         <div className="v2-case-stack">
           {project.stack.map(item => <span key={item}>{item}</span>)}
         </div>
@@ -28,9 +31,19 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>
           {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}
         </div>
+
+        <button
+          type="button"
+          className="v2-mobile-architecture-toggle"
+          aria-expanded={mobileArchitectureOpen}
+          onClick={() => setMobileArchitectureOpen(open => !open)}
+        >
+          <span>{mobileArchitectureOpen ? "Close architecture" : "Explore architecture"}</span>
+          {mobileArchitectureOpen ? <X size={15} /> : <ArrowDown size={15} />}
+        </button>
       </div>
 
-      <div className="v2-case-visual">
+      <div className={`v2-case-visual${mobileArchitectureOpen ? " is-mobile-open" : ""}`}>
         <div className="v2-case-window-head">
           <span><i /><i /><i /></span>
           <b>{architecture.name}</b>
