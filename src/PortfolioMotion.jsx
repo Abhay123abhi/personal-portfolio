@@ -36,6 +36,34 @@ export default function PortfolioMotion() {
   }, [pathname]);
 
   useEffect(() => {
+    let previous = window.scrollY;
+    let frame = 0;
+    const updateDirection = () => {
+      frame = 0;
+      const current = window.scrollY;
+      const delta = current - previous;
+      if (Math.abs(delta) > 6) {
+        document.documentElement.dataset.scrollDirection = delta > 0 ? "down" : "up";
+        document.documentElement.dataset.scrolled = current > 40 ? "true" : "false";
+        previous = current;
+      }
+      if (current < 24) {
+        document.documentElement.dataset.scrollDirection = "up";
+        document.documentElement.dataset.scrolled = "false";
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(updateDirection); };
+    updateDirection();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      delete document.documentElement.dataset.scrollDirection;
+      delete document.documentElement.dataset.scrolled;
+    };
+  }, [pathname]);
+
+  useEffect(() => {
     const links = [...document.querySelectorAll('.nav a[href^="#"]')];
     const sections = links.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
     const progress = document.querySelector(".reading-progress");
@@ -50,6 +78,9 @@ export default function PortfolioMotion() {
         if (link.hash === `#${active}`) link.setAttribute("aria-current", "location");
         else link.removeAttribute("aria-current");
       });
+      const pageRange = document.documentElement.scrollHeight - window.innerHeight;
+      const pageProgress = pageRange > 0 ? Math.min(1, Math.max(0, window.scrollY / pageRange)) : 0;
+      document.documentElement.style.setProperty("--page-progress", pageProgress);
       if (article && progress) {
         const box = article.getBoundingClientRect();
         const available = box.height - window.innerHeight;
@@ -66,8 +97,72 @@ export default function PortfolioMotion() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       links.forEach(link => link.removeAttribute("aria-current"));
+      document.documentElement.style.removeProperty("--page-progress");
     };
   }, [pathname]);
+  useEffect(() => {
+    const root = document.documentElement;
+    const ambient = document.querySelector(".ambient-system");
+    const projects = [...document.querySelectorAll(".project")];
+    const sections = [...document.querySelectorAll(".introduction, .work-section, .experience-section, .craft-section")];
+    if (!ambient || !("IntersectionObserver" in window)) return;
+
+    const projectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const index = projects.indexOf(entry.target);
+        root.dataset.activeProject = index >= 0 ? String(index) : "";
+      });
+    }, { threshold: 0.42, rootMargin: "-12% 0px -30%" });
+
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        root.dataset.activeSection = entry.target.classList.contains("work-section") ? "work"
+          : entry.target.classList.contains("experience-section") ? "experience"
+          : entry.target.classList.contains("craft-section") ? "skills"
+          : "intro";
+      });
+    }, { threshold: 0.28, rootMargin: "-18% 0px -38%" });
+
+    projects.forEach(project => projectObserver.observe(project));
+    sections.forEach(section => sectionObserver.observe(section));
+
+    return () => {
+      projectObserver.disconnect();
+      sectionObserver.disconnect();
+      delete root.dataset.activeProject;
+      delete root.dataset.activeSection;
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    const root = document.documentElement;
+    let frame = 0;
+    let x = 50;
+    let y = 20;
+
+    const apply = () => {
+      frame = 0;
+      root.style.setProperty("--ambient-x", `${x}%`);
+      root.style.setProperty("--ambient-y", `${y}%`);
+    };
+    const move = event => {
+      if (!preference.matches) return;
+      x = (event.clientX / window.innerWidth) * 100;
+      y = (event.clientY / window.innerHeight) * 100;
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    document.addEventListener("pointermove", move, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("pointermove", move);
+      root.style.removeProperty("--ambient-x");
+      root.style.removeProperty("--ambient-y");
+    };
+  }, [pathname]);
+
   // Pointer lighting enhances cards only on fine-pointer devices. No React renders per move.
   useEffect(() => {
     const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");

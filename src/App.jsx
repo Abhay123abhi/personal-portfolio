@@ -1,7 +1,13 @@
 import PortfolioMotion from "./PortfolioMotion";
+import AmbientSystemBackground from "./AmbientSystemBackground";
+import CommandPalette from "./CommandPalette";
+import TechRail from "./TechRail";
+import ProjectSystemCanvas from "./ProjectSystemCanvas";
+import ProjectArchitectureMobile from "./ProjectArchitectureMobile";
+import { projectArchitectures } from "./projectArchitectureData";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Command, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -22,8 +28,8 @@ const projects = [
     title: "Incident Investigation Platform",
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
     problem: "Incident evidence is scattered across metrics, logs, and traces, while repeated alerts and broker failures can create noise or interrupt investigation.",
-    build: "Alertmanager intake persists incident state and an outbox event atomically. Kafka dispatches an evidence worker that queries Prometheus, Loki, and Tempo, stores the report in PostgreSQL, and preserves resolution state.",
-    stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL", "Prometheus", "Loki", "Tempo", "Grafana"],
+    build: "Alertmanager intake deduplicates active incidents and persists incident state plus an investigation outbox event atomically. Kafka drives a worker that collects Prometheus metrics, Loki error logs, and Tempo traces before storing the deterministic report. When AI is enabled, completion writes a second outbox event to the AI topic; a separate worker embeds the live evidence, retrieves relevant runbooks and past incidents from pgvector, asks Gemini for a structured root-cause hypothesis, and persists that result independently from the core incident workflow.",
+    stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL + pgvector", "Prometheus", "Loki", "Tempo", "Grafana", "Gemini AI", "RAG", "Transactional outbox"],
     github: "https://github.com/Abhay123abhi/event-driven-incident-observability",
   },
   {
@@ -31,8 +37,8 @@ const projects = [
     title: "News Intelligence",
     statement: "Aggregate multiple publishers, then turn the retrieved feed into grounded briefs, answers, and coverage comparisons.",
     problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
-    build: "Guardian and NYT adapters run concurrently on Java 21 virtual threads, normalize and deduplicate results, and cache repeated searches in Redis. An optional Gemini layer adds daily briefs, feed-grounded Q&A, article summaries, and coverage comparison.",
-    stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "Render"],
+    build: "Search requests check the Redis-backed feed cache first. On a miss, Guardian and NYT adapters run concurrently with CompletableFuture on the configured virtual-thread executor, each with timeout handling and partial-success behavior. Results are normalized, deduplicated, sorted, paginated, and cached. A separate Gemini workspace provides summary, why-it-matters, brief, ask, and comparison flows with structured citation IDs, server-side citation validation, rate limiting, and an independent Redis AI-response cache.",
+    stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "REST APIs", "Render"],
     github: "https://github.com/Abhay123abhi/ai-powered-news-intelligence",
     live: "https://abhay123abhi-news-web.onrender.com",
   },
@@ -41,8 +47,8 @@ const projects = [
     title: "Real-time Chat",
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
     problem: "Live chat needs more than WebSocket delivery: retries, reconnects, missed events, room presence, and persistent history all need predictable behavior.",
-    build: "Messages use a retry-safe REST write path, are persisted in MongoDB with room sequence and client request IDs, then broadcast over STOMP/WebSocket. Cursor-based history reconciles missed updates after reconnects, while session presence tracks online and offline room members.",
-    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions"],
+    build: "The client assigns a clientMessageId and retries sends through REST. The backend uses striped per-room writer locks, rejects request-ID reuse with different content, atomically increments the room sequence in MongoDB, and persists before broadcasting over STOMP/SockJS. WebSocket session events maintain room presence, while before/after sequence cursors plus periodic synchronization recover missed live events after reconnects and merge them deterministically in the client.",
+    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions", "Idempotency"],
     github: "https://github.com/Abhay123abhi/chat-app",
   },
 ];
@@ -69,6 +75,11 @@ const skills = [
     items: ["Docker", "Kubernetes", "Jenkins", "CI/CD", "AWS", "Prometheus", "Grafana", "Loki", "JUnit", "Mockito"],
   },
 ];
+
+const allTechnologies = [...new Set([
+  ...skills.flatMap(group => group.items),
+  ...projects.flatMap(project => project.stack),
+])];
 
 const articles = [
   {
@@ -286,63 +297,86 @@ function Header({ inner = false }) {
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
     </nav>
-    <div className="header-social"><SocialLinks /></div>
+    <div className="header-actions"><button type="button" className="command-trigger" onClick={() => window.dispatchEvent(new Event("portfolio:command"))} aria-label="Open portfolio command palette"><Command size={16} /><span>Search</span><kbd>⌘K</kbd></button><div className="header-social"><SocialLinks /></div></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
 
-const projectArchitectures = [
-  {
-    name: "Incident investigation",
-    stages: [
-      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Detect a firing or resolved service alert and send its fingerprint and status to the incident intake API." },
-      { title: "Persist", nodes: ["Incident API", "PostgreSQL", "Outbox"], detail: "Store incident state and the investigation event in one transaction, reusing the active incident when Alertmanager repeats a fingerprint." },
-      { title: "Investigate", nodes: ["Kafka", "Evidence worker", "Loki & Tempo"], detail: "Dispatch through Kafka, collect a bounded telemetry snapshot, and save a persistent report that Grafana can display and engineers can verify." },
-    ],
-    note: "Detect · Persist · Queue · Collect evidence",
-  },
-  {
-    name: "News intelligence",
-    stages: [
-      { title: "Search", nodes: ["React client", "Search API"], detail: "Accept one query through a consistent API while keeping publisher credentials and provider-specific contracts behind the backend." },
-      { title: "Aggregate", nodes: ["Guardian & NYT", "Normalize & dedupe", "Redis cache"], detail: "Run provider adapters concurrently, merge them into one article model, cache repeated searches, and return partial results when one source fails." },
-      { title: "Understand", nodes: ["AI brief", "Ask the news", "Compare coverage"], detail: "Use optional Gemini features over only the retrieved articles, with bounded inputs, response caching, request limits, and an independent off switch." },
-    ],
-    note: "Reliable aggregation · Optional grounded AI",
-  },
-  {
-    name: "Room-based messaging",
-    stages: [
-      { title: "Join", nodes: ["React client", "Guest room", "Live presence"], detail: "Create or join a guest room with a display name, then open a STOMP/SockJS session that carries room identity for live online and offline presence." },
-      { title: "Persist", nodes: ["REST write", "Request ID", "MongoDB"], detail: "Send through the durable REST endpoint first. A client message ID makes retries safe, a room sequence orders persisted messages, and MongoDB stores the message before any live broadcast." },
-      { title: "Deliver & recover", nodes: ["STOMP/WebSocket", "Room topic", "Cursor history"], detail: "Broadcast the saved message to connected room members. After reconnecting, the client loads cursor-based history and merges missed messages instead of relying on the live socket alone." },
-    ],
-    note: "Durable REST writes · Live STOMP delivery · Reconnect recovery",
-  },
-];
-
 function ProjectMap({ index }) {
   const [selected, setSelected] = useState(0);
+  const [autoPlaying, setAutoPlaying] = useState(false);
   const architecture = projectArchitectures[index];
 
-  return <div className="architecture">
+  useEffect(() => {
+    const element = document.querySelector(`[data-project-map="${index}"]`);
+    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.matchMedia("(max-width: 700px)").matches) return;
+
+    let timer;
+    let step = 0;
+    const observer = new IntersectionObserver(entries => {
+      const entry = entries.find(item => item.target === element);
+      if (!entry?.isIntersecting || element.dataset.played === "true") return;
+      element.dataset.played = "true";
+      setAutoPlaying(true);
+      setSelected(0);
+      timer = window.setInterval(() => {
+        step += 1;
+        setSelected(step);
+        if (step >= architecture.stages.length - 1) {
+          window.clearInterval(timer);
+          window.setTimeout(() => setAutoPlaying(false), 900);
+        }
+      }, 1150);
+      observer.disconnect();
+    }, { threshold: 0.5 });
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      window.clearInterval(timer);
+    };
+  }, [architecture.stages.length, index]);
+
+  const selectStage = (stageIndex) => {
+    setAutoPlaying(false);
+    setSelected(stageIndex);
+  };
+
+  return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
     <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
-    <div className="architecture-stages" role="group" aria-label={architecture.name}>
+    <div className="architecture-desktop architecture-canvas-desktop">
+      <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
+    </div>
+    <div className="architecture-mobile-only">
+      <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={selectStage} />
+    </div>
+    <div className="architecture-stages architecture-desktop" role="group" aria-label={architecture.name}>
       {architecture.stages.map((stage, stageIndex) => <button
         key={stage.title}
         type="button"
         className={selected === stageIndex ? "architecture-stage selected" : "architecture-stage"}
+        data-stage={String(stageIndex + 1).padStart(2, "0")}
         aria-pressed={selected === stageIndex}
         aria-controls={`architecture-detail-${index}`}
-        onClick={() => setSelected(stageIndex)}
+        onClick={() => selectStage(stageIndex)}
       >
         <span className="stage-heading"><span className="stage-icon" aria-hidden="true">{stageIndex === 0 ? <Activity size={18} /> : stageIndex === 1 ? <Database size={18} /> : <Network size={18} />}</span><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
         {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
       </button>)}
     </div>
-    <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
-    <div className="architecture-caption"><span>{architecture.note}</span><span>Illustrated data flow</span></div>
+    <div className="architecture-left-detail architecture-desktop" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true">
+      <div className="architecture-left-detail-copy">
+        <div className="architecture-left-detail-heading">
+          <strong>{architecture.stages[selected].title}</strong>
+          <span>{architecture.stages[selected].nodes.join(" · ")}</span>
+        </div>
+        <p key={selected}>{architecture.stages[selected].detail}</p>
+      </div>
+      <div className="architecture-flow-note">
+        <span>{architecture.note}</span>
+        <span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span>
+      </div>
+    </div>
   </div>;
 }
 
@@ -365,7 +399,7 @@ function SectionHeading({ label, title, children }) {
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
 
-  return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
+  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><CommandPalette /><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
@@ -379,11 +413,11 @@ function Home() {
       </section>
       <section className="work-section" id="work">
         <SectionHeading label="Selected work" title="Engineering behind the product."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title}>
+        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title} data-project-index={String(index + 1).padStart(2, "0")}>
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
-          <div className="project-body"><ul className="project-stack">{project.stack.map(item => <li key={item}>{item}</li>)}</ul>
+          <div className="project-body"><TechRail items={project.stack} compact title="Project stack" />
           <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
           <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
           </div>
@@ -403,15 +437,7 @@ function Home() {
         </ul>
         <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
       </section>
-      <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
-        <div className="toolkit-grid">{skills.map((skill, index) => {
-          const Icon = [Server, Network, Database, Activity][index];
-          return <article className={`toolkit-card toolkit-card-${index} tone-${index % 3}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
-            <header className="toolkit-card-heading"><span className="toolkit-icon" aria-hidden="true"><Icon size={24} strokeWidth={1.6} /></span><div><h3 id={`toolkit-title-${index}`}>{skill.group}</h3><p>{skill.description}</p></div></header>
-            <ul className="toolkit-tags" aria-label={`${skill.group} skills`}>{skill.items.map((item, itemIndex) => <li className={itemIndex < 2 ? "toolkit-primary" : ""} key={item}>{item}</li>)}</ul>
-          </article>;
-        })}</div>
-      </section>
+      <TechRail items={allTechnologies} id="skills" title="Engineering toolkit" />
       <Contact />
     </main>
   </div></>;
