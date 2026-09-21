@@ -1,86 +1,13 @@
 import HomeV2 from "./v2/HomeV2";
 import PortfolioMotion from "./PortfolioMotion";
-import AmbientSystemBackground from "./AmbientSystemBackground";
-import CommandPalette from "./CommandPalette";
-import TechRail from "./TechRail";
-import ProjectSystemCanvas from "./ProjectSystemCanvas";
-import ProjectArchitectureMobile from "./ProjectArchitectureMobile";
-import { projectArchitectures } from "./projectArchitectureData";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Command, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Clock3, Github, Linkedin, Mail, Menu, Share2, X } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
 const LINKEDIN = "https://www.linkedin.com/in/abhay983";
 const TWITTER = "https://x.com/abhayjaissssss";
-const RESUME = "/Abhay_SDE.pdf";
-
-const impact = [
-  ["4+", "years shipping production software"],
-  ["1K+", "business events processed daily"],
-  ["25%", "faster deployment cycles"],
-  ["60%", "reduction in manual operations"],
-];
-
-const projects = [
-  {
-    eyebrow: "Reliability engineering · Event-driven backend",
-    title: "Incident Investigation Platform",
-    statement: "Turn a production alert into a persistent, evidence-backed incident report.",
-    problem: "Incident evidence is scattered across metrics, logs, and traces, while repeated alerts and broker failures can create noise or interrupt investigation.",
-    build: "Alertmanager intake deduplicates active incidents and persists incident state plus an investigation outbox event atomically. Kafka drives a worker that collects Prometheus metrics, Loki error logs, and Tempo traces before storing the deterministic report. When AI is enabled, completion writes a second outbox event to the AI topic; a separate worker embeds the live evidence, retrieves relevant runbooks and past incidents from pgvector, asks Gemini for a structured root-cause hypothesis, and persists that result independently from the core incident workflow.",
-    stack: ["Java 25", "Spring Boot", "Kafka", "PostgreSQL + pgvector", "Prometheus", "Loki", "Tempo", "Grafana", "Gemini AI", "RAG", "Transactional outbox"],
-    github: "https://github.com/Abhay123abhi/event-driven-incident-observability",
-  },
-  {
-    eyebrow: "Full-stack product · Source-grounded AI",
-    title: "News Intelligence",
-    statement: "Aggregate multiple publishers, then turn the retrieved feed into grounded briefs, answers, and coverage comparisons.",
-    problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
-    build: "Search requests check the Redis-backed feed cache first. On a miss, Guardian and NYT adapters run concurrently with CompletableFuture on the configured virtual-thread executor, each with timeout handling and partial-success behavior. Results are normalized, deduplicated, sorted, paginated, and cached. A separate Gemini workspace provides summary, why-it-matters, brief, ask, and comparison flows with structured citation IDs, server-side citation validation, rate limiting, and an independent Redis AI-response cache.",
-    stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "REST APIs", "Render"],
-    github: "https://github.com/Abhay123abhi/ai-powered-news-intelligence",
-    live: "https://abhay123abhi-news-web.onrender.com",
-  },
-  {
-    eyebrow: "Real-time systems · Reliable messaging",
-    title: "Real-time Chat",
-    statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
-    problem: "Live chat needs more than WebSocket delivery: retries, reconnects, missed events, room presence, and persistent history all need predictable behavior.",
-    build: "The client assigns a clientMessageId and retries sends through REST. The backend uses striped per-room writer locks, rejects request-ID reuse with different content, atomically increments the room sequence in MongoDB, and persists before broadcasting over STOMP/SockJS. WebSocket session events maintain room presence, while before/after sequence cursors plus periodic synchronization recover missed live events after reconnects and merge them deterministically in the client.",
-    stack: ["Java 21", "Spring Boot", "STOMP/WebSocket", "MongoDB", "React", "SockJS", "Docker", "GitHub Actions", "Idempotency"],
-    github: "https://github.com/Abhay123abhi/chat-app",
-  },
-];
-
-const skills = [
-  {
-    group: "Backend",
-    description: "Java services & API contracts",
-    items: ["Java 8–21", "Spring Boot", "Spring Security", "JPA", "Hibernate", "REST APIs", "BFF"],
-  },
-  {
-    group: "Frontend",
-    description: "Responsive product interfaces",
-    items: ["React.js", "JavaScript", "Ionic", "SPA", "REST integration", "Responsive UI"],
-  },
-  {
-    group: "Data & distributed systems",
-    description: "Messaging, caching & persistence",
-    items: ["Kafka", "Redis", "PostgreSQL", "MySQL", "MongoDB", "Idempotency", "Outbox", "Query optimization"],
-  },
-  {
-    group: "DevOps & cloud",
-    description: "Delivery, cloud & observability",
-    items: ["Docker", "Kubernetes", "Jenkins", "CI/CD", "AWS", "Prometheus", "Grafana", "Loki", "JUnit", "Mockito"],
-  },
-];
-
-const allTechnologies = [...new Set([
-  ...skills.flatMap(group => group.items),
-  ...projects.flatMap(project => project.stack),
-])];
 
 const articles = [
   {
@@ -298,150 +225,9 @@ function Header({ inner = false }) {
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
     </nav>
-    <div className="header-actions"><button type="button" className="command-trigger" onClick={() => window.dispatchEvent(new Event("portfolio:command"))} aria-label="Open portfolio command palette"><Command size={16} /><span>Search</span><kbd>⌘K</kbd></button><div className="header-social"><SocialLinks /></div></div>
+    <div className="header-actions"><div className="header-social"><SocialLinks /></div></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
-}
-
-function ProjectMap({ index }) {
-  const [selected, setSelected] = useState(0);
-  const [autoPlaying, setAutoPlaying] = useState(false);
-  const architecture = projectArchitectures[index];
-
-  useEffect(() => {
-    const element = document.querySelector(`[data-project-map="${index}"]`);
-    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.matchMedia("(max-width: 700px)").matches) return;
-
-    let timer;
-    let step = 0;
-    const observer = new IntersectionObserver(entries => {
-      const entry = entries.find(item => item.target === element);
-      if (!entry?.isIntersecting || element.dataset.played === "true") return;
-      element.dataset.played = "true";
-      setAutoPlaying(true);
-      setSelected(0);
-      timer = window.setInterval(() => {
-        step += 1;
-        setSelected(step);
-        if (step >= architecture.stages.length - 1) {
-          window.clearInterval(timer);
-          window.setTimeout(() => setAutoPlaying(false), 900);
-        }
-      }, 1150);
-      observer.disconnect();
-    }, { threshold: 0.5 });
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-      window.clearInterval(timer);
-    };
-  }, [architecture.stages.length, index]);
-
-  const selectStage = (stageIndex) => {
-    setAutoPlaying(false);
-    setSelected(stageIndex);
-  };
-
-  return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
-    <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
-    <div className="architecture-desktop architecture-canvas-desktop">
-      <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
-    </div>
-    <div className="architecture-mobile-only">
-      <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={selectStage} />
-    </div>
-    <div className="architecture-stages architecture-desktop" role="group" aria-label={architecture.name}>
-      {architecture.stages.map((stage, stageIndex) => <button
-        key={stage.title}
-        type="button"
-        className={selected === stageIndex ? "architecture-stage selected" : "architecture-stage"}
-        data-stage={String(stageIndex + 1).padStart(2, "0")}
-        aria-pressed={selected === stageIndex}
-        aria-controls={`architecture-detail-${index}`}
-        onClick={() => selectStage(stageIndex)}
-      >
-        <span className="stage-heading"><span className="stage-icon" aria-hidden="true">{stageIndex === 0 ? <Activity size={18} /> : stageIndex === 1 ? <Database size={18} /> : <Network size={18} />}</span><strong>{stage.title}</strong></span>
-        <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
-        {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
-      </button>)}
-    </div>
-    <div className="architecture-left-detail architecture-desktop" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true">
-      <div className="architecture-left-detail-copy">
-        <div className="architecture-left-detail-heading">
-          <strong>{architecture.stages[selected].title}</strong>
-          <span>{architecture.stages[selected].nodes.join(" · ")}</span>
-        </div>
-        <p key={selected}>{architecture.stages[selected].detail}</p>
-      </div>
-      <div className="architecture-flow-note">
-        <span>{architecture.note}</span>
-        <span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span>
-      </div>
-    </div>
-  </div>;
-}
-
-function Profile() {
-  return <aside className="profile-rail" aria-label="About Abhay">
-    <div className="profile-picture"><img src="/profile1.png" alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" /></div>
-    <div className="profile-identity">
-      <h1>Abhay<span className="name-break"><br /></span> Jaiswal<span>.</span></h1>
-      <p className="profile-role">Java Backend-Focused Full-Stack Developer</p>
-      <p className="profile-summary">Backend-heavy Java and Spring Boot systems with hands-on React and Ionic. I build reliable APIs, event-driven workflows, and production-ready interfaces.</p>
-      <a className="resume-button" href={RESUME} target="_blank" rel="noreferrer">View résumé <Download size={19} /></a>
-    </div>
-  </aside>;
-}
-
-function SectionHeading({ label, title, children }) {
-  return <header className="section-heading"><div className="section-label">{label}</div><h2>{title}</h2>{children}</header>;
-}
-
-function Home() {
-  usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
-
-  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><CommandPalette /><Header /><div className="studio-layout">
-    <Profile />
-    <main id="content" className="studio-main">
-      <section className="introduction" aria-labelledby="intro-title">
-        <h2 id="intro-title">Backend first.<br /><span>Production minded.</span></h2>
-        <div className="hero-rule" aria-hidden="true"><span /></div>
-        <p>I build reliable Java and Spring Boot services, event-driven workflows, and React interfaces. Four years delivering software from API design to production release.</p>
-        <div className="impact-row" role="region" aria-label="Career impact — scroll horizontally to view all metrics" tabIndex={0}>{impact.map(([value,label], index) => {
-          const Icon = [Server, Network, Activity, Database][index % 4];
-          return <div className={`impact-cell tone-${index % 3}`} key={label}><Icon size={17} strokeWidth={1.5} aria-hidden="true" /><strong>{value}</strong><span>{label}</span></div>;
-        })}</div>
-      </section>
-      <section className="work-section" id="work">
-        <SectionHeading label="Selected work" title="Engineering behind the product."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title} data-project-index={String(index + 1).padStart(2, "0")}>
-          <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
-          <p className="project-statement">{project.statement}</p></div>
-          <ProjectMap index={index} />
-          <div className="project-body"><TechRail items={project.stack} compact title="Project stack" />
-          <details className="project-details"><summary><span>Explore the engineering</span><Plus size={18} /></summary><div className="detail-grid"><div><h4>The problem</h4><p>{project.problem}</p></div><div><h4>The approach</h4><p>{project.build}</p></div></div></details>
-          <div className="project-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>{project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}</div>
-          </div>
-        </article>)}</div>
-      </section>
-      <section className="experience-section" id="experience">
-        <SectionHeading label="Experience" title="Built in production." />
-        <article className="career"><div className="career-heading"><span className="company-mark" aria-hidden="true">SL</span><div><h3>Sun Life Global Solutions</h3><p>Software Developer · Analyst</p></div></div>
-        <div className="career-date">July 2022 — Present</div>
-        <p className="career-lead">Backend delivery for advisor and policy platforms across Asian insurance markets.</p>
-        <ul className="career-results">
-          <li><strong>4s → 3s</strong><p>Reduced client response time through Spring Boot BFF services, payload optimization, and Okta M2M security.</p></li>
-          <li><strong>1,000+ / day</strong><p>Designed Kafka microservices for asynchronous business notifications.</p></li>
-          <li><strong>25% faster</strong><p>Automated release delivery with Jenkins, Docker, and Kubernetes.</p></li>
-          <li><strong>2,000+ advisors</strong><p>Automated rules and policy workflows, reducing manual effort by 60%.</p></li>
-          <li><strong>Frontend Development</strong><p>Developed React and Ionic UI components for a campaign scheduling application, integrating backend APIs to support responsive web and mobile workflows.</p></li>
-        </ul>
-        <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
-      </section>
-      <TechRail items={allTechnologies} id="skills" title="Engineering toolkit" />
-      <Contact />
-    </main>
-  </div></>;
 }
 
 function Contact() {
