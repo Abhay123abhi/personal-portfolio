@@ -3449,3 +3449,79 @@ html.v2-home-active body {
     bottom: 2% !important;
   }
 }
+
+
+/* ==========================================================================
+   Persistent header — desktop + mobile
+   ========================================================================== */
+
+.v2-nav-shell {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 400;
+}
+
+.v2-page > main {
+  padding-top: 72px;
+}
+
+/* Keep anchor targets visible below the persistent header. */
+.v2-hero,
+.v2-section,
+.v2-contact {
+  scroll-margin-top: 82px;
+}
+
+.v2-nav-shell.is-scrolled {
+  background: rgba(10,14,18,.96);
+  box-shadow: 0 10px 30px rgba(0,0,0,.20);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+/* The fixed nav is viewport-bound, so the page wrapper only needs
+   horizontal clipping; vertical scrolling remains owned by the document. */
+.v2-page {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+@media (max-width: 760px) {
+  .v2-page > main {
+    padding-top: 58px;
+  }
+
+  .v2-hero,
+  .v2-section,
+  .v2-contact {
+    scroll-margin-top: 66px;
+  }
+
+  .v2-nav-shell {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .v2-nav-shell.is-scrolled {
+    height: 54px;
+  }
+
+  /* Keep hamburger and résumé controls attached to the fixed header. */
+  .v2-mobile-search-trigger,
+  .v2-nav-actions {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@supports not (overflow: clip) {
+  .v2-page {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+}
