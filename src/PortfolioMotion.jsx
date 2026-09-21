@@ -36,6 +36,34 @@ export default function PortfolioMotion() {
   }, [pathname]);
 
   useEffect(() => {
+    let previous = window.scrollY;
+    let frame = 0;
+    const updateDirection = () => {
+      frame = 0;
+      const current = window.scrollY;
+      const delta = current - previous;
+      if (Math.abs(delta) > 6) {
+        document.documentElement.dataset.scrollDirection = delta > 0 ? "down" : "up";
+        document.documentElement.dataset.scrolled = current > 40 ? "true" : "false";
+        previous = current;
+      }
+      if (current < 24) {
+        document.documentElement.dataset.scrollDirection = "up";
+        document.documentElement.dataset.scrolled = "false";
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(updateDirection); };
+    updateDirection();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      delete document.documentElement.dataset.scrollDirection;
+      delete document.documentElement.dataset.scrolled;
+    };
+  }, [pathname]);
+
+  useEffect(() => {
     const links = [...document.querySelectorAll('.nav a[href^="#"]')];
     const sections = links.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
     const progress = document.querySelector(".reading-progress");
