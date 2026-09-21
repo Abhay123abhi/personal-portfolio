@@ -1362,3 +1362,334 @@ html[data-theme="light"] .project-tech-marquee {
     width: auto;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Responsive architecture containment
+   Desktop stays compact and fully contained; mobile uses stage cards.
+   Future projects only need projectArchitectureData.js changes.
+   -------------------------------------------------------------------------- */
+
+.studio-main,
+.work-section,
+.projects,
+.project,
+.project-top,
+.project-body,
+.architecture,
+.architecture-desktop,
+.system-canvas-frame,
+.system-canvas,
+.system-canvas-svg {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.project {
+  width: 100%;
+  contain: inline-size;
+}
+
+.architecture {
+  width: auto;
+  overflow: hidden;
+}
+
+.architecture-mobile-only {
+  display: none;
+}
+
+.system-canvas-frame {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.system-canvas {
+  width: 100%;
+  min-height: 0 !important;
+  aspect-ratio: 1000 / 430;
+  overflow: hidden;
+}
+
+.system-canvas-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
+}
+
+.project[data-project-index="01"] .system-canvas,
+.project[data-project-index="01"] .system-canvas-svg {
+  min-height: 0 !important;
+}
+
+.system-node-label {
+  font-size: 10px;
+}
+
+.system-node-sub {
+  font-size: 7.5px;
+}
+
+.architecture-stages {
+  min-width: 0;
+  align-content: start;
+}
+
+.architecture-stage {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.stage-nodes {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.stage-nodes > span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.architecture-detail {
+  min-width: 0;
+}
+
+/* At normal laptop widths, keep the diagram visible but reduce side-panel pressure. */
+@media (max-width: 1360px) and (min-width: 901px) {
+  .architecture {
+    grid-template-columns: minmax(0, 1.55fr) minmax(190px, .62fr);
+    gap: 14px 16px;
+    padding: 18px;
+  }
+
+  .system-canvas {
+    aspect-ratio: 1000 / 455;
+  }
+
+  .architecture-stage {
+    padding: 10px;
+  }
+
+  .stage-heading strong {
+    font-size: 11px;
+  }
+
+  .stage-nodes > span {
+    font-size: 8px;
+  }
+
+  .architecture-detail {
+    padding: 11px;
+  }
+
+  .architecture-detail p {
+    font-size: 11px;
+  }
+}
+
+/* Tablet: diagram gets full width; stage selector becomes a compact row below. */
+@media (max-width: 1100px) and (min-width: 701px) {
+  .architecture {
+    display: block;
+    padding: 16px;
+  }
+
+  .system-canvas-frame {
+    margin-bottom: 12px;
+  }
+
+  .system-canvas {
+    aspect-ratio: 1000 / 430;
+  }
+
+  .architecture-stages {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .architecture-detail {
+    margin-top: 10px;
+  }
+
+  .architecture-caption {
+    margin-top: 10px;
+  }
+}
+
+/* Mobile: replace dense SVG with compact, tappable stage cards. */
+@media (max-width: 700px) {
+  .architecture {
+    display: block;
+    margin-inline: 8px;
+    padding: 12px;
+    overflow: visible;
+  }
+
+  .architecture-heading {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .architecture-heading > span:last-child {
+    display: none;
+  }
+
+  .architecture-desktop {
+    display: none !important;
+  }
+
+  .architecture-mobile-only {
+    display: block;
+  }
+
+  .architecture-mobile {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .architecture-mobile-nav {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 2px 1px 5px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .architecture-mobile-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .architecture-mobile-nav button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    color: var(--muted);
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+
+  .architecture-mobile-nav button span {
+    color: color-mix(in srgb, var(--muted) 75%, transparent);
+    font: 600 8px/1 var(--mono);
+  }
+
+  .architecture-mobile-nav button strong {
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .architecture-mobile-nav button.active {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+    background: color-mix(in srgb, var(--accent-soft) 72%, var(--surface));
+    color: var(--ink);
+    box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 80%, transparent);
+  }
+
+  .architecture-mobile-nav button.active span {
+    color: var(--accent);
+  }
+
+  .architecture-mobile-card {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 36%),
+      color-mix(in srgb, var(--surface-soft) 88%, transparent);
+  }
+
+  .architecture-mobile-step {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--accent);
+    font: 600 8px/1 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .architecture-mobile-card h4 {
+    margin: 0 0 9px;
+    font-size: 1rem;
+    letter-spacing: -.02em;
+  }
+
+  .architecture-mobile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .architecture-mobile-tags span {
+    max-width: 100%;
+    padding: 5px 7px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    color: var(--muted);
+    font: 500 8px/1.25 var(--mono);
+    overflow-wrap: anywhere;
+  }
+
+  .architecture-mobile-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 1.65;
+  }
+
+  .architecture-mobile-note {
+    margin: 0;
+    padding: 0 2px;
+    color: var(--muted);
+    font: 500 8.5px/1.55 var(--mono);
+  }
+
+  .project-tech-marquee {
+    margin-inline: 0;
+  }
+}
+
+/* Small phones: keep project content calm and fully in-bounds. */
+@media (max-width: 430px) {
+  .project {
+    border-radius: 18px;
+  }
+
+  .project-top {
+    padding-inline: 16px;
+  }
+
+  .architecture {
+    margin-inline: 6px;
+    padding: 10px;
+  }
+
+  .architecture-mobile-card {
+    padding: 12px;
+  }
+
+  .project-body {
+    padding-inline: 16px;
+  }
+
+  .project-tech-marquee .tech-pill {
+    min-height: 28px !important;
+    font-size: 8px !important;
+  }
+}
