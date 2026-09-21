@@ -50,6 +50,9 @@ export default function PortfolioMotion() {
         if (link.hash === `#${active}`) link.setAttribute("aria-current", "location");
         else link.removeAttribute("aria-current");
       });
+      const pageRange = document.documentElement.scrollHeight - window.innerHeight;
+      const pageProgress = pageRange > 0 ? Math.min(1, Math.max(0, window.scrollY / pageRange)) : 0;
+      document.documentElement.style.setProperty("--page-progress", pageProgress);
       if (article && progress) {
         const box = article.getBoundingClientRect();
         const available = box.height - window.innerHeight;
@@ -66,6 +69,7 @@ export default function PortfolioMotion() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       links.forEach(link => link.removeAttribute("aria-current"));
+      document.documentElement.style.removeProperty("--page-progress");
     };
   }, [pathname]);
   useEffect(() => {
