@@ -1574,3 +1574,333 @@ html.v2-home-active body {
     animation: none !important;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Hero scene v4 — separated CSS 3D geometry, no API/Kafka flow
+   -------------------------------------------------------------------------- */
+
+.v2-flow,
+.v2-flow-node,
+.v2-flow-line {
+  display: none !important;
+}
+
+.v2-scene {
+  perspective: 1100px;
+}
+
+.v2-geo {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.v2-cube-wrap {
+  width: 88px;
+  height: 88px;
+  transform-style: preserve-3d;
+}
+
+.v2-cube-3d {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(34deg) rotateZ(-8deg);
+}
+
+.v2-cube-3d .face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,.14);
+  backface-visibility: hidden;
+  box-shadow: inset 0 0 20px rgba(255,255,255,.035);
+}
+
+.v2-cube-3d .front  { transform: translateZ(44px); }
+.v2-cube-3d .back   { transform: rotateY(180deg) translateZ(44px); }
+.v2-cube-3d .right  { transform: rotateY(90deg) translateZ(44px); }
+.v2-cube-3d .left   { transform: rotateY(-90deg) translateZ(44px); }
+.v2-cube-3d .top    { transform: rotateX(90deg) translateZ(44px); }
+.v2-cube-3d .bottom { transform: rotateX(-90deg) translateZ(44px); }
+
+.v2-cube-blue {
+  left: 3.5%;
+  top: 4%;
+  opacity: .94;
+  filter: drop-shadow(0 18px 32px rgba(38,105,220,.26));
+}
+
+.v2-cube-blue .face {
+  background: linear-gradient(145deg, rgba(95,174,255,.96), rgba(39,83,190,.88));
+  border-color: rgba(129,202,255,.42);
+}
+
+.v2-cube-mint {
+  left: 48%;
+  bottom: 4%;
+  width: 108px;
+  height: 108px;
+  opacity: .92;
+  filter: drop-shadow(0 22px 36px rgba(64,223,193,.24));
+}
+
+.v2-cube-mint .v2-cube-3d .front  { transform: translateZ(54px); }
+.v2-cube-mint .v2-cube-3d .back   { transform: rotateY(180deg) translateZ(54px); }
+.v2-cube-mint .v2-cube-3d .right  { transform: rotateY(90deg) translateZ(54px); }
+.v2-cube-mint .v2-cube-3d .left   { transform: rotateY(-90deg) translateZ(54px); }
+.v2-cube-mint .v2-cube-3d .top    { transform: rotateX(90deg) translateZ(54px); }
+.v2-cube-mint .v2-cube-3d .bottom { transform: rotateX(-90deg) translateZ(54px); }
+
+.v2-cube-mint .face {
+  background: linear-gradient(145deg, rgba(113,238,211,.98), rgba(28,125,117,.88));
+  border-color: rgba(159,255,230,.48);
+}
+
+.v2-cube-distant-a {
+  left: 63%;
+  top: 54%;
+  width: 58px;
+  height: 58px;
+  opacity: .44;
+  filter: blur(.3px) drop-shadow(0 12px 24px rgba(64,112,194,.18));
+}
+
+.v2-cube-distant-a .v2-cube-3d {
+  transform: rotateX(-18deg) rotateY(-30deg) rotateZ(13deg);
+}
+
+.v2-cube-distant-a .v2-cube-3d .front  { transform: translateZ(29px); }
+.v2-cube-distant-a .v2-cube-3d .back   { transform: rotateY(180deg) translateZ(29px); }
+.v2-cube-distant-a .v2-cube-3d .right  { transform: rotateY(90deg) translateZ(29px); }
+.v2-cube-distant-a .v2-cube-3d .left   { transform: rotateY(-90deg) translateZ(29px); }
+.v2-cube-distant-a .v2-cube-3d .top    { transform: rotateX(90deg) translateZ(29px); }
+.v2-cube-distant-a .v2-cube-3d .bottom { transform: rotateX(-90deg) translateZ(29px); }
+
+.v2-cube-distant-a .face {
+  background: linear-gradient(145deg, rgba(77,118,191,.8), rgba(38,50,87,.78));
+  border-color: rgba(110,150,220,.22);
+}
+
+.v2-cube-distant-b {
+  right: 31%;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
+  opacity: .34;
+  filter: blur(.7px) drop-shadow(0 8px 20px rgba(142,85,214,.18));
+}
+
+.v2-cube-distant-b .v2-cube-3d {
+  transform: rotateX(-26deg) rotateY(35deg) rotateZ(-16deg);
+}
+
+.v2-cube-distant-b .v2-cube-3d .front  { transform: translateZ(24px); }
+.v2-cube-distant-b .v2-cube-3d .back   { transform: rotateY(180deg) translateZ(24px); }
+.v2-cube-distant-b .v2-cube-3d .right  { transform: rotateY(90deg) translateZ(24px); }
+.v2-cube-distant-b .v2-cube-3d .left   { transform: rotateY(-90deg) translateZ(24px); }
+.v2-cube-distant-b .v2-cube-3d .top    { transform: rotateX(90deg) translateZ(24px); }
+.v2-cube-distant-b .v2-cube-3d .bottom { transform: rotateX(-90deg) translateZ(24px); }
+
+.v2-cube-distant-b .face {
+  background: linear-gradient(145deg, rgba(160,109,229,.78), rgba(67,48,104,.76));
+  border-color: rgba(188,141,247,.2);
+}
+
+.v2-geo-ring {
+  left: 50%;
+  top: 18%;
+  width: 176px;
+  height: 176px;
+  border: 30px solid rgba(116,112,232,.86);
+  border-radius: 50%;
+  opacity: .9;
+  transform: rotateX(64deg) rotateZ(-20deg);
+  background: transparent;
+  box-shadow:
+    inset 12px 14px 22px rgba(255,255,255,.11),
+    inset -16px -18px 30px rgba(52,35,112,.28),
+    0 24px 50px rgba(62,54,170,.20);
+}
+
+.v2-geo-ring::after {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(181,115,255,.28), transparent 42%, rgba(85,156,255,.22));
+  filter: blur(15px);
+  z-index: -1;
+}
+
+.v2-geo-orb {
+  right: 30%;
+  top: 4%;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  opacity: .92;
+  background:
+    radial-gradient(circle at 31% 28%, #f0dfc2 0 10%, #b6afa2 34%, #7a7473 62%, #3f3b45 100%);
+  box-shadow:
+    0 22px 44px rgba(0,0,0,.24),
+    inset -14px -16px 24px rgba(45,39,48,.28);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .v2-cube-blue {
+    animation: v2-cube-blue-float 6.8s ease-in-out infinite;
+  }
+
+  .v2-geo-ring {
+    animation: v2-ring-float-v4 7.6s ease-in-out infinite;
+  }
+
+  .v2-geo-orb {
+    animation: v2-orb-float-v4 6.4s ease-in-out infinite;
+  }
+
+  .v2-cube-mint {
+    animation: v2-cube-mint-float 7.2s ease-in-out infinite;
+  }
+
+  .v2-cube-distant-a {
+    animation: v2-cube-distant-a-float 5.8s ease-in-out infinite;
+  }
+
+  .v2-cube-distant-b {
+    animation: v2-cube-distant-b-float 5.2s ease-in-out infinite;
+  }
+
+  .v2-cube-blue .v2-cube-3d,
+  .v2-cube-mint .v2-cube-3d,
+  .v2-cube-distant-a .v2-cube-3d,
+  .v2-cube-distant-b .v2-cube-3d {
+    animation: v2-cube-spin 12s linear infinite;
+  }
+}
+
+@keyframes v2-cube-blue-float {
+  0%,100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(16px,18px,0); }
+}
+
+@keyframes v2-ring-float-v4 {
+  0%,100% { transform: translate3d(0,0,0) rotateX(64deg) rotateZ(-20deg); }
+  50% { transform: translate3d(14px,-18px,0) rotateX(70deg) rotateZ(-8deg); }
+}
+
+@keyframes v2-orb-float-v4 {
+  0%,100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-13px,18px,0) scale(1.04); }
+}
+
+@keyframes v2-cube-mint-float {
+  0%,100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-18px,-20px,0); }
+}
+
+@keyframes v2-cube-distant-a-float {
+  0%,100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(14px,-13px,0); }
+}
+
+@keyframes v2-cube-distant-b-float {
+  0%,100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-10px,-15px,0); }
+}
+
+@keyframes v2-cube-spin {
+  to { transform: rotateX(338deg) rotateY(394deg) rotateZ(352deg); }
+}
+
+@media (max-width: 1250px) and (min-width: 761px) {
+  .v2-cube-blue {
+    left: 2%;
+    top: 6%;
+    transform: scale(.82);
+  }
+
+  .v2-geo-ring {
+    left: 48%;
+    width: 140px;
+    height: 140px;
+    border-width: 24px;
+    opacity: .7;
+  }
+
+  .v2-geo-orb {
+    right: 31%;
+    width: 76px;
+    height: 76px;
+    opacity: .72;
+  }
+
+  .v2-cube-mint {
+    left: 46%;
+    bottom: 5%;
+    transform: scale(.8);
+  }
+
+  .v2-cube-distant-a,
+  .v2-cube-distant-b {
+    opacity: .24;
+  }
+}
+
+@media (max-width: 760px) {
+  .v2-scene-grid {
+    opacity: .075;
+  }
+
+  .v2-cube-blue {
+    display: block;
+    left: auto;
+    right: -18px;
+    top: 76px;
+    transform: scale(.58);
+    opacity: .34;
+  }
+
+  .v2-geo-ring {
+    left: -42px;
+    top: 42%;
+    width: 104px;
+    height: 104px;
+    border-width: 18px;
+    opacity: .26;
+  }
+
+  .v2-geo-orb {
+    right: 8%;
+    top: 52px;
+    width: 58px;
+    height: 58px;
+    opacity: .3;
+  }
+
+  .v2-cube-mint {
+    left: auto;
+    right: 2%;
+    bottom: 7%;
+    transform: scale(.52);
+    opacity: .24;
+  }
+
+  .v2-cube-distant-a,
+  .v2-cube-distant-b {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-cube-blue,
+  .v2-geo-ring,
+  .v2-geo-orb,
+  .v2-cube-mint,
+  .v2-cube-distant-a,
+  .v2-cube-distant-b,
+  .v2-cube-3d {
+    animation: none !important;
+  }
+}
