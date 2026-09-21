@@ -5,7 +5,7 @@ import HeroScene from "./HeroScene";
 import ProjectCaseStudy from "./ProjectCaseStudy";
 import {
   identity,
-  metrics,
+  productionStats,
   capabilities,
   projects,
   experienceMetrics,
@@ -76,12 +76,26 @@ function Hero() {
         </div>
       </div>
 
-      <div className="v2-metrics" role="region" aria-label="Career impact metrics" tabIndex={0}>
-        {metrics.map(metric => (
-          <div className="v2-metric-card" key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>
+      <a href="#production" className="v2-scroll-cue" aria-label="Scroll to production impact"><span /><small>scroll</small></a>
+    </section>
+  );
+}
+
+function ProductionStats() {
+  return (
+    <section className="v2-production" id="production" aria-label="Built in production">
+      <div className="v2-production-head">
+        <p className="v2-kicker">// BUILT IN PRODUCTION</p>
+        <p>Production context beyond a project demo.</p>
+      </div>
+      <div className="v2-production-rail" tabIndex={0}>
+        {productionStats.map((item) => (
+          <article className="v2-production-stat" key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </article>
         ))}
       </div>
-      <a href="#capabilities" className="v2-scroll-cue" aria-label="Scroll to capabilities"><span /><small>scroll</small></a>
     </section>
   );
 }
@@ -174,8 +188,17 @@ function Toolbelt() {
         {rows.map((row, rowIndex) => (
           <div className="v2-tool-window" key={rowIndex}>
             <div className={rowIndex ? "v2-tool-track reverse" : "v2-tool-track"}>
-              {[...row, ...row].map(([name, desc], index) => (
-                <span className="v2-tool" key={name + index}><b>{name}</b><small>{desc}</small></span>
+              {[...row, ...row].map((tool, index) => (
+                <span className="v2-tool" key={tool.name + index} style={{ "--tool-color": `#${tool.color}` }}>
+                  <span className="v2-tool-logo" aria-hidden="true">
+                    {tool.icon ? (
+                      <img src={`https://cdn.simpleicons.org/${tool.icon}/${tool.color}`} alt="" width="20" height="20" loading="lazy" decoding="async" onError={event => { event.currentTarget.style.display = "none"; }} />
+                    ) : (
+                      <span>{tool.name.slice(0, 2).toUpperCase()}</span>
+                    )}
+                  </span>
+                  <b>{tool.name}</b><small>{tool.desc}</small>
+                </span>
               ))}
             </div>
           </div>
@@ -195,7 +218,6 @@ function Journal() {
       <div className="v2-journal-grid">
         {featuredArticles.map(article => (
           <Link to={article.href} className="v2-article-card" key={article.href}>
-            <span>{article.number}</span>
             <small>{article.category}</small>
             <h3>{article.title}</h3>
             <p>{article.excerpt}</p>
@@ -215,10 +237,10 @@ function ContactV2() {
       <h2>Let’s build something<br /><span>reliable.</span></h2>
       <p>Backend, distributed systems, Java, production engineering — or a product that needs all four. My inbox is open.</p>
       <div className="v2-contact-actions">
-        <a className="v2-api-action" href={"mailto:" + identity.email}><Mail size={16} /> /email</a>
-        <a className="v2-api-action" href={identity.linkedin} target="_blank" rel="noreferrer"><Linkedin size={16} /> /linkedin</a>
-        <a className="v2-api-action" href={identity.github} target="_blank" rel="noreferrer"><Github size={16} /> /github</a>
-        <a className="v2-api-action" href={identity.resume} target="_blank" rel="noreferrer"><Download size={16} /> /resume</a>
+        <a className="v2-api-action" href={"mailto:" + identity.email}>/email</a>
+        <a className="v2-api-action" href={identity.linkedin} target="_blank" rel="noreferrer">/linkedin</a>
+        <a className="v2-api-action" href={identity.github} target="_blank" rel="noreferrer">/github</a>
+        <a className="v2-api-action" href={identity.resume} target="_blank" rel="noreferrer">/resume</a>
       </div>
       <footer><span>Abhay Jaiswal</span><span>Gurugram, India</span><span>{identity.email}</span></footer>
     </section>
@@ -237,6 +259,7 @@ export default function HomeV2() {
       <V2Nav />
       <main>
         <Hero />
+        <ProductionStats />
         <CapabilityGrid />
         <Work />
         <Experience />
