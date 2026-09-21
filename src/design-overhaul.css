@@ -1363,12 +1363,13 @@ html[data-theme="light"] .project-tech-marquee {
   }
 }
 
-
 /* --------------------------------------------------------------------------
-   Responsive architecture containment
-   Desktop stays compact and fully contained; mobile uses stage cards.
-   Future projects only need projectArchitectureData.js changes.
+   Canonical compact architecture layout
    -------------------------------------------------------------------------- */
+
+.project::after {
+  display: none;
+}
 
 .studio-main,
 .work-section,
@@ -1378,6 +1379,7 @@ html[data-theme="light"] .project-tech-marquee {
 .project-body,
 .architecture,
 .architecture-desktop,
+.architecture-canvas-desktop,
 .system-canvas-frame,
 .system-canvas,
 .system-canvas-svg {
@@ -1392,147 +1394,367 @@ html[data-theme="light"] .project-tech-marquee {
 }
 
 .architecture {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(235px, .7fr);
+  grid-template-rows: auto auto auto;
+  gap: 12px 16px;
   width: auto;
+  margin: 0 20px;
+  padding: 16px;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface-soft) 72%, transparent), color-mix(in srgb, var(--surface) 90%, transparent));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+}
+
+.architecture-heading {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0 0 10px;
+}
+
+.architecture-heading > span:last-child {
+  font: 500 8.5px/1.4 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .06em;
 }
 
 .architecture-mobile-only {
   display: none;
 }
 
+.architecture-canvas-desktop {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  align-self: start;
+}
+
 .system-canvas-frame {
   width: 100%;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 14px;
 }
 
 .system-canvas {
+  position: relative;
   width: 100%;
   min-height: 0 !important;
-  aspect-ratio: 1000 / 430;
+  aspect-ratio: 1000 / 405;
   overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--line));
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 4%, transparent), transparent 56%),
+    color-mix(in srgb, var(--surface-soft) 76%, transparent);
+}
+
+.system-canvas-grid {
+  position: absolute;
+  inset: 0;
+  opacity: .34;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(circle at 50% 45%, black, transparent 88%);
 }
 
 .system-canvas-svg {
+  position: relative;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
   min-height: 0 !important;
 }
 
-.project[data-project-index="01"] .system-canvas,
-.project[data-project-index="01"] .system-canvas-svg {
-  min-height: 0 !important;
+.system-edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--muted) 18%, var(--line));
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+  transition: stroke .3s, opacity .3s;
 }
 
+.system-edge.reached { stroke: color-mix(in srgb, var(--accent) 32%, var(--line)); }
+
+.system-edge.active {
+  stroke: var(--accent);
+  stroke-width: 1.8;
+  stroke-dasharray: 5 8;
+}
+
+.system-edge.muted {
+  stroke-dasharray: 3 10;
+  opacity: .3;
+}
+
+.system-node rect {
+  fill: color-mix(in srgb, var(--surface) 95%, transparent);
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: fill .3s, stroke .3s, filter .3s, opacity .3s;
+}
+
+.system-node.pending { opacity: .4; }
+
+.system-node.reached rect {
+  stroke: color-mix(in srgb, var(--accent) 24%, var(--line));
+}
+
+.system-node.active rect {
+  fill: color-mix(in srgb, var(--accent-soft) 68%, var(--surface));
+  stroke: var(--accent);
+}
+
+.system-node-dot { fill: var(--muted); }
+.system-node.active .system-node-dot { fill: var(--accent); }
+
 .system-node-label {
-  font-size: 10px;
+  fill: var(--ink);
+  font: 600 9.5px var(--mono);
 }
 
 .system-node-sub {
-  font-size: 7.5px;
+  fill: var(--muted);
+  font: 500 7px var(--mono);
+}
+
+.system-packet { fill: var(--signal); }
+
+.system-canvas-legend {
+  position: absolute;
+  left: 13px;
+  bottom: 9px;
+  z-index: 3;
+  display: flex;
+  gap: 11px;
+  color: var(--muted);
+  font: 500 7.5px/1 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.system-canvas-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 .architecture-stages {
-  min-width: 0;
+  grid-column: 2;
+  grid-row: 2 / 4;
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 7px;
   align-content: start;
+  min-width: 0;
 }
 
 .architecture-stage {
   min-width: 0;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.architecture-stage::before {
+  display: none;
+}
+
+.stage-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+
+.stage-heading strong {
+  font-size: 10.5px;
+}
+
+.stage-heading > .stage-icon {
+  width: 23px;
+  height: 23px;
+  border-radius: 7px;
 }
 
 .stage-nodes {
-  min-width: 0;
+  display: flex;
   flex-wrap: wrap;
+  gap: 3px 7px;
+  min-width: 0;
 }
 
 .stage-nodes > span {
   max-width: 100%;
+  padding: 0;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.3;
   overflow-wrap: anywhere;
 }
 
-.architecture-detail {
+.flow-connector {
+  display: none;
+}
+
+.architecture-left-detail {
+  grid-column: 1;
+  grid-row: 3;
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  align-self: start;
+}
+
+.architecture-left-detail-copy {
+  display: grid;
+  grid-template-columns: minmax(145px, 205px) minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: start;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 24%, transparent), transparent 45%),
+    color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+.architecture-left-detail-heading {
+  display: grid;
+  gap: 5px;
   min-width: 0;
 }
 
-/* At normal laptop widths, keep the diagram visible but reduce side-panel pressure. */
-@media (max-width: 1360px) and (min-width: 901px) {
-  .architecture {
-    grid-template-columns: minmax(0, 1.55fr) minmax(190px, .62fr);
-    gap: 14px 16px;
-    padding: 18px;
+.architecture-left-detail-heading > strong {
+  color: var(--accent);
+  font: 600 10px/1.35 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.architecture-left-detail-heading > span {
+  color: var(--muted);
+  font: 500 7.5px/1.4 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  overflow-wrap: anywhere;
+}
+
+.architecture-left-detail-copy p {
+  margin: 0;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 10.75px;
+  line-height: 1.58;
+}
+
+.architecture-flow-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 0 2px;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.architecture-flow-note > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.architecture-flow-note > span:last-child {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.project-body {
+  padding: 24px 32px 32px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .architecture-stage:hover {
+    transform: translateX(2px);
   }
 
-  .system-canvas {
-    aspect-ratio: 1000 / 455;
-  }
-
-  .architecture-stage {
-    padding: 10px;
-  }
-
-  .stage-heading strong {
-    font-size: 11px;
-  }
-
-  .stage-nodes > span {
-    font-size: 8px;
-  }
-
-  .architecture-detail {
-    padding: 11px;
-  }
-
-  .architecture-detail p {
-    font-size: 11px;
+  .system-node.active rect {
+    filter: drop-shadow(0 8px 16px color-mix(in srgb, var(--accent) 12%, transparent));
   }
 }
 
-/* Tablet: diagram gets full width; stage selector becomes a compact row below. */
+@media (prefers-reduced-motion: no-preference) {
+  .system-edge.active { animation: system-route 9s linear infinite; }
+  .system-node.active .system-node-dot { animation: node-breathe 2.4s ease-in-out infinite; }
+}
+
+@media (max-width: 1360px) and (min-width: 1101px) {
+  .architecture {
+    grid-template-columns: minmax(0, 1.62fr) minmax(210px, .66fr);
+    padding: 14px;
+    gap: 10px 14px;
+  }
+
+  .architecture-left-detail-copy {
+    grid-template-columns: minmax(125px, 175px) minmax(0, 1fr);
+    padding: 10px 11px;
+  }
+
+  .architecture-left-detail-copy p {
+    font-size: 10.25px;
+  }
+}
+
 @media (max-width: 1100px) and (min-width: 701px) {
   .architecture {
     display: block;
-    padding: 16px;
+    padding: 13px;
   }
 
-  .system-canvas-frame {
-    margin-bottom: 12px;
-  }
-
-  .system-canvas {
-    aspect-ratio: 1000 / 430;
+  .architecture-canvas-desktop {
+    width: 100%;
   }
 
   .architecture-stages {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 7px;
+    margin-top: 9px;
   }
 
-  .architecture-detail {
-    margin-top: 10px;
+  .architecture-left-detail {
+    margin-top: 9px;
   }
 
-  .architecture-caption {
-    margin-top: 10px;
+  .architecture-left-detail-copy {
+    grid-template-columns: minmax(130px, .3fr) minmax(0, 1fr);
   }
 }
 
-/* Mobile: replace dense SVG with compact, tappable stage cards. */
 @media (max-width: 700px) {
   .architecture {
     display: block;
     margin-inline: 8px;
-    padding: 12px;
+    padding: 11px;
     overflow: visible;
   }
 
   .architecture-heading {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin-bottom: 9px;
+    padding-bottom: 9px;
   }
 
   .architecture-heading > span:last-child {
@@ -1549,15 +1771,15 @@ html[data-theme="light"] .project-tech-marquee {
 
   .architecture-mobile {
     display: grid;
-    gap: 10px;
+    gap: 9px;
     min-width: 0;
   }
 
   .architecture-mobile-nav {
     display: flex;
-    gap: 7px;
+    gap: 6px;
     overflow-x: auto;
-    padding: 2px 1px 5px;
+    padding: 1px 1px 4px;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
@@ -1571,11 +1793,11 @@ html[data-theme="light"] .project-tech-marquee {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    min-height: 36px;
-    padding: 7px 10px;
+    gap: 6px;
+    min-height: 34px;
+    padding: 6px 9px;
     border: 1px solid var(--line);
-    border-radius: 10px;
+    border-radius: 9px;
     background: color-mix(in srgb, var(--surface) 88%, transparent);
     color: var(--muted);
     scroll-snap-align: start;
@@ -1584,11 +1806,11 @@ html[data-theme="light"] .project-tech-marquee {
 
   .architecture-mobile-nav button span {
     color: color-mix(in srgb, var(--muted) 75%, transparent);
-    font: 600 8px/1 var(--mono);
+    font: 600 7.5px/1 var(--mono);
   }
 
   .architecture-mobile-nav button strong {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 600;
   }
 
@@ -1605,9 +1827,9 @@ html[data-theme="light"] .project-tech-marquee {
 
   .architecture-mobile-card {
     min-width: 0;
-    padding: 14px;
+    padding: 12px;
     border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
-    border-radius: 14px;
+    border-radius: 12px;
     background:
       radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 36%),
       color-mix(in srgb, var(--surface-soft) 88%, transparent);
@@ -1615,57 +1837,52 @@ html[data-theme="light"] .project-tech-marquee {
 
   .architecture-mobile-step {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     color: var(--accent);
-    font: 600 8px/1 var(--mono);
+    font: 600 7.5px/1 var(--mono);
     text-transform: uppercase;
     letter-spacing: .08em;
   }
 
   .architecture-mobile-card h4 {
-    margin: 0 0 9px;
-    font-size: 1rem;
+    margin: 0 0 8px;
+    font-size: .95rem;
     letter-spacing: -.02em;
   }
 
   .architecture-mobile-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 5px;
+    margin-bottom: 9px;
   }
 
   .architecture-mobile-tags span {
     max-width: 100%;
-    padding: 5px 7px;
+    padding: 4px 6px;
     border: 1px solid var(--line);
-    border-radius: 7px;
+    border-radius: 6px;
     background: color-mix(in srgb, var(--surface) 80%, transparent);
     color: var(--muted);
-    font: 500 8px/1.25 var(--mono);
+    font: 500 7.5px/1.25 var(--mono);
     overflow-wrap: anywhere;
   }
 
   .architecture-mobile-card p {
     margin: 0;
     color: var(--muted);
-    font-size: 11.5px;
-    line-height: 1.65;
+    font-size: 10.75px;
+    line-height: 1.58;
   }
 
   .architecture-mobile-note {
     margin: 0;
     padding: 0 2px;
     color: var(--muted);
-    font: 500 8.5px/1.55 var(--mono);
-  }
-
-  .project-tech-marquee {
-    margin-inline: 0;
+    font: 500 8px/1.5 var(--mono);
   }
 }
 
-/* Small phones: keep project content calm and fully in-bounds. */
 @media (max-width: 430px) {
   .project {
     border-radius: 18px;
@@ -1677,11 +1894,7 @@ html[data-theme="light"] .project-tech-marquee {
 
   .architecture {
     margin-inline: 6px;
-    padding: 10px;
-  }
-
-  .architecture-mobile-card {
-    padding: 12px;
+    padding: 9px;
   }
 
   .project-body {
@@ -1691,340 +1904,5 @@ html[data-theme="light"] .project-tech-marquee {
   .project-tech-marquee .tech-pill {
     min-height: 28px !important;
     font-size: 8px !important;
-  }
-}
-
-
-/* Explicit desktop placement for the contained architecture canvas wrapper. */
-.architecture-canvas-desktop {
-  grid-column: 1;
-  grid-row: 2 / 4;
-  min-width: 0;
-  width: 100%;
-}
-
-@media (max-width: 1100px) and (min-width: 701px) {
-  .architecture-canvas-desktop {
-    grid-column: auto;
-    grid-row: auto;
-    width: 100%;
-  }
-}
-
-
-/* --------------------------------------------------------------------------
-   Architecture balance: use left-column space for active stage insight.
-   -------------------------------------------------------------------------- */
-
-.architecture {
-  grid-template-rows: auto auto auto;
-}
-
-.architecture-canvas-desktop {
-  grid-column: 1;
-  grid-row: 2;
-  align-self: start;
-}
-
-.architecture-stages {
-  grid-column: 2;
-  grid-row: 2 / 4;
-  align-self: stretch;
-}
-
-.architecture-insight {
-  grid-column: 1;
-  grid-row: 3;
-  min-width: 0;
-  display: grid;
-  gap: 10px;
-  align-self: start;
-}
-
-.architecture-insight .architecture-detail {
-  display: grid;
-  grid-template-columns: minmax(120px, .34fr) minmax(0, 1fr);
-  gap: 14px 18px;
-  align-items: start;
-  margin: 0;
-  padding: 15px 16px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 38%, transparent), transparent 44%),
-    color-mix(in srgb, var(--surface) 82%, transparent);
-}
-
-.architecture-detail-heading {
-  display: grid;
-  gap: 6px;
-}
-
-.architecture-detail-heading > span {
-  color: var(--muted);
-  font: 600 8px/1 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: .09em;
-}
-
-.architecture-detail-heading > strong {
-  color: var(--accent);
-  font: 600 11px/1.35 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: .055em;
-}
-
-.architecture-insight .architecture-detail p {
-  margin: 0;
-  font-size: 11.5px;
-  line-height: 1.68;
-}
-
-.architecture-insight .architecture-caption {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  margin: 0;
-  padding: 0 2px;
-  font-size: 8.5px;
-}
-
-.architecture-insight .architecture-caption > span:first-child {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.architecture-insight .architecture-caption > span:last-child {
-  white-space: nowrap;
-  color: var(--accent);
-}
-
-@media (max-width: 1360px) and (min-width: 1101px) {
-  .architecture-insight .architecture-detail {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .architecture-detail-heading {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 1100px) and (min-width: 701px) {
-  .architecture-insight {
-    display: block;
-  }
-
-  .architecture-insight .architecture-detail {
-    grid-template-columns: minmax(130px, .32fr) minmax(0, 1fr);
-    margin-top: 10px;
-  }
-
-  .architecture-insight .architecture-caption {
-    margin-top: 10px;
-  }
-
-  .architecture-stages {
-    grid-row: auto;
-    align-self: auto;
-  }
-}
-
-
-/* --------------------------------------------------------------------------
-   Final compact architecture composition
-   -------------------------------------------------------------------------- */
-
-.project::after {
-  display: none;
-}
-
-.architecture {
-  grid-template-columns: minmax(0, 1.68fr) minmax(240px, .72fr);
-  grid-template-rows: auto auto auto;
-  gap: 14px 18px;
-  padding: 18px;
-}
-
-.architecture-canvas-desktop {
-  grid-column: 1;
-  grid-row: 2;
-  align-self: start;
-}
-
-.architecture-stages {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: start;
-  gap: 7px;
-}
-
-.architecture-stage {
-  padding: 10px 11px;
-  border-radius: 11px;
-}
-
-.stage-heading strong {
-  font-size: 11px;
-}
-
-.stage-nodes {
-  gap: 3px 7px;
-}
-
-.stage-nodes > span {
-  font-size: 8.25px;
-  line-height: 1.3;
-}
-
-.architecture-bottom {
-  grid-column: 1 / -1;
-  grid-row: 3;
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-}
-
-.architecture-detail-compact {
-  display: grid;
-  grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
-  gap: 14px 18px;
-  align-items: start;
-  margin: 0;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 26%, transparent), transparent 46%),
-    color-mix(in srgb, var(--surface) 82%, transparent);
-}
-
-.architecture-detail-heading {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-}
-
-.architecture-detail-heading > strong {
-  color: var(--accent);
-  font: 600 10.5px/1.35 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
-.architecture-detail-meta {
-  color: var(--muted);
-  font: 500 8px/1.45 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  overflow-wrap: anywhere;
-}
-
-.architecture-detail-compact p {
-  margin: 0;
-  min-width: 0;
-  color: var(--muted);
-  font-size: 11.25px;
-  line-height: 1.62;
-}
-
-.architecture-bottom .architecture-caption {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  margin: 0;
-  padding: 0 2px;
-  font-size: 8.25px;
-}
-
-.architecture-bottom .architecture-caption > span:first-child {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.architecture-bottom .architecture-caption > span:last-child {
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-.system-canvas {
-  aspect-ratio: 1000 / 415;
-}
-
-.system-canvas-legend {
-  bottom: 10px;
-}
-
-@media (max-width: 1360px) and (min-width: 1101px) {
-  .architecture {
-    grid-template-columns: minmax(0, 1.58fr) minmax(220px, .68fr);
-    padding: 16px;
-    gap: 12px 15px;
-  }
-
-  .architecture-detail-compact {
-    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
-    padding: 11px 12px;
-  }
-}
-
-@media (max-width: 1100px) and (min-width: 701px) {
-  .architecture {
-    display: block;
-    padding: 14px;
-  }
-
-  .architecture-canvas-desktop {
-    width: 100%;
-  }
-
-  .architecture-stages {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 7px;
-    margin-top: 10px;
-  }
-
-  .architecture-bottom {
-    display: block;
-    margin-top: 10px;
-  }
-
-  .architecture-detail-compact {
-    grid-template-columns: 1fr;
-    gap: 7px;
-    padding: 11px 12px;
-  }
-
-  .architecture-bottom .architecture-caption {
-    margin-top: 8px;
-  }
-}
-
-@media (max-width: 700px) {
-  .architecture-bottom {
-    display: none !important;
-  }
-
-  .architecture-mobile-card {
-    padding: 12px;
-  }
-
-  .architecture-mobile-card h4 {
-    font-size: .96rem;
-  }
-
-  .architecture-mobile-card p {
-    font-size: 11px;
-    line-height: 1.6;
-  }
-
-  .architecture-mobile-tags span {
-    padding: 5px 6px;
-    font-size: 7.8px;
   }
 }
