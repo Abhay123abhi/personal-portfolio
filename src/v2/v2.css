@@ -817,3 +817,74 @@ html.v2-home-active body {
     animation: none !important;
   }
 }
+
+
+/* Built in production: compact impact rail, matching the earlier hero metric treatment. */
+.v2-production {
+  padding-bottom: clamp(40px, 4vw, 58px);
+}
+
+.v2-production-head {
+  margin-bottom: 10px;
+}
+
+.v2-production-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 0;
+  overflow-x: auto;
+  border-block: 1px solid rgba(130,155,164,.18);
+  scroll-snap-type: x proximity;
+}
+
+.v2-production-stat {
+  min-height: 96px;
+  padding: 16px 20px;
+  border: 0;
+  border-right: 1px solid rgba(130,155,164,.18);
+  border-radius: 0;
+  background: transparent;
+}
+
+.v2-production-stat:last-child {
+  border-right: 0;
+}
+
+.v2-production-stat::after {
+  display: none;
+}
+
+.v2-production-stat strong {
+  font-size: clamp(1.9rem, 2.7vw, 2.7rem);
+}
+
+.v2-production-stat span {
+  margin-top: 6px;
+  color: var(--v2-muted);
+  font: 500 8px/1.45 var(--mono, monospace);
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+@media (max-width: 760px) {
+  .v2-production-rail {
+    display: flex;
+    gap: 0;
+    padding-right: 0;
+  }
+
+  .v2-production-stat {
+    flex: 0 0 72%;
+    min-width: 220px;
+    min-height: 92px;
+    padding: 15px 16px;
+  }
+
+  .v2-production-stat strong {
+    font-size: 2rem;
+  }
+
+  .v2-production-stat span {
+    margin-top: 5px;
+  }
+}
