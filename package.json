@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/build-blog-pages.mjs",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "blog:new": "node scripts/new-blog-post.mjs",
+    "blog:check": "node -e \"import('./src/blogArticles.js').then(({articles}) => console.log(articles.length + ' valid blog articles'))\""
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

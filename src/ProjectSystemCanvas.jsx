@@ -4,13 +4,14 @@ export default function ProjectSystemCanvas({ projectIndex, activeStage }) {
   const topology = projectArchitectures[projectIndex];
   if (!topology) return null;
 
+  const [, , diagramWidth, diagramHeight] = topology.viewBox.split(/\s+/).map(Number);
   const activeEdges = topology.edges.filter(edge => edge.stage === activeStage && !edge.muted);
 
   return (
     <div className="system-canvas-frame">
       <div className="system-canvas" role="img" aria-label={topology.name} data-active-stage={activeStage}>
         <div className="system-canvas-grid" aria-hidden="true" />
-        <svg className="system-canvas-svg" viewBox={topology.viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <svg className="system-canvas-svg" viewBox={topology.viewBox} style={{ "--diagram-aspect": `${diagramWidth} / ${diagramHeight}` }} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
           <defs>
             <filter id={`system-glow-${projectIndex}`} x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="2.6" result="blur" />
@@ -52,3 +53,4 @@ export default function ProjectSystemCanvas({ projectIndex, activeStage }) {
     </div>
   );
 }
+

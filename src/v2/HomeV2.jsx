@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
 import ProjectCaseStudy from "./ProjectCaseStudy";
@@ -10,7 +10,6 @@ import {
   projects,
   experienceMetrics,
   toolbelt,
-  featuredArticles,
 } from "./portfolioData";
 
 const mobileCommands = [
@@ -19,7 +18,7 @@ const mobileCommands = [
   { label: "Selected work", meta: "projects", href: "#work", icon: Briefcase, keywords: "work projects architecture systems" },
   { label: "Experience", meta: "production", href: "#experience", icon: Briefcase, keywords: "experience sun life production impact" },
   { label: "Stack", meta: "toolbelt", href: "#stack", icon: Layers, keywords: "stack tools java spring kafka docker aws" },
-  { label: "Engineering journal", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles journal writing" },
+  { label: "Blog", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles blog writing" },
   { label: "Contact", meta: "email · links", href: "#contact", icon: Mail, keywords: "contact email linkedin github" },
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
   { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
@@ -27,7 +26,8 @@ const mobileCommands = [
   { label: "Email Abhay", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
-function V2Nav() {
+export function V2Nav({ inner = false }) {
+  const navigate = useNavigate();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,16 +39,16 @@ function V2Nav() {
     ["Experience", "#experience"],
     ["Stack", "#stack"],
     ["Blog", "/blog"],
-    ["Contact", "#contact"],
-  ];
+  ].map(([label, href]) => [label, href.startsWith("#") ? `/${href}` : href]);
 
   const filteredCommands = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return mobileCommands;
-    return mobileCommands.filter(item =>
+    const commands = mobileCommands.map(item => ({ ...item, href: item.href.startsWith("#") ? `/${item.href}` : item.href }));
+    if (!normalized) return commands;
+    return commands.filter(item =>
       [item.label, item.meta, item.keywords].join(" ").toLowerCase().includes(normalized)
     );
-  }, [query]);
+  }, [query, inner]);
 
   const closePalette = () => {
     setPaletteOpen(false);
@@ -66,13 +66,6 @@ function V2Nav() {
   const runCommand = (item) => {
     closePalette();
 
-    if (item.href.startsWith("#")) {
-      requestAnimationFrame(() => {
-        document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
-    }
-
     if (item.href.startsWith("mailto:")) {
       window.location.href = item.href;
       return;
@@ -83,7 +76,7 @@ function V2Nav() {
       return;
     }
 
-    window.location.href = item.href;
+    navigate(item.href);
   };
 
   useEffect(() => {
@@ -128,14 +121,10 @@ function V2Nav() {
     <>
       <header className={`v2-nav-shell${scrolled ? " is-scrolled" : ""}`}>
         <nav className="v2-nav" aria-label="Primary">
-          <a className="v2-brand" href="#top" aria-label="Abhay Jaiswal home">aj<span>.</span></a>
+          <Link className="v2-brand" to="/#top" aria-label="Abhay Jaiswal home">aj<span>.</span></Link>
 
           <div className="v2-nav-links">
-            {links.map(([label, href]) => href.startsWith("/") ? (
-              <Link key={label} to={href}>{label}</Link>
-            ) : (
-              <a key={label} href={href}>{label}</a>
-            ))}
+            {links.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
           </div>
 
           <button
@@ -150,10 +139,7 @@ function V2Nav() {
           </button>
 
           <div className="v2-nav-actions">
-            <a className="v2-header-resume" href={identity.resume} target="_blank" rel="noreferrer">
-              <span>résumé</span>
-              <FileDown size={15} />
-            </a>
+            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
           </div>
         </nav>
       </header>
@@ -233,7 +219,7 @@ function Hero() {
           <p className="v2-hero-role">{identity.headline}</p>
           <p className="v2-hero-summary">{identity.summary}</p>
           <div className="v2-hero-actions">
-            <a className="v2-primary" href="#work">See the systems <ArrowDown size={16} /></a>
+            <a className="v2-primary" href={identity.resume} target="_blank" rel="noreferrer">View résumé <FileDown size={16} /></a>
           </div>
         </div>
 
@@ -370,27 +356,6 @@ function Toolbelt() {
   );
 }
 
-function Journal() {
-  return (
-    <section className="v2-section v2-journal">
-      <div className="v2-section-head">
-        <div><p className="v2-kicker">// ENGINEERING JOURNAL</p><h2>Notes beyond<br />the diagram.</h2></div>
-        <Link className="v2-text-link" to="/blog">View all articles <ArrowUpRight size={16} /></Link>
-      </div>
-      <div className="v2-journal-grid">
-        {featuredArticles.map(article => (
-          <Link to={article.href} className="v2-article-card" key={article.href}>
-            <small>{article.category}</small>
-            <h3>{article.title}</h3>
-            <p>{article.excerpt}</p>
-            <b>Read article <ArrowUpRight size={14} /></b>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function ContactV2() {
   return (
     <section className="v2-contact" id="contact">
@@ -450,9 +415,9 @@ export default function HomeV2() {
         <Work />
         <Experience />
         <Toolbelt />
-        <Journal />
         <ContactV2 />
       </main>
     </div>
   );
 }
+
