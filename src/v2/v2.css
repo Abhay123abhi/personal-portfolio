@@ -1904,3 +1904,331 @@ html.v2-home-active body {
     animation: none !important;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Hero scene v5 — slower, separated blue / violet / slate / cream solids
+   -------------------------------------------------------------------------- */
+
+.v2-scene-balanced {
+  perspective: 1200px;
+}
+
+.v2-scene-balanced .v2-scene-grid {
+  opacity: .09;
+  background-image:
+    linear-gradient(rgba(112,132,154,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(112,132,154,.10) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 58% 42%, black 25%, transparent 78%);
+}
+
+/* No mint/green glow in the decorative layer. */
+.v2-scene-balanced .v2-scene-glow-a {
+  right: -10rem;
+  top: -12rem;
+  width: 34rem;
+  opacity: .12;
+  background: radial-gradient(circle, rgba(111,126,222,.28), transparent 68%);
+}
+
+.v2-scene-balanced .v2-scene-glow-b {
+  left: -10rem;
+  bottom: -12rem;
+  width: 30rem;
+  opacity: .10;
+  background: radial-gradient(circle, rgba(146,112,192,.24), transparent 68%);
+}
+
+.v2-hero-solid {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.v2-hero-cube {
+  --cube-size: 88px;
+  --cube-half: 44px;
+  width: var(--cube-size);
+  height: var(--cube-size);
+}
+
+.v2-hero-cube-body {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(34deg) rotateZ(-8deg);
+}
+
+.v2-hero-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,.12);
+  backface-visibility: hidden;
+  box-shadow: inset 0 0 22px rgba(255,255,255,.035);
+}
+
+.v2-hero-face.front  { transform: translateZ(var(--cube-half)); }
+.v2-hero-face.back   { transform: rotateY(180deg) translateZ(var(--cube-half)); }
+.v2-hero-face.right  { transform: rotateY(90deg) translateZ(var(--cube-half)); }
+.v2-hero-face.left   { transform: rotateY(-90deg) translateZ(var(--cube-half)); }
+.v2-hero-face.top    { transform: rotateX(90deg) translateZ(var(--cube-half)); }
+.v2-hero-face.bottom { transform: rotateX(-90deg) translateZ(var(--cube-half)); }
+
+/* Upper-left blue cube: partly outside the content lane, away from the name. */
+.v2-solid-blue {
+  left: 2.5%;
+  top: 5%;
+  opacity: .82;
+  filter: drop-shadow(0 18px 34px rgba(64,108,211,.20));
+}
+
+.v2-solid-blue .v2-hero-face {
+  background: linear-gradient(145deg, rgba(113,163,242,.96), rgba(48,76,166,.88));
+  border-color: rgba(151,193,255,.30);
+}
+
+/* Violet torus sits in the open middle-right area. */
+.v2-solid-ring {
+  left: 53%;
+  top: 23%;
+  width: 164px;
+  height: 164px;
+  border: 25px solid rgba(108,101,220,.84);
+  border-radius: 50%;
+  opacity: .80;
+  background: transparent;
+  transform: rotateX(66deg) rotateZ(-13deg);
+  box-shadow:
+    inset 11px 13px 22px rgba(255,255,255,.08),
+    inset -15px -18px 28px rgba(47,38,112,.28),
+    0 22px 48px rgba(74,66,190,.17);
+}
+
+.v2-solid-ring::after {
+  content: "";
+  position: absolute;
+  inset: -26px;
+  z-index: -1;
+  border-radius: 50%;
+  background: linear-gradient(
+    145deg,
+    rgba(159,124,236,.18),
+    transparent 48%,
+    rgba(92,122,221,.12)
+  );
+  filter: blur(15px);
+}
+
+/* Cream sphere is the warm visual counterpoint. */
+.v2-solid-orb {
+  right: 27%;
+  top: 6%;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  opacity: .92;
+  background:
+    radial-gradient(
+      circle at 30% 27%,
+      #f6ead1 0 10%,
+      #d8ceba 34%,
+      #9c948b 64%,
+      #4a4650 100%
+    );
+  box-shadow:
+    0 22px 44px rgba(0,0,0,.22),
+    inset -14px -16px 25px rgba(52,46,55,.22);
+}
+
+/* Slate cube below the name, not on top of the CTA or copy. */
+.v2-solid-slate {
+  --cube-size: 104px;
+  --cube-half: 52px;
+  left: 46%;
+  bottom: 3%;
+  opacity: .66;
+  filter: drop-shadow(0 20px 34px rgba(52,70,105,.19));
+}
+
+.v2-solid-slate .v2-hero-cube-body {
+  transform: rotateX(-18deg) rotateY(-31deg) rotateZ(11deg);
+}
+
+.v2-solid-slate .v2-hero-face {
+  background: linear-gradient(145deg, rgba(91,111,149,.88), rgba(44,54,77,.84));
+  border-color: rgba(130,150,188,.22);
+}
+
+/* Smaller muted-violet cube gives depth without clustering with the sphere. */
+.v2-solid-violet {
+  --cube-size: 52px;
+  --cube-half: 26px;
+  left: 65%;
+  bottom: 16%;
+  opacity: .40;
+  filter: blur(.25px) drop-shadow(0 10px 24px rgba(111,78,167,.16));
+}
+
+.v2-solid-violet .v2-hero-cube-body {
+  transform: rotateX(-28deg) rotateY(39deg) rotateZ(-18deg);
+}
+
+.v2-solid-violet .v2-hero-face {
+  background: linear-gradient(145deg, rgba(124,102,171,.78), rgba(55,43,88,.78));
+  border-color: rgba(166,139,211,.18);
+}
+
+/* Slower, less synchronized movement. Cube rotation is intentionally much slower. */
+@media (prefers-reduced-motion: no-preference) {
+  .v2-solid-blue {
+    animation: v2-balanced-blue 13s ease-in-out infinite;
+  }
+
+  .v2-solid-ring {
+    animation: v2-balanced-ring 15s ease-in-out infinite;
+  }
+
+  .v2-solid-orb {
+    animation: v2-balanced-orb 12s ease-in-out infinite;
+  }
+
+  .v2-solid-slate {
+    animation: v2-balanced-slate 16s ease-in-out infinite;
+  }
+
+  .v2-solid-violet {
+    animation: v2-balanced-violet 11s ease-in-out infinite;
+  }
+
+  .v2-solid-blue .v2-hero-cube-body {
+    animation: v2-balanced-spin-a 34s linear infinite;
+  }
+
+  .v2-solid-slate .v2-hero-cube-body {
+    animation: v2-balanced-spin-b 40s linear infinite;
+  }
+
+  .v2-solid-violet .v2-hero-cube-body {
+    animation: v2-balanced-spin-a 31s linear infinite reverse;
+  }
+}
+
+@keyframes v2-balanced-blue {
+  0%,100% { transform: translate3d(0,0,0); }
+  45% { transform: translate3d(12px,14px,0); }
+  72% { transform: translate3d(4px,-4px,0); }
+}
+
+@keyframes v2-balanced-ring {
+  0%,100% { transform: translate3d(0,0,0) rotateX(66deg) rotateZ(-13deg); }
+  48% { transform: translate3d(14px,-11px,0) rotateX(70deg) rotateZ(-6deg); }
+  76% { transform: translate3d(-4px,4px,0) rotateX(64deg) rotateZ(-17deg); }
+}
+
+@keyframes v2-balanced-orb {
+  0%,100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-9px,11px,0) scale(1.025); }
+}
+
+@keyframes v2-balanced-slate {
+  0%,100% { transform: translate3d(0,0,0); }
+  38% { transform: translate3d(-13px,-15px,0); }
+  72% { transform: translate3d(7px,-4px,0); }
+}
+
+@keyframes v2-balanced-violet {
+  0%,100% { transform: translate3d(0,0,0); }
+  52% { transform: translate3d(8px,-10px,0); }
+}
+
+@keyframes v2-balanced-spin-a {
+  to { transform: rotateX(338deg) rotateY(394deg) rotateZ(352deg); }
+}
+
+@keyframes v2-balanced-spin-b {
+  to { transform: rotateX(-378deg) rotateY(329deg) rotateZ(-346deg); }
+}
+
+/* Tablet keeps the same palette but uses more negative space. */
+@media (max-width: 1250px) and (min-width: 761px) {
+  .v2-solid-blue {
+    left: 1%;
+    top: 5%;
+    opacity: .58;
+    transform: scale(.82);
+  }
+
+  .v2-solid-ring {
+    left: 51%;
+    top: 24%;
+    width: 138px;
+    height: 138px;
+    border-width: 21px;
+    opacity: .58;
+  }
+
+  .v2-solid-orb {
+    right: 28%;
+    width: 74px;
+    height: 74px;
+    opacity: .70;
+  }
+
+  .v2-solid-slate {
+    left: 45%;
+    bottom: 4%;
+    transform: scale(.78);
+    opacity: .46;
+  }
+
+  .v2-solid-violet {
+    left: 62%;
+    opacity: .28;
+  }
+}
+
+/* Mobile: three quiet shapes, still animated but never fighting readability. */
+@media (max-width: 760px) {
+  .v2-scene-balanced .v2-scene-grid {
+    opacity: .055;
+  }
+
+  .v2-solid-blue {
+    left: auto;
+    right: -24px;
+    top: 82px;
+    opacity: .24;
+    transform: scale(.54);
+  }
+
+  .v2-solid-ring {
+    left: -38px;
+    top: 41%;
+    width: 98px;
+    height: 98px;
+    border-width: 16px;
+    opacity: .20;
+  }
+
+  .v2-solid-orb {
+    right: 7%;
+    top: 64px;
+    width: 55px;
+    height: 55px;
+    opacity: .26;
+  }
+
+  .v2-solid-slate,
+  .v2-solid-violet {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero-solid,
+  .v2-hero-cube-body {
+    animation: none !important;
+  }
+}
