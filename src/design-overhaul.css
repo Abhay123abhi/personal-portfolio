@@ -1710,3 +1710,125 @@ html[data-theme="light"] .project-tech-marquee {
     width: 100%;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Architecture balance: use left-column space for active stage insight.
+   -------------------------------------------------------------------------- */
+
+.architecture {
+  grid-template-rows: auto auto auto;
+}
+
+.architecture-canvas-desktop {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+}
+
+.architecture-stages {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  align-self: stretch;
+}
+
+.architecture-insight {
+  grid-column: 1;
+  grid-row: 3;
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-self: start;
+}
+
+.architecture-insight .architecture-detail {
+  display: grid;
+  grid-template-columns: minmax(120px, .34fr) minmax(0, 1fr);
+  gap: 14px 18px;
+  align-items: start;
+  margin: 0;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 38%, transparent), transparent 44%),
+    color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+.architecture-detail-heading {
+  display: grid;
+  gap: 6px;
+}
+
+.architecture-detail-heading > span {
+  color: var(--muted);
+  font: 600 8px/1 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.architecture-detail-heading > strong {
+  color: var(--accent);
+  font: 600 11px/1.35 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.architecture-insight .architecture-detail p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.68;
+}
+
+.architecture-insight .architecture-caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  padding: 0 2px;
+  font-size: 8.5px;
+}
+
+.architecture-insight .architecture-caption > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.architecture-insight .architecture-caption > span:last-child {
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+@media (max-width: 1360px) and (min-width: 1101px) {
+  .architecture-insight .architecture-detail {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .architecture-detail-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 701px) {
+  .architecture-insight {
+    display: block;
+  }
+
+  .architecture-insight .architecture-detail {
+    grid-template-columns: minmax(130px, .32fr) minmax(0, 1fr);
+    margin-top: 10px;
+  }
+
+  .architecture-insight .architecture-caption {
+    margin-top: 10px;
+  }
+
+  .architecture-stages {
+    grid-row: auto;
+    align-self: auto;
+  }
+}
