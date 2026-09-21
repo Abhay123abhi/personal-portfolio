@@ -2044,3 +2044,408 @@ html.v2-home-active body {
     box-shadow: 0 0 0 3px rgba(159,132,232,.035);
   }
 }
+
+
+/* ==========================================================================
+   Final toolbelt + mobile UX polish
+   ========================================================================== */
+
+.v2-toolbelt {
+  --toolbelt-bg: #101014;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(159,132,232,.055), transparent 28%),
+    #101014;
+  border-block-color: #292932;
+}
+
+.v2-toolbelt .v2-kicker {
+  color: #9f84e8;
+}
+
+.v2-toolbelt-head > p {
+  color: #b9b2ca;
+  font-family: var(--mono, monospace);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.v2-toolbelt-mobile-copy {
+  display: none;
+}
+
+.v2-tool-rows {
+  padding-bottom: 8px;
+}
+
+.v2-tool-window {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
+
+.v2-tool-window + .v2-tool-window {
+  margin-top: 14px;
+}
+
+.v2-tool-track {
+  gap: 14px;
+  animation-duration: 42s;
+}
+
+.v2-tool-track.reverse {
+  animation-duration: 48s;
+}
+
+.v2-tool {
+  min-width: auto;
+  width: max-content;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: 34px auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px 11px 13px;
+  border: 1px solid #2c2c35 !important;
+  border-radius: 14px;
+  background: #15151a !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.018) !important;
+  transition: transform .22s ease, border-color .22s ease, background .22s ease;
+}
+
+.v2-tool::before,
+.v2-tool::after {
+  display: none !important;
+}
+
+.v2-tool-logo {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--tool-color) 10%, #19191e);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tool-color) 18%, transparent);
+}
+
+.v2-tool-logo img {
+  width: 21px;
+  height: 21px;
+}
+
+.v2-tool-logo > span {
+  color: var(--tool-color);
+  font: 800 8px/1 var(--mono, monospace);
+}
+
+.v2-tool b {
+  color: #f0edf5 !important;
+  font: 700 11px/1 var(--mono, monospace);
+  white-space: nowrap;
+}
+
+.v2-tool small {
+  color: #777480 !important;
+  font: 500 8px/1 var(--mono, monospace);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .v2-tool-window:hover .v2-tool-track {
+    animation-play-state: paused;
+  }
+
+  .v2-tool:hover {
+    transform: translateY(-2px);
+    border-color: #3a3944 !important;
+    background: #18181e !important;
+  }
+
+  .v2-tool:hover .v2-tool-logo {
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--tool-color) 26%, transparent),
+      0 0 18px color-mix(in srgb, var(--tool-color) 10%, transparent);
+  }
+}
+
+/* Mobile header: compact search/menu trigger, not a full-width search field. */
+@media (max-width: 760px) {
+  .v2-nav-shell {
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .v2-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .v2-brand {
+    flex: 0 0 auto;
+    font-size: 23px;
+  }
+
+  .v2-mobile-search-trigger {
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: 48px;
+    height: 36px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 1px solid #303540;
+    border-radius: 11px;
+    background:
+      linear-gradient(145deg, rgba(159,132,232,.08), transparent),
+      #15191e;
+    color: #d5d7da;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+  }
+
+  .v2-mobile-search-trigger > span,
+  .v2-mobile-search-trigger kbd {
+    display: none !important;
+  }
+
+  .v2-mobile-search-trigger svg:last-child {
+    color: #8f82be;
+  }
+
+  /* Mobile hero is deliberately content-first, portrait-second. */
+  .v2-hero {
+    margin: 8px 10px 0;
+    padding: 24px 16px 18px;
+    border-radius: 20px;
+    background:
+      radial-gradient(circle at 92% 5%, rgba(159,132,232,.08), transparent 31%),
+      radial-gradient(circle at 6% 86%, rgba(131,174,232,.055), transparent 34%),
+      #10161a;
+  }
+
+  .v2-hero-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .v2-hero-copy {
+    order: 1 !important;
+    position: relative;
+    z-index: 2;
+  }
+
+  .v2-hero-portrait {
+    order: 2 !important;
+    width: 76%;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .v2-portrait-frame {
+    border-radius: 18px 18px 54px 18px;
+  }
+
+  .v2-hero-copy h1 {
+    font-size: clamp(3.25rem, 17vw, 4.45rem);
+    margin-bottom: 17px;
+  }
+
+  .v2-hero-role {
+    color: #f0edf5;
+  }
+
+  .v2-hero-summary {
+    color: #a6b1b6;
+  }
+
+  .v2-hero-actions {
+    max-width: 100%;
+  }
+
+  /* Give sections distinct visual identities instead of one mint system. */
+  .v2-capabilities {
+    background:
+      radial-gradient(circle at 102% 15%, rgba(159,132,232,.065), transparent 27%),
+      transparent;
+  }
+
+  .v2-capabilities .v2-kicker {
+    color: #a992f0;
+  }
+
+  .v2-work {
+    background:
+      radial-gradient(circle at -5% 12%, rgba(131,174,232,.055), transparent 30%),
+      transparent;
+  }
+
+  .v2-work .v2-kicker {
+    color: #83aee8;
+  }
+
+  .v2-experience {
+    background:
+      radial-gradient(circle at 105% 8%, rgba(228,168,110,.06), transparent 28%),
+      transparent;
+  }
+
+  .v2-experience .v2-kicker {
+    color: #e4a86e;
+  }
+
+  .v2-toolbelt {
+    padding-block: 50px;
+    background:
+      radial-gradient(circle at 18% 0%, rgba(159,132,232,.08), transparent 32%),
+      #101014;
+  }
+
+  .v2-toolbelt-head {
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+
+  .v2-toolbelt-head > p {
+    max-width: 15rem;
+    color: #8b8797;
+    font-size: 8px;
+  }
+
+  .v2-toolbelt-desktop-copy {
+    display: none;
+  }
+
+  .v2-toolbelt-mobile-copy {
+    display: inline;
+  }
+
+  .v2-tool-window {
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .v2-tool-window + .v2-tool-window {
+    margin-top: 10px;
+  }
+
+  .v2-tool-track {
+    gap: 9px;
+    animation-duration: 30s;
+  }
+
+  .v2-tool-track.reverse {
+    animation-duration: 34s;
+  }
+
+  .v2-tool {
+    min-height: 53px;
+    grid-template-columns: 28px auto;
+    gap: 8px;
+    padding: 8px 12px 8px 9px;
+    border-radius: 12px;
+  }
+
+  .v2-tool-logo {
+    grid-row: 1 / 3;
+    width: 28px;
+    height: 28px;
+  }
+
+  .v2-tool-logo img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .v2-tool small {
+    grid-column: 2;
+    margin-top: -3px;
+  }
+
+  .v2-journal {
+    background:
+      radial-gradient(circle at 100% 12%, rgba(105,207,174,.045), transparent 27%),
+      transparent;
+  }
+
+  .v2-journal .v2-kicker {
+    color: #75cdb2;
+  }
+
+  .v2-contact {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(159,132,232,.12), transparent 35%),
+      radial-gradient(circle at 100% 100%, rgba(131,174,232,.08), transparent 38%),
+      #111419;
+  }
+
+  .v2-contact .v2-kicker {
+    color: #a992f0;
+  }
+
+  /* Command sheet is compact and app-like on phones. */
+  .v2-command-backdrop {
+    align-items: end;
+    padding: 0;
+    background: rgba(5,7,10,.62);
+    backdrop-filter: blur(10px);
+  }
+
+  .v2-command-palette {
+    width: 100%;
+    max-height: min(78dvh, 620px);
+    border: 1px solid #302d3d;
+    border-bottom: 0;
+    border-radius: 22px 22px 0 0;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(159,132,232,.10), transparent 33%),
+      #111318;
+  }
+
+  .v2-command-search {
+    min-height: 54px;
+    padding: 0 12px 0 15px;
+  }
+
+  .v2-command-search input {
+    font-size: 12px;
+  }
+
+  .v2-command-list {
+    max-height: calc(78dvh - 104px);
+    padding: 7px;
+  }
+
+  .v2-command-item {
+    min-height: 52px;
+    border-radius: 11px;
+  }
+
+  .v2-command-item.active {
+    background: rgba(112,90,178,.18);
+  }
+
+  .v2-command-footer {
+    display: none;
+  }
+}
+
+/* Tiny phones: portrait stays below text, actions stack, trigger remains compact. */
+@media (max-width: 390px) {
+  .v2-hero-portrait {
+    width: 84%;
+  }
+
+  .v2-mobile-search-trigger {
+    width: 44px;
+  }
+}
+
+/* Do not pulse the compact trigger continuously. */
+@media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+  .v2-mobile-search-trigger {
+    animation: none !important;
+  }
+}
