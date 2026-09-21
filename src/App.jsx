@@ -1,4 +1,5 @@
 import PortfolioMotion from "./PortfolioMotion";
+import AmbientSystemBackground from "./AmbientSystemBackground";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
@@ -295,29 +296,32 @@ const projectArchitectures = [
   {
     name: "Incident investigation",
     stages: [
-      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Detect a firing or resolved service alert and send its fingerprint and status to the incident intake API." },
-      { title: "Persist", nodes: ["Incident API", "PostgreSQL", "Outbox"], detail: "Store incident state and the investigation event in one transaction, reusing the active incident when Alertmanager repeats a fingerprint." },
-      { title: "Investigate", nodes: ["Kafka", "Evidence worker", "Loki & Tempo"], detail: "Dispatch through Kafka, collect a bounded telemetry snapshot, and save a persistent report that Grafana can display and engineers can verify." },
+      { title: "Detect", nodes: ["Prometheus", "Alertmanager"], detail: "Prometheus evaluates service telemetry and Alertmanager sends firing or resolved webhooks with the alert fingerprint to the incident intake path." },
+      { title: "Preserve", nodes: ["Incident API", "PostgreSQL", "Outbox"], detail: "Persist the incident and investigation event atomically. Repeated firing alerts reuse the active fingerprint, while unpublished work remains durable for retry." },
+      { title: "Investigate", nodes: ["Kafka", "Evidence worker", "Prometheus · Loki · Tempo"], detail: "Kafka decouples intake from investigation. The worker collects a bounded metrics, logs, and traces window and records partial-source failures instead of dropping the report." },
+      { title: "Review", nodes: ["Incident Desk", "Grafana", "History API"], detail: "Store the completed evidence report in PostgreSQL so incident history stays queryable through the API and inspectable in the Incident Desk and Grafana." },
     ],
-    note: "Detect · Persist · Queue · Collect evidence",
+    note: "Alert → durable outbox → Kafka → evidence-backed report",
   },
   {
     name: "News intelligence",
     stages: [
-      { title: "Search", nodes: ["React client", "Search API"], detail: "Accept one query through a consistent API while keeping publisher credentials and provider-specific contracts behind the backend." },
-      { title: "Aggregate", nodes: ["Guardian & NYT", "Normalize & dedupe", "Redis cache"], detail: "Run provider adapters concurrently, merge them into one article model, cache repeated searches, and return partial results when one source fails." },
-      { title: "Understand", nodes: ["AI brief", "Ask the news", "Compare coverage"], detail: "Use optional Gemini features over only the retrieved articles, with bounded inputs, response caching, request limits, and an independent off switch." },
+      { title: "Request", nodes: ["React client", "Search API"], detail: "Keep publisher credentials and provider contracts behind one backend API while the UI sends a single search request." },
+      { title: "Fan out", nodes: ["Virtual threads", "Guardian", "NYT"], detail: "Run independent provider adapters concurrently so one slow source does not serialize the whole request and available results can survive a single-provider failure." },
+      { title: "Normalize", nodes: ["Adapter layer", "Dedupe & sort", "Redis"], detail: "Convert both publisher payloads into one article model, remove duplicates, sort and paginate the merged feed, then cache repeat searches with cache-aside behavior." },
+      { title: "Ground AI", nodes: ["Gemini", "Citation validation", "AI cache"], detail: "Optional AI uses only the retrieved feed, returns structured source IDs, validates those citations server-side, caches repeated requests, and can be disabled without breaking news search." },
     ],
-    note: "Reliable aggregation · Optional grounded AI",
+    note: "Parallel providers → normalized feed → cached, grounded AI",
   },
   {
     name: "Room-based messaging",
     stages: [
-      { title: "Join", nodes: ["React client", "Guest room", "Live presence"], detail: "Create or join a guest room with a display name, then open a STOMP/SockJS session that carries room identity for live online and offline presence." },
-      { title: "Persist", nodes: ["REST write", "Request ID", "MongoDB"], detail: "Send through the durable REST endpoint first. A client message ID makes retries safe, a room sequence orders persisted messages, and MongoDB stores the message before any live broadcast." },
-      { title: "Deliver & recover", nodes: ["STOMP/WebSocket", "Room topic", "Cursor history"], detail: "Broadcast the saved message to connected room members. After reconnecting, the client loads cursor-based history and merges missed messages instead of relying on the live socket alone." },
+      { title: "Write", nodes: ["React client", "REST message API", "Client message ID"], detail: "Send messages through the retry-safe REST path first, using a client message ID so a repeated request cannot silently create a different duplicate write." },
+      { title: "Persist", nodes: ["Spring Boot", "MongoDB", "Room sequence"], detail: "Persist each room message before live delivery and assign a room sequence used for deterministic ordering and cursor-based history." },
+      { title: "Broadcast", nodes: ["STOMP/WebSocket", "Room topic", "Presence"], detail: "After persistence, publish the saved message to connected room members over STOMP/WebSocket while session presence tracks who is currently online." },
+      { title: "Recover", nodes: ["History cursor", "Merge missed", "Reconnect sync"], detail: "On reconnect, load messages after the confirmed cursor and merge them with live events by ID and sequence so history and WebSocket delivery converge." },
     ],
-    note: "Durable REST writes · Live STOMP delivery · Reconnect recovery",
+    note: "Durable REST write → persist → live broadcast → reconnect recovery",
   },
 ];
 
@@ -332,6 +336,7 @@ function ProjectMap({ index }) {
         key={stage.title}
         type="button"
         className={selected === stageIndex ? "architecture-stage selected" : "architecture-stage"}
+        data-stage={String(stageIndex + 1).padStart(2, "0")}
         aria-pressed={selected === stageIndex}
         aria-controls={`architecture-detail-${index}`}
         onClick={() => setSelected(stageIndex)}
@@ -365,7 +370,7 @@ function SectionHeading({ label, title, children }) {
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
 
-  return <><a href="#content" className="skip-link">Skip to content</a><Header /><div className="studio-layout">
+  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
