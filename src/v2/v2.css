@@ -918,3 +918,262 @@ html.v2-home-active body {
     padding: 0;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Premium architecture surfaces
+   -------------------------------------------------------------------------- */
+
+.v2-case-study.case-0 {
+  --case-accent: #8fe0c7;
+  --case-surface: #0c1718;
+  --case-surface-2: #112023;
+  --case-glow-a: rgba(143,224,199,.14);
+  --case-glow-b: rgba(99,166,211,.09);
+}
+
+.v2-case-study.case-1 {
+  --case-accent: #83aee8;
+  --case-surface: #0d131c;
+  --case-surface-2: #111a28;
+  --case-glow-a: rgba(131,174,232,.15);
+  --case-glow-b: rgba(159,132,232,.10);
+}
+
+.v2-case-study.case-2 {
+  --case-accent: #e4a86e;
+  --case-surface: #17120d;
+  --case-surface-2: #1c1712;
+  --case-glow-a: rgba(228,168,110,.14);
+  --case-glow-b: rgba(118,171,220,.08);
+}
+
+.v2-case-visual {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--case-accent) 28%, var(--v2-line));
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,0)),
+    #0d1115;
+  box-shadow:
+    0 26px 70px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.v2-case-window-head {
+  min-height: 44px;
+  padding: 0 15px;
+  border-bottom-color: color-mix(in srgb, var(--case-accent) 16%, var(--v2-line));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--case-accent) 5%, transparent), transparent 68%),
+    rgba(255,255,255,.008);
+  color: color-mix(in srgb, var(--case-accent) 42%, #7c8b8f);
+}
+
+.v2-case-window-head i:nth-child(3) {
+  background: var(--case-accent);
+}
+
+.v2-arch-surface {
+  position: relative;
+  margin: 14px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--case-accent) 22%, rgba(255,255,255,.045));
+  border-radius: 17px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,0)),
+    linear-gradient(135deg, var(--case-surface), var(--case-surface-2));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.028),
+    inset 0 0 0 1px rgba(255,255,255,.008);
+}
+
+.v2-arch-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: .32;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--case-accent) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--case-accent) 7%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at 52% 45%, black 34%, transparent 94%);
+}
+
+.v2-arch-glow {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(48px);
+  pointer-events: none;
+}
+
+.v2-arch-glow-a {
+  width: 230px;
+  height: 230px;
+  right: -55px;
+  top: -60px;
+  background: var(--case-glow-a);
+}
+
+.v2-arch-glow-b {
+  width: 190px;
+  height: 190px;
+  left: -45px;
+  bottom: -55px;
+  background: var(--case-glow-b);
+}
+
+.v2-case-canvas {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+}
+
+.v2-case-canvas .system-canvas-frame {
+  border-radius: 12px;
+  background: transparent;
+}
+
+.v2-case-canvas .system-canvas {
+  border-color: color-mix(in srgb, var(--case-accent) 26%, var(--line));
+  background:
+    radial-gradient(circle at 75% 10%, color-mix(in srgb, var(--case-accent) 10%, transparent), transparent 32%),
+    color-mix(in srgb, var(--case-surface) 86%, transparent);
+}
+
+.v2-case-canvas .system-canvas-grid {
+  opacity: .22;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--case-accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--case-accent) 8%, transparent) 1px, transparent 1px);
+}
+
+.v2-case-canvas .system-edge {
+  stroke: color-mix(in srgb, var(--case-accent) 18%, #6b7b7f);
+}
+
+.v2-case-canvas .system-edge.reached {
+  stroke: color-mix(in srgb, var(--case-accent) 48%, #708084);
+}
+
+.v2-case-canvas .system-edge.active {
+  stroke: var(--case-accent);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--case-accent) 48%, transparent));
+}
+
+.v2-case-canvas .system-node rect {
+  fill: color-mix(in srgb, var(--case-surface-2) 86%, #0c1114);
+  stroke: color-mix(in srgb, var(--case-accent) 16%, #536368);
+}
+
+.v2-case-canvas .system-node.reached rect {
+  stroke: color-mix(in srgb, var(--case-accent) 34%, #536368);
+}
+
+.v2-case-canvas .system-node.active rect {
+  fill: color-mix(in srgb, var(--case-accent) 13%, var(--case-surface-2));
+  stroke: var(--case-accent);
+  filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--case-accent) 14%, transparent));
+}
+
+.v2-case-canvas .system-node.active .system-node-dot,
+.v2-case-canvas .system-packet {
+  fill: var(--case-accent);
+}
+
+.v2-case-canvas .system-node-label {
+  fill: #e3e9e7;
+}
+
+.v2-case-canvas .system-node-sub {
+  fill: #8fa0a4;
+}
+
+.v2-stage-tabs {
+  gap: 7px;
+  padding: 11px 13px 8px;
+  border-top-color: color-mix(in srgb, var(--case-accent) 16%, var(--v2-line));
+}
+
+.v2-stage-tabs button {
+  min-height: 32px;
+  padding: 0 10px;
+  border-color: color-mix(in srgb, var(--case-accent) 10%, #26343a);
+  background: color-mix(in srgb, var(--case-accent) 2%, #11191c);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+.v2-stage-tabs button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--case-accent) 34%, #26343a);
+}
+
+.v2-stage-tabs button.active {
+  color: var(--case-accent);
+  border-color: color-mix(in srgb, var(--case-accent) 62%, #26343a);
+  background: color-mix(in srgb, var(--case-accent) 8%, #11191c);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--case-accent) 8%, transparent);
+}
+
+.v2-stage-note {
+  color: color-mix(in srgb, var(--case-accent) 24%, #718184);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .v2-arch-glow-a {
+    animation: v2-arch-drift-a 8s ease-in-out infinite;
+  }
+
+  .v2-arch-glow-b {
+    animation: v2-arch-drift-b 10s ease-in-out infinite;
+  }
+}
+
+@keyframes v2-arch-drift-a {
+  50% { transform: translate(-18px, 16px) scale(1.08); }
+}
+
+@keyframes v2-arch-drift-b {
+  50% { transform: translate(16px, -12px) scale(.94); }
+}
+
+@media (max-width: 760px) {
+  .v2-arch-surface {
+    margin: 10px;
+    border-radius: 14px;
+  }
+
+  .v2-arch-grid {
+    opacity: .2;
+    background-size: 22px 22px;
+  }
+
+  .v2-arch-glow-a {
+    width: 150px;
+    height: 150px;
+    top: -40px;
+    right: -35px;
+  }
+
+  .v2-arch-glow-b {
+    width: 125px;
+    height: 125px;
+    left: -30px;
+    bottom: -35px;
+  }
+
+  .v2-case-mobile {
+    position: relative;
+    z-index: 2;
+    margin: 10px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--case-accent) 20%, var(--v2-line));
+    border-radius: 13px;
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--case-accent) 9%, transparent), transparent 42%),
+      linear-gradient(135deg, var(--case-surface), var(--case-surface-2));
+  }
+}
