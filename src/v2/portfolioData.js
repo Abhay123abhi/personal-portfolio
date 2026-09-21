@@ -12,10 +12,10 @@ export const identity = {
 };
 
 export const productionStats = [
-  { value: "4+", label: "years in production" },
-  { value: "3", label: "Asian markets supported" },
-  { value: "2×", label: "Brighter Beginning awards" },
-  { value: "1", label: "onsite UAT / release assignment" },
+  { value: "4+", label: "years shipping production software" },
+  { value: "1K+", label: "business events processed daily" },
+  { value: "25%", label: "faster deployment cycles" },
+  { value: "60%", label: "reduction in manual operations" },
 ];
 
 export const capabilities = [
