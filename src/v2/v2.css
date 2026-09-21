@@ -3722,3 +3722,61 @@ html.v2-home-active body {
     flex-basis: 91%;
   }
 }
+
+
+/* ==========================================================================
+   Mobile architecture scroll repair
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open {
+    overflow: visible !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    position: relative;
+    width: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    margin: 8px auto !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: none !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface::-webkit-scrollbar {
+    display: none;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas {
+    display: block !important;
+    width: 660px !important;
+    min-width: 660px !important;
+    max-width: none !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+    scroll-snap-align: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-frame,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-svg {
+    width: 640px !important;
+    min-width: 640px !important;
+    max-width: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas {
+    aspect-ratio: 1000 / 405;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs {
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
