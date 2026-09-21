@@ -358,3 +358,37 @@ html.v2-home-active body {
 }
 
 @media(prefers-reduced-motion:reduce){.v2-tool-track,.v2-shape,.v2-flow-line b{animation:none!important}}
+
+
+/* Section identity: restrained accent changes while keeping one dark system. */
+.v2-cap-card { --cap-accent: var(--v2-mint); }
+.v2-cap-card.cap-distributed { --cap-accent: var(--v2-blue); }
+.v2-cap-card.cap-delivery { --cap-accent: var(--v2-apricot); }
+.v2-cap-card.cap-product { --cap-accent: var(--v2-violet); }
+.v2-cap-card {
+  background:
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--cap-accent) 6%, transparent), transparent 38%),
+    transparent;
+}
+.v2-cap-card .v2-cap-eyebrow { color: var(--cap-accent); }
+.v2-cap-card::after { border-color: color-mix(in srgb, var(--cap-accent) 12%, transparent); }
+
+.v2-work .v2-kicker { color: var(--v2-blue); }
+.v2-experience .v2-kicker { color: var(--v2-violet); }
+.v2-toolbelt .v2-kicker { color: var(--v2-apricot); }
+.v2-journal .v2-kicker { color: var(--v2-blue); }
+.v2-contact .v2-kicker { color: var(--v2-mint); }
+
+.v2-experience .v2-timeline-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(159,132,232,.055), transparent 30%),
+    #11171a;
+}
+.v2-toolbelt {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(228,168,110,.035), transparent 28%),
+    transparent;
+}
+.v2-journal .v2-article-card:nth-child(1) { border-top-color: rgba(159,132,232,.5); }
+.v2-journal .v2-article-card:nth-child(2) { border-top-color: rgba(131,174,232,.5); }
+.v2-journal .v2-article-card:nth-child(3) { border-top-color: rgba(228,168,110,.5); }
