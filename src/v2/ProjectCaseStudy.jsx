@@ -7,7 +7,6 @@ import { projectArchitectures } from "../projectArchitectureData";
 export default function ProjectCaseStudy({ project, projectIndex, reverse = false }) {
   const [selected, setSelected] = useState(0);
   const [mobileArchitectureOpen, setMobileArchitectureOpen] = useState(false);
-  const architectureViewportRef = useRef(null);
   const stageTabsRef = useRef(null);
   const architecture = projectArchitectures[projectIndex];
 
@@ -16,42 +15,23 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
     if (!window.matchMedia("(max-width: 760px)").matches) return undefined;
 
     const frame = window.requestAnimationFrame(() => {
-      const viewport = architectureViewportRef.current;
-      if (!viewport) return;
-
-      const activeNodes = architecture.nodes.filter(node => node.stage === selected);
-      if (activeNodes.length) {
-        const [viewMinX = 0, , viewWidth = 1000] = architecture.viewBox.split(/\s+/).map(Number);
-        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-
-        if (selected === 0) {
-          viewport.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          const xs = activeNodes.map(node => node.x);
-          const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
-          const normalizedCenter = Math.max(0, Math.min(1, (centerX - viewMinX) / viewWidth));
-          const desiredLeft =
-            normalizedCenter * viewport.scrollWidth - viewport.clientWidth / 2;
-          const left = Math.max(0, Math.min(maxScroll, desiredLeft));
-
-          viewport.scrollTo({ left, behavior: "smooth" });
-        }
-      }
-
       const tabs = stageTabsRef.current;
       const activeTab = tabs?.querySelector("button.active");
+
       if (tabs && activeTab) {
-        const maxTabScroll = Math.max(0, tabs.scrollWidth - tabs.clientWidth);
-        const desiredTabLeft = activeTab.offsetLeft + activeTab.offsetWidth / 2 - tabs.clientWidth / 2;
+        const maxScroll = Math.max(0, tabs.scrollWidth - tabs.clientWidth);
+        const desiredLeft =
+          activeTab.offsetLeft + activeTab.offsetWidth / 2 - tabs.clientWidth / 2;
+
         tabs.scrollTo({
-          left: Math.max(0, Math.min(maxTabScroll, desiredTabLeft)),
+          left: Math.max(0, Math.min(maxScroll, desiredLeft)),
           behavior: "smooth",
         });
       }
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [architecture, mobileArchitectureOpen, selected]);
+  }, [mobileArchitectureOpen, selected]);
 
   return (
     <article className={`v2-case-study case-${projectIndex}${reverse ? " is-reverse" : ""}`}>
@@ -101,12 +81,12 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <span><i /><i /><i /></span>
           <b>{architecture.name}</b>
         </div>
-        <div className="v2-arch-surface" ref={architectureViewportRef}>
+        <div className="v2-arch-surface">
           <div className="v2-arch-grid" aria-hidden="true" />
           <div className="v2-arch-glow v2-arch-glow-a" aria-hidden="true" />
           <div className="v2-arch-glow v2-arch-glow-b" aria-hidden="true" />
           <div className="v2-case-canvas">
-            <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} />
+            <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} focusActiveStage={mobileArchitectureOpen} />
           </div>
         </div>
         <div className="v2-case-mobile">
