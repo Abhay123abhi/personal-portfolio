@@ -3,6 +3,7 @@ import AmbientSystemBackground from "./AmbientSystemBackground";
 import CommandPalette from "./CommandPalette";
 import TechRail from "./TechRail";
 import ScrollSystemTrace from "./ScrollSystemTrace";
+import ProjectSystemCanvas from "./ProjectSystemCanvas";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Command, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
@@ -364,6 +365,7 @@ function ProjectMap({ index }) {
 
   return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
     <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
+    <ProjectSystemCanvas projectIndex={index} activeStage={selected} />
     <div className="architecture-stages" role="group" aria-label={architecture.name}>
       {architecture.stages.map((stage, stageIndex) => <button
         key={stage.title}
@@ -417,7 +419,7 @@ function Home() {
       </section>
       <section className="work-section" id="work">
         <SectionHeading label="Selected work" title="Engineering behind the product."><p>Explore the flow. Inspect the decisions. Follow the trade-offs.</p></SectionHeading>
-        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title}>
+        <div className="projects">{projects.map((project,index) => <article className={`project tone-${index % 3}`} key={project.title} data-project-index={index}>
           <div className="project-top"><div className="project-heading"><div><span className="project-category">{project.eyebrow}</span><h3>{project.title}</h3></div><a href={project.github} target="_blank" rel="noreferrer" className="project-source" aria-label={`View ${project.title} source code`}><ArrowUpRight size={23} /></a></div>
           <p className="project-statement">{project.statement}</p></div>
           <ProjectMap index={index} />
