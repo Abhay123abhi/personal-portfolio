@@ -9,6 +9,7 @@ import "./showcase-refresh.css";
 import "./theme.css";
 import "./motion.css";
 import "./design-overhaul.css";
+import "./responsive.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

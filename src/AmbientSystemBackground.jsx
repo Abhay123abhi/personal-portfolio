@@ -28,6 +28,17 @@ export default function AmbientSystemBackground() {
       <div className="ambient-orb ambient-orb-a" />
       <div className="ambient-orb ambient-orb-b" />
       <div className="ambient-scan" />
+      <div className="ambient-hero-topology">
+        <div className="ambient-service ambient-service-api"><span>API</span><small>request</small></div>
+        <div className="ambient-service ambient-service-kafka"><span>Kafka</span><small>event</small></div>
+        <div className="ambient-service ambient-service-worker"><span>Worker</span><small>process</small></div>
+        <div className="ambient-service ambient-service-data"><span>Data</span><small>persist</small></div>
+        <div className="ambient-service ambient-service-telemetry"><span>Telemetry</span><small>observe</small></div>
+        <div className="ambient-link ambient-link-1"><i /></div>
+        <div className="ambient-link ambient-link-2"><i /></div>
+        <div className="ambient-link ambient-link-3"><i /></div>
+        <div className="ambient-link ambient-link-4"><i /></div>
+      </div>
       <div className="ambient-code ambient-code-a"><span>@Transactional</span><span>incident.save(...)</span><span>outbox.publish(...)</span></div>
       <div className="ambient-code ambient-code-b"><span>Guardian ─┐</span><span>NYT ──────┼→ normalize → Redis</span><span>Gemini ← grounded feed</span></div>
       <div className="ambient-code ambient-code-c"><span>POST /messages</span><span>MongoDB → STOMP</span><span>cursor → reconnect sync</span></div>
