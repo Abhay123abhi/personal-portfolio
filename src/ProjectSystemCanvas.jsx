@@ -1,70 +1,16 @@
 import { projectArchitectures } from "./projectArchitectureData";
 
-function getStageViewBox(topology, activeStage) {
-  const [baseX = 0, baseY = 0, baseWidth = 1000, baseHeight = 420] =
-    topology.viewBox.split(/\s+/).map(Number);
-  const nodes = topology.nodes.filter(node => node.stage === activeStage);
-
-  if (!nodes.length) return topology.viewBox;
-
-  const padX = 85;
-  const padY = 70;
-  const minWidth = 440;
-  const minHeight = 240;
-
-  let minX = Math.min(...nodes.map(node => node.x)) - padX;
-  let maxX = Math.max(...nodes.map(node => node.x)) + padX;
-  let minY = Math.min(...nodes.map(node => node.y)) - padY;
-  let maxY = Math.max(...nodes.map(node => node.y)) + padY;
-
-  const growAxis = (min, max, minimum, baseMin, baseSize) => {
-    let size = max - min;
-    if (size < minimum) {
-      const center = (min + max) / 2;
-      min = center - minimum / 2;
-      max = center + minimum / 2;
-      size = minimum;
-    }
-
-    if (min < baseMin) {
-      max += baseMin - min;
-      min = baseMin;
-    }
-
-    const baseMax = baseMin + baseSize;
-    if (max > baseMax) {
-      min -= max - baseMax;
-      max = baseMax;
-    }
-
-    min = Math.max(baseMin, min);
-    max = Math.min(baseMax, max);
-
-    return [min, Math.max(1, max - min)];
-  };
-
-  const [x, width] = growAxis(minX, maxX, minWidth, baseX, baseWidth);
-  const [y, height] = growAxis(minY, maxY, minHeight, baseY, baseHeight);
-
-  return `${Math.round(x)} ${Math.round(y)} ${Math.round(width)} ${Math.round(height)}`;
-}
-
-export default function ProjectSystemCanvas({ projectIndex, activeStage, focusActiveStage = false }) {
+export default function ProjectSystemCanvas({ projectIndex, activeStage }) {
   const topology = projectArchitectures[projectIndex];
   if (!topology) return null;
 
   const activeEdges = topology.edges.filter(edge => edge.stage === activeStage && !edge.muted);
-  const shouldFocus =
-    focusActiveStage &&
-    typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 760px)").matches;
-  const viewBox = shouldFocus ? getStageViewBox(topology, activeStage) : topology.viewBox;
 
   return (
     <div className="system-canvas-frame">
-      <div className={`system-canvas${shouldFocus ? " is-stage-focused" : ""}`} role="img" aria-label={topology.name} data-active-stage={activeStage}>
+      <div className="system-canvas" role="img" aria-label={topology.name} data-active-stage={activeStage}>
         <div className="system-canvas-grid" aria-hidden="true" />
-        <svg className="system-canvas-svg" viewBox={viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <svg className="system-canvas-svg" viewBox={topology.viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
           <defs>
             <filter id={`system-glow-${projectIndex}`} x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="2.6" result="blur" />
