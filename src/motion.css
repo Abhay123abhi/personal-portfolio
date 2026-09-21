@@ -198,3 +198,121 @@ html[data-active-section="skills"] .ambient-grid { opacity: .26; }
   .ambient-grid { transform: none; }
 }
 @media print { .ambient-system { display: none; } }
+
+
+/* Premium motion layer: code texture, marquee, command entrance, and scroll request trace. */
+.ambient-code {
+  position: absolute;
+  display: grid;
+  gap: 5px;
+  color: var(--accent);
+  font: 500 10px/1.55 var(--mono);
+  letter-spacing: .025em;
+  opacity: .055;
+  user-select: none;
+  white-space: nowrap;
+}
+.ambient-code span { display: block; }
+.ambient-code-a { top: 17%; right: 8%; transform: rotate(-3deg); }
+.ambient-code-b { top: 50%; left: 7%; transform: rotate(2deg); color: var(--ice); }
+.ambient-code-c { right: 10%; bottom: 10%; transform: rotate(-2deg); color: var(--apricot); }
+
+.scroll-system-trace {
+  position: fixed;
+  z-index: 35;
+  top: 25%;
+  right: clamp(9px, 1.4vw, 24px);
+  width: 26px;
+  height: 50vh;
+  pointer-events: none;
+  opacity: .62;
+}
+.scroll-trace-line {
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: 12px;
+  width: 1px;
+  background: var(--line);
+}
+.scroll-trace-progress {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--page-progress, 0) * 100%);
+  background: linear-gradient(var(--mint), var(--ice), var(--apricot));
+}
+.scroll-trace-packet {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--page-progress, 0) * 100%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--signal) 65%, transparent);
+  transform: translate(-50%, -50%);
+}
+.scroll-trace-node {
+  position: absolute;
+  left: 6px;
+  display: grid;
+  place-items: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--paper);
+  color: transparent;
+}
+.trace-intro { top: 0; }
+.trace-work { top: 34%; }
+.trace-experience { top: 67%; }
+.trace-skills { bottom: 0; }
+
+@keyframes tech-rail-left {
+  to { transform: translateX(-50%); }
+}
+@keyframes tech-rail-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@keyframes command-enter {
+  from { opacity: 0; transform: translateY(-12px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ambient-code-drift-a {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-3deg); }
+  50% { transform: translate3d(-20px,14px,0) rotate(-2deg); }
+}
+@keyframes ambient-code-drift-b {
+  0%, 100% { transform: translate3d(0,0,0) rotate(2deg); }
+  50% { transform: translate3d(24px,-12px,0) rotate(1deg); }
+}
+@keyframes ambient-code-drift-c {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-2deg); }
+  50% { transform: translate3d(-18px,-16px,0) rotate(-1deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tech-rail-track { animation: tech-rail-left 32s linear infinite; }
+  .tech-rail-track.reverse { animation-name: tech-rail-right; animation-duration: 38s; }
+  .tech-rail:hover .tech-rail-track { animation-play-state: paused; }
+  .command-palette { animation: command-enter .2s cubic-bezier(.2,.7,.3,1) both; }
+  .ambient-code-a { animation: ambient-code-drift-a 22s ease-in-out infinite; }
+  .ambient-code-b { animation: ambient-code-drift-b 28s ease-in-out infinite; }
+  .ambient-code-c { animation: ambient-code-drift-c 25s ease-in-out infinite; }
+  .architecture-playing .architecture-stage.selected::after { animation: node-breathe 1.15s ease-in-out infinite; }
+}
+@media (max-width: 1150px) {
+  .scroll-system-trace { display: none; }
+}
+@media (max-width: 650px) {
+  .ambient-code { display: none; }
+  .tech-rail-track span { font-size: 9px; padding: 5px 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-rail-track { transform: none !important; flex-wrap: wrap; width: auto; }
+  .tech-rail-window { overflow: visible; }
+}
+@media print {
+  .scroll-system-trace, .command-backdrop, .command-trigger, .tech-rail { display: none !important; }
+}
