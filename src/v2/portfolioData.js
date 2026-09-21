@@ -11,7 +11,7 @@ export const identity = {
   photo: "/profile1.png",
 };
 
-export const metrics = [
+export const productionStats = [
   { value: "4+", label: "years shipping production software" },
   { value: "1K+", label: "business events processed daily" },
   { value: "25%", label: "faster deployment cycles" },
@@ -21,7 +21,7 @@ export const metrics = [
 export const capabilities = [
   {
     key: "backend",
-    eyebrow: "01 · Core",
+    eyebrow: "Core",
     title: "Backend Development",
     subtitle: "Java services & API contracts",
     body: "Spring Boot APIs, security boundaries, BFF layers, data access, testing, and the production details that sit behind a clean endpoint.",
@@ -29,7 +29,7 @@ export const capabilities = [
   },
   {
     key: "distributed",
-    eyebrow: "02 · Systems",
+    eyebrow: "Systems",
     title: "Distributed Systems",
     subtitle: "Event-driven, durable, observable",
     body: "Kafka workflows, transactional outbox, idempotency, caching, retries, ordering, evidence pipelines, and failure-aware service boundaries.",
@@ -37,7 +37,7 @@ export const capabilities = [
   },
   {
     key: "delivery",
-    eyebrow: "03 · Production",
+    eyebrow: "Production",
     title: "Delivery & Reliability",
     subtitle: "Ship, observe, recover",
     body: "CI/CD, containers, Kubernetes, production monitoring, release readiness, and operational support across Asian markets.",
@@ -45,7 +45,7 @@ export const capabilities = [
   },
   {
     key: "product",
-    eyebrow: "04 · Product",
+    eyebrow: "Product",
     title: "Frontend Delivery",
     subtitle: "Backend-heavy, UI-capable",
     body: "React and Ionic interfaces connected to backend APIs, with responsive product flows that work across web and mobile.",
@@ -55,7 +55,6 @@ export const capabilities = [
 
 export const projects = [
   {
-    index: "01",
     eyebrow: "Reliability engineering · Event-driven backend",
     title: "Incident Investigation Platform",
     statement: "Turn a production alert into a persistent, evidence-backed incident report.",
@@ -66,7 +65,6 @@ export const projects = [
     live: null,
   },
   {
-    index: "02",
     eyebrow: "Full-stack product · Source-grounded AI",
     title: "News Intelligence",
     statement: "Aggregate multiple publishers, then turn the feed into grounded briefs, answers, and coverage comparisons.",
@@ -77,7 +75,6 @@ export const projects = [
     live: "https://abhay123abhi-news-web.onrender.com",
   },
   {
-    index: "03",
     eyebrow: "Real-time systems · Reliable messaging",
     title: "Real-time Chat",
     statement: "Room-based guest messaging with durable writes, live presence, and reconnect recovery.",
@@ -98,43 +95,40 @@ export const experienceMetrics = [
 ];
 
 export const toolbelt = [
-  ["Java", "services"],
-  ["Spring Boot", "backend"],
-  ["Kafka", "events"],
-  ["Redis", "cache"],
-  ["PostgreSQL", "data"],
-  ["MongoDB", "documents"],
-  ["Docker", "containers"],
-  ["Kubernetes", "orchestration"],
-  ["Jenkins", "CI/CD"],
-  ["AWS", "cloud"],
-  ["Prometheus", "metrics"],
-  ["Grafana", "dashboards"],
-  ["Loki", "logs"],
-  ["Tempo", "traces"],
-  ["React", "interfaces"],
-  ["Ionic", "mobile UI"],
-  ["JUnit", "testing"],
-  ["Mockito", "testing"],
+  { name: "Java", desc: "services", icon: "openjdk", color: "F89820" },
+  { name: "Spring Boot", desc: "backend", icon: "springboot", color: "6DB33F" },
+  { name: "Kafka", desc: "events", icon: "apachekafka", color: "E7ECEF" },
+  { name: "Redis", desc: "cache", icon: "redis", color: "FF4438" },
+  { name: "PostgreSQL", desc: "data", icon: "postgresql", color: "4169E1" },
+  { name: "MongoDB", desc: "documents", icon: "mongodb", color: "47A248" },
+  { name: "Docker", desc: "containers", icon: "docker", color: "2496ED" },
+  { name: "Kubernetes", desc: "orchestration", icon: "kubernetes", color: "326CE5" },
+  { name: "Jenkins", desc: "CI/CD", icon: "jenkins", color: "D24939" },
+  { name: "AWS", desc: "cloud", icon: "amazonwebservices", color: "FF9900" },
+  { name: "Prometheus", desc: "metrics", icon: "prometheus", color: "E6522C" },
+  { name: "Grafana", desc: "dashboards", icon: "grafana", color: "F46800" },
+  { name: "Loki", desc: "logs", icon: "grafana", color: "F2CC0C" },
+  { name: "Tempo", desc: "traces", icon: "grafana", color: "73BF69" },
+  { name: "React", desc: "interfaces", icon: "react", color: "61DAFB" },
+  { name: "Ionic", desc: "mobile UI", icon: "ionic", color: "3880FF" },
+  { name: "JUnit", desc: "testing", icon: "junit5", color: "25A162" },
+  { name: "Mockito", desc: "testing", icon: null, color: "86B817" },
 ];
 
 export const featuredArticles = [
   {
-    number: "01",
     category: "System design · Project notes",
     title: "The database committed. What if Kafka never got the event?",
     excerpt: "Transactional outbox boundaries, duplicates, recovery races, and what I would test before scaling it.",
     href: "/blog/transactional-outbox-incident-investigation",
   },
   {
-    number: "02",
     category: "Low-level design · Java",
     title: "Strategy is the easy part: designing a reliable multi-provider API",
     excerpt: "Adapters, orchestration, deadlines, partial success, and an optional AI layer.",
     href: "/blog/provider-design-strategy-adapter-concurrency",
   },
   {
-    number: "03",
     category: "System design · LLD",
     title: "Designing seat holds, idempotency, and late payment callbacks",
     excerpt: "Database invariants, expiring holds, retries, and compensation paths in a booking workflow.",

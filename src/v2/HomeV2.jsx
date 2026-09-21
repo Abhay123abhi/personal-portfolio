@@ -1,11 +1,11 @@
-import { ArrowDown, ArrowUpRight, Download, Github, Linkedin, Mail, Menu, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
 import ProjectCaseStudy from "./ProjectCaseStudy";
 import {
   identity,
-  metrics,
+  productionStats,
   capabilities,
   projects,
   experienceMetrics,
@@ -13,8 +13,26 @@ import {
   featuredArticles,
 } from "./portfolioData";
 
+const mobileCommands = [
+  { label: "Home", meta: "hero", href: "#top", icon: Home, keywords: "home top intro profile" },
+  { label: "What I build", meta: "capabilities", href: "#capabilities", icon: Layers, keywords: "skills capabilities backend distributed systems" },
+  { label: "Selected work", meta: "projects", href: "#work", icon: Briefcase, keywords: "work projects architecture systems" },
+  { label: "Experience", meta: "production", href: "#experience", icon: Briefcase, keywords: "experience sun life production impact" },
+  { label: "Stack", meta: "toolbelt", href: "#stack", icon: Layers, keywords: "stack tools java spring kafka docker aws" },
+  { label: "Engineering journal", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles journal writing" },
+  { label: "Contact", meta: "email · links", href: "#contact", icon: Mail, keywords: "contact email linkedin github" },
+  { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
+  { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
+  { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Linkedin, external: true, keywords: "linkedin profile network" },
+  { label: "Email Abhay", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
+];
+
 function V2Nav() {
-  const [open, setOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const searchRef = useRef(null);
+
   const links = [
     ["Work", "#work"],
     ["Experience", "#experience"],
@@ -23,33 +41,175 @@ function V2Nav() {
     ["Contact", "#contact"],
   ];
 
+  const filteredCommands = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return mobileCommands;
+    return mobileCommands.filter(item =>
+      [item.label, item.meta, item.keywords].join(" ").toLowerCase().includes(normalized)
+    );
+  }, [query]);
+
+  const closePalette = () => {
+    setPaletteOpen(false);
+    setQuery("");
+    setActiveIndex(0);
+  };
+
+  const runCommand = (item) => {
+    closePalette();
+
+    if (item.href.startsWith("#")) {
+      requestAnimationFrame(() => {
+        document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      return;
+    }
+
+    if (item.href.startsWith("mailto:")) {
+      window.location.href = item.href;
+      return;
+    }
+
+    if (item.external) {
+      window.open(item.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    window.location.href = item.href;
+  };
+
   useEffect(() => {
-    const close = () => setOpen(false);
-    window.addEventListener("resize", close);
-    return () => window.removeEventListener("resize", close);
-  }, []);
+    if (!paletteOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusTimer = window.setTimeout(() => searchRef.current?.focus(), 40);
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closePalette();
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActiveIndex(index => filteredCommands.length ? (index + 1) % filteredCommands.length : 0);
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActiveIndex(index => filteredCommands.length ? (index - 1 + filteredCommands.length) % filteredCommands.length : 0);
+      }
+
+      if (event.key === "Enter" && filteredCommands[activeIndex]) {
+        event.preventDefault();
+        runCommand(filteredCommands[activeIndex]);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [paletteOpen, filteredCommands, activeIndex]);
 
   return (
-    <header className="v2-nav-shell">
-      <nav className="v2-nav" aria-label="Primary">
-        <a className="v2-brand" href="#top" aria-label="Abhay Jaiswal home">aj<span>.</span></a>
-        <div className={open ? "v2-nav-links open" : "v2-nav-links"}>
-          {links.map(([label, href]) => href.startsWith("/") ? (
-            <Link key={label} to={href} onClick={() => setOpen(false)}>{label}</Link>
-          ) : (
-            <a key={label} href={href} onClick={() => setOpen(false)}>{label}</a>
-          ))}
-        </div>
-        <div className="v2-nav-actions">
-          <a className="v2-nav-icon" href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={17} /></a>
-          <a className="v2-nav-icon" href={identity.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={17} /></a>
-          <a className="v2-resume-cta" href={identity.resume} target="_blank" rel="noreferrer">résumé <Download size={14} /></a>
-          <button className="v2-menu" type="button" aria-expanded={open} aria-label="Toggle menu" onClick={() => setOpen(v => !v)}>
-            {open ? <X size={20} /> : <Menu size={20} />}
+    <>
+      <header className="v2-nav-shell">
+        <nav className="v2-nav" aria-label="Primary">
+          <a className="v2-brand" href="#top" aria-label="Abhay Jaiswal home">aj<span>.</span></a>
+
+          <div className="v2-nav-links">
+            {links.map(([label, href]) => href.startsWith("/") ? (
+              <Link key={label} to={href}>{label}</Link>
+            ) : (
+              <a key={label} href={href}>{label}</a>
+            ))}
+          </div>
+
+          <button
+            className="v2-mobile-search-trigger"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={paletteOpen}
+            onClick={() => setPaletteOpen(true)}
+          >
+            <Search size={15} />
+            <span>Search / jump</span>
+            <kbd>⌕</kbd>
           </button>
+
+          <div className="v2-nav-actions">
+            <a className="v2-nav-icon" href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={17} /></a>
+            <a className="v2-nav-icon" href={identity.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={17} /></a>
+          </div>
+        </nav>
+      </header>
+
+      {paletteOpen && (
+        <div className="v2-command-backdrop" role="presentation" onMouseDown={closePalette}>
+          <section
+            className="v2-command-palette"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Portfolio navigation"
+            onMouseDown={event => event.stopPropagation()}
+          >
+            <div className="v2-command-search">
+              <Search size={18} />
+              <input
+                ref={searchRef}
+                value={query}
+                onChange={event => {
+                  setQuery(event.target.value);
+                  setActiveIndex(0);
+                }}
+                placeholder="Type a page, section or action…"
+                aria-label="Search portfolio actions"
+              />
+              <button type="button" onClick={closePalette} aria-label="Close search"><X size={17} /></button>
+            </div>
+
+            <div className="v2-command-list" role="listbox" aria-label="Navigation results">
+              {filteredCommands.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    type="button"
+                    key={item.label}
+                    className={index === activeIndex ? "v2-command-item active" : "v2-command-item"}
+                    onClick={() => runCommand(item)}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    role="option"
+                    aria-selected={index === activeIndex}
+                  >
+                    <span className="v2-command-icon"><Icon size={17} /></span>
+                    <span className="v2-command-copy">
+                      <strong>{item.label}</strong>
+                      <small>{item.meta}</small>
+                    </span>
+                    <ArrowUpRight size={14} />
+                  </button>
+                );
+              })}
+
+              {!filteredCommands.length && (
+                <div className="v2-command-empty">No matching section or action.</div>
+              )}
+            </div>
+
+            <footer className="v2-command-footer">
+              <span>↑ ↓ navigate</span>
+              <span>enter open</span>
+              <span>esc close</span>
+            </footer>
+          </section>
         </div>
-      </nav>
-    </header>
+      )}
+    </>
   );
 }
 
@@ -72,21 +232,27 @@ function Hero() {
         <div className="v2-hero-portrait">
           <div className="v2-portrait-frame">
             <img src={identity.photo} alt="Abhay Jaiswal" width="1134" height="1134" fetchPriority="high" />
-            <div className="v2-portrait-code" aria-hidden="true">
-              <span>Spring Boot</span><span>Kafka</span><span>Redis</span><span>React</span>
-            </div>
           </div>
-          <div className="v2-availability"><i /> Open to backend / SDE-2 opportunities</div>
         </div>
       </div>
 
-      <div className="v2-metrics">
-        {metrics.map(metric => (
-          <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>
-        ))}
-      </div>
       <a href="#capabilities" className="v2-scroll-cue" aria-label="Scroll to capabilities"><span /><small>scroll</small></a>
     </section>
+  );
+}
+
+function ProductionStats() {
+  return (
+    <div className="v2-production" aria-label="Built in production metrics">
+      <div className="v2-production-rail" tabIndex={0}>
+        {productionStats.map((item) => (
+          <article className="v2-production-stat" key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -98,9 +264,8 @@ function CapabilityGrid() {
         <p>Backend-heavy engineering with enough product context to take a feature from contract to interface to production support.</p>
       </div>
       <div className="v2-cap-grid">
-        {capabilities.map((item, index) => (
+        {capabilities.map((item) => (
           <article className={"v2-cap-card cap-" + item.key} key={item.key}>
-            <span className="v2-cap-number">0{index + 1}</span>
             <p className="v2-cap-eyebrow">{item.eyebrow}</p>
             <h3>{item.title}</h3>
             <b>{item.subtitle}</b>
@@ -138,12 +303,7 @@ function Experience() {
         <p>Four years delivering advisor and policy platforms across Asian insurance markets — backend services, event-driven workflows, frontend delivery, and production releases.</p>
       </div>
 
-      <div className="v2-exp-stats">
-        <div><strong>4+</strong><span>years in production</span></div>
-        <div><strong>3</strong><span>Asian markets supported</span></div>
-        <div><strong>2×</strong><span>Brighter Beginning awards</span></div>
-        <div><strong>1</strong><span>onsite UAT / release assignment</span></div>
-      </div>
+      <ProductionStats />
 
       <article className="v2-timeline-card">
         <div className="v2-timeline-rail"><span /></div>
@@ -179,8 +339,17 @@ function Toolbelt() {
         {rows.map((row, rowIndex) => (
           <div className="v2-tool-window" key={rowIndex}>
             <div className={rowIndex ? "v2-tool-track reverse" : "v2-tool-track"}>
-              {[...row, ...row].map(([name, desc], index) => (
-                <span className="v2-tool" key={name + index}><b>{name}</b><small>{desc}</small></span>
+              {[...row, ...row].map((tool, index) => (
+                <span className="v2-tool" key={tool.name + index} style={{ "--tool-color": `#${tool.color}` }}>
+                  <span className="v2-tool-logo" aria-hidden="true">
+                    {tool.icon ? (
+                      <img src={`https://cdn.simpleicons.org/${tool.icon}/${tool.color}`} alt="" width="20" height="20" loading="lazy" decoding="async" onError={event => { event.currentTarget.style.display = "none"; }} />
+                    ) : (
+                      <span>{tool.name.slice(0, 2).toUpperCase()}</span>
+                    )}
+                  </span>
+                  <b>{tool.name}</b><small>{tool.desc}</small>
+                </span>
               ))}
             </div>
           </div>
@@ -200,7 +369,6 @@ function Journal() {
       <div className="v2-journal-grid">
         {featuredArticles.map(article => (
           <Link to={article.href} className="v2-article-card" key={article.href}>
-            <span>{article.number}</span>
             <small>{article.category}</small>
             <h3>{article.title}</h3>
             <p>{article.excerpt}</p>
@@ -220,10 +388,10 @@ function ContactV2() {
       <h2>Let’s build something<br /><span>reliable.</span></h2>
       <p>Backend, distributed systems, Java, production engineering — or a product that needs all four. My inbox is open.</p>
       <div className="v2-contact-actions">
-        <a className="v2-primary" href={"mailto:" + identity.email}><Mail size={16} /> Email me</a>
-        <a className="v2-secondary" href={identity.linkedin} target="_blank" rel="noreferrer"><Linkedin size={16} /> LinkedIn</a>
-        <a className="v2-secondary" href={identity.github} target="_blank" rel="noreferrer"><Github size={16} /> GitHub</a>
-        <a className="v2-secondary" href={identity.resume} target="_blank" rel="noreferrer"><Download size={16} /> Résumé</a>
+        <a className="v2-api-action" href={"mailto:" + identity.email}>/email</a>
+        <a className="v2-api-action" href={identity.linkedin} target="_blank" rel="noreferrer">/linkedin</a>
+        <a className="v2-api-action" href={identity.github} target="_blank" rel="noreferrer">/github</a>
+        <a className="v2-api-action" href={identity.resume} target="_blank" rel="noreferrer">/resume</a>
       </div>
       <footer><span>Abhay Jaiswal</span><span>Gurugram, India</span><span>{identity.email}</span></footer>
     </section>
@@ -234,7 +402,32 @@ export default function HomeV2() {
   useEffect(() => {
     document.documentElement.dataset.theme = "dark";
     document.documentElement.classList.add("v2-home-active");
-    return () => document.documentElement.classList.remove("v2-home-active");
+
+    const targets = document.querySelectorAll(
+      ".v2-production, .v2-cap-card, .v2-case-study, .v2-experience-intro, .v2-timeline-card, .v2-toolbelt-head, .v2-article-card, .v2-contact"
+    );
+    targets.forEach(target => target.classList.add("v2-reveal"));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      targets.forEach(target => target.classList.add("is-visible"));
+      return () => document.documentElement.classList.remove("v2-home-active");
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+    targets.forEach(target => observer.observe(target));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("v2-home-active");
+    };
   }, []);
 
   return (
