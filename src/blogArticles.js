@@ -10,7 +10,7 @@ export const additionalArticles = [
     "number": "06",
     "published": "Adapted from my LinkedIn post",
     "readingTime": "2 min read",
-    "quote": "This project continues to shape how I connect an alert to evidence. Inspired by System Design Interview by Alex Xu, my next question is not how many dashboards I can build, but which signals help explain a failure.",
+    "quote": "This project continues to shape how I connect an alert to evidence. My next question is not how many dashboards I can build, but which signals help explain a failure.",
     "sections": [
       [
         "Start with the question",
@@ -25,7 +25,7 @@ export const additionalArticles = [
       [
         "Keep useful signals affordable",
         "I would start with request rate, errors, and duration, then examine which labels are needed for investigation. User IDs and arbitrary URLs can create excessive series cardinality.",
-        "This project continues to shape how I connect an alert to evidence. Inspired by System Design Interview by Alex Xu, my next question is not how many dashboards I can build, but which signals help explain a failure."
+        "This project continues to shape how I connect an alert to evidence. My next question is not how many dashboards I can build, but which signals help explain a failure."
       ]
     ],
     "flow": [
@@ -368,14 +368,14 @@ export const additionalArticles = [
       "Channel"
     ],
     "number": "16",
-    "published": "Design exercise · Reading notes",
+    "published": "Design exercise",
     "readingTime": "3 min read",
     "lead": "A design exercise connecting incident notifications to the patterns I am studying.",
     "quote": "Start with the invariant, then choose the abstraction.",
     "sections": [
       [
         "Start with responsibilities",
-        "Reading Dive Into Design Patterns by Alexander Shvets prompts me to ask which responsibility is changing before choosing a class structure. Here is my own notification design exercise, inspired by that question.",
+        "Before choosing a class structure, I ask which responsibility is changing. This notification design exercise explores that question.",
         "An incident may trigger an email today and another channel later. Deciding whether to notify, formatting content, and talking to a provider are separate decisions."
       ],
       [
@@ -393,12 +393,6 @@ export const additionalArticles = [
         "For the exercise, I would inject a fake channel, verify policy selection, and test provider failure independently from incident creation.",
         "The useful outcome is a smaller change when a provider is replaced, not a larger count of patterns in the codebase."
       ]
-    ],
-    "sources": [
-      [
-        "Reading inspiration: Dive Into Design Patterns — Alexander Shvets",
-        "https://refactoring.guru/design-patterns/book"
-      ]
     ]
   },
   {
@@ -406,21 +400,21 @@ export const additionalArticles = [
     "topic": "System Design",
     "category": "System Design",
     "title": "Designing a rate limiter: where should the decision live?",
-    "excerpt": "An original system-design exercise inspired by my Alex Xu reading.",
+    "excerpt": "A system-design exercise in protecting a public API from bursts and overload.",
     "flow": [
       "Request",
       "Token bucket",
       "Service"
     ],
     "number": "17",
-    "published": "Design exercise · Reading notes",
+    "published": "Design exercise",
     "readingTime": "3 min read",
-    "lead": "An original system-design exercise inspired by my Alex Xu reading.",
+    "lead": "A system-design exercise in protecting a public API from bursts and overload.",
     "quote": "Start with the invariant, then choose the abstraction.",
     "sections": [
       [
         "Define the promise",
-        "My reading of System Design Interview by Alex Xu is a starting point for this exercise: protect a public demo API from bursts while keeping ordinary use responsive. These are proposed choices, not claims about a deployed limiter.",
+        "The goal of this exercise is to protect a public demo API from bursts while keeping ordinary use responsive. These are proposed choices, not claims about a deployed limiter.",
         "First define the identity, operation, steady rate, burst allowance, and response on rejection. A limit per IP is different from a limit per authenticated account."
       ],
       [
@@ -438,12 +432,6 @@ export const additionalArticles = [
         "I would test simultaneous requests, refill after idle time, clock assumptions, and multiple replicas. Include hot identities and an unavailable store.",
         "A rate limit does not replace authentication, payload limits, concurrency bounds, or an upstream budget. Each protects a different constraint."
       ]
-    ],
-    "sources": [
-      [
-        "Reading inspiration: System Design Interview — Alex Xu",
-        "https://bytebytego.com/books/system-design-interview"
-      ]
     ]
   },
   {
@@ -458,14 +446,14 @@ export const additionalArticles = [
       "Dispense"
     ],
     "number": "18",
-    "published": "Design exercise · Reading notes",
+    "published": "Design exercise",
     "readingTime": "3 min read",
     "lead": "A vending-machine exercise that connects back to incident lifecycles.",
     "quote": "Start with the invariant, then choose the abstraction.",
     "sections": [
       [
         "Write the transitions first",
-        "My LLD practice alongside Dive Into Design Patterns starts with behavior. For a vending machine, selecting an item, accepting money, cancelling, and dispensing do not make sense in every state.",
+        "My LLD practice starts with behavior. For a vending machine, selecting an item, accepting money, cancelling, and dispensing do not make sense in every state.",
         "I would first list legal transitions and their guards. The problem is easier to see before adding classes named IdleState or PaidState."
       ],
       [
@@ -482,12 +470,6 @@ export const additionalArticles = [
         "Test behavior instead of class names",
         "I would test cancelling before payment, insufficient balance, stock exhaustion, a failed dispense, and repeated requests. Assertions should describe the domain invariant.",
         "This is a design exercise rather than a claim that my portfolio ships a vending machine. The value is learning when a pattern clarifies behavior and when a simpler model is enough."
-      ]
-    ],
-    "sources": [
-      [
-        "Reading inspiration: Dive Into Design Patterns — Alexander Shvets",
-        "https://refactoring.guru/design-patterns/book"
       ]
     ]
   }
