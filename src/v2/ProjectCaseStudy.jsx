@@ -1,0 +1,56 @@
+import { useState } from "react";
+import { ArrowUpRight, Github } from "lucide-react";
+import ProjectSystemCanvas from "../ProjectSystemCanvas";
+import ProjectArchitectureMobile from "../ProjectArchitectureMobile";
+import { projectArchitectures } from "../projectArchitectureData";
+
+export default function ProjectCaseStudy({ project, projectIndex, reverse = false }) {
+  const [selected, setSelected] = useState(0);
+  const architecture = projectArchitectures[projectIndex];
+
+  return (
+    <article className={`v2-case-study${reverse ? " is-reverse" : ""}`}>
+      <div className="v2-case-copy">
+        <div className="v2-case-index">{project.index}</div>
+        <p className="v2-kicker">{project.eyebrow}</p>
+        <h3>{project.title}</h3>
+        <p className="v2-case-statement">{project.statement}</p>
+
+        <div className="v2-case-columns">
+          <div><span>Problem</span><p>{project.problem}</p></div>
+          <div><span>Approach</span><p>{project.approach}</p></div>
+        </div>
+
+        <div className="v2-case-stack">
+          {project.stack.map(item => <span key={item}>{item}</span>)}
+        </div>
+
+        <div className="v2-case-actions">
+          <a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>
+          {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}
+        </div>
+      </div>
+
+      <div className="v2-case-visual">
+        <div className="v2-case-window-head">
+          <span><i /><i /><i /></span>
+          <b>{architecture.name}</b>
+        </div>
+        <div className="v2-case-canvas">
+          <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} />
+        </div>
+        <div className="v2-case-mobile">
+          <ProjectArchitectureMobile architecture={architecture} selected={selected} onSelect={setSelected} />
+        </div>
+        <div className="v2-stage-tabs" aria-label={`${project.title} architecture stages`}>
+          {architecture.stages.map((stage, index) => (
+            <button key={stage.title} type="button" className={selected === index ? "active" : ""} onClick={() => setSelected(index)}>
+              <span>{String(index + 1).padStart(2, "0")}</span>{stage.title}
+            </button>
+          ))}
+        </div>
+        <p className="v2-stage-note">{architecture.note}</p>
+      </div>
+    </article>
+  );
+}

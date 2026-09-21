@@ -1,3 +1,4 @@
+import HomeV2 from "./v2/HomeV2";
 import PortfolioMotion from "./PortfolioMotion";
 import AmbientSystemBackground from "./AmbientSystemBackground";
 import CommandPalette from "./CommandPalette";
@@ -466,6 +467,6 @@ function ArticlePage() {
 }
 
 export default function App() {
-  return <><ScrollToTop /><PortfolioMotion /><Routes><Route path="/" element={<Home />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
+  return <><ScrollToTop /><PortfolioMotion /><Routes><Route path="/" element={<HomeV2 />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
 }
 
