@@ -155,8 +155,19 @@ html.v2-home-active body {
   min-height: 43px; padding: 0 15px;
   border-radius: 10px; font-size: 12px; font-weight: 650;
 }
-.v2-primary { color: #09221b; background: var(--v2-mint); box-shadow: 0 10px 30px rgba(111,214,183,.12); }
+.v2-primary {
+  color: var(--v2-mint);
+  border: 1px solid rgba(143,224,199,.42);
+  background: rgba(143,224,199,.035);
+  box-shadow: none;
+}
 .v2-secondary, .v2-case-actions a { color: var(--v2-text); border: 1px solid var(--v2-line); background: rgba(255,255,255,.015); }
+.v2-primary:hover {
+  color: var(--v2-text);
+  border-color: rgba(143,224,199,.68);
+  background: rgba(143,224,199,.075);
+  transform: translateY(-1px);
+}
 .v2-secondary:hover, .v2-case-actions a:hover { border-color: rgba(143,224,199,.45); }
 
 .v2-hero-portrait { justify-self: end; width: min(100%, 390px); }
