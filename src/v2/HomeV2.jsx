@@ -344,7 +344,7 @@ function Toolbelt() {
     <section className="v2-section v2-toolbelt" id="stack">
       <div className="v2-toolbelt-head">
         <div><p className="v2-kicker">// STACK</p><h2>The toolbelt.</h2></div>
-        <p><span className="v2-toolbelt-desktop-copy">What I actually reach for in production — hover to pause.</span><span className="v2-toolbelt-mobile-copy">Production tools in motion.</span></p>
+        <p><span className="v2-toolbelt-desktop-copy">What I actually reach for in production — hover to pause.</span><span className="v2-toolbelt-mobile-copy">Touch & hold to pause.</span></p>
       </div>
       <div className="v2-tool-rows">
         {rows.map((row, rowIndex) => (
