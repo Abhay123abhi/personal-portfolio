@@ -1253,3 +1253,324 @@ html.v2-home-active body {
     display: none;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Hero scene v3 — solid, visible geometric motion
+   -------------------------------------------------------------------------- */
+
+.v2-scene {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.v2-scene-grid {
+  opacity: .12;
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at 58% 42%, black 28%, transparent 76%);
+}
+
+.v2-scene-glow {
+  filter: blur(72px);
+  opacity: .16;
+}
+
+.v2-scene-glow-a {
+  width: 34rem;
+  right: -7rem;
+  top: -10rem;
+  background: radial-gradient(circle, rgba(143,224,199,.34), transparent 66%);
+}
+
+.v2-scene-glow-b {
+  width: 30rem;
+  left: -9rem;
+  bottom: -10rem;
+  background: radial-gradient(circle, rgba(159,132,232,.28), transparent 67%);
+}
+
+.v2-shape {
+  position: absolute;
+  will-change: transform;
+  filter: saturate(.94);
+}
+
+/* Large violet ring in open left-bottom space. */
+.v2-shape-ring {
+  width: 178px;
+  height: 178px;
+  left: 5.5%;
+  bottom: 12%;
+  border: 27px solid rgba(123,104,181,.72);
+  border-radius: 50%;
+  opacity: .78;
+  background: transparent;
+  box-shadow:
+    inset 8px 8px 18px rgba(255,255,255,.07),
+    inset -10px -12px 22px rgba(27,20,52,.24),
+    0 22px 50px rgba(0,0,0,.24);
+}
+
+/* Primary solid cube / diamond behind the open centre of the hero. */
+.v2-shape-cube {
+  width: 238px;
+  height: 238px;
+  left: 45%;
+  top: 15%;
+  right: auto;
+  border-radius: 16px;
+  clip-path: none;
+  opacity: .72;
+  background:
+    linear-gradient(145deg, rgba(129,108,172,.94), rgba(102,94,126,.78) 48%, rgba(180,169,153,.52));
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.28),
+    inset 2px 2px 0 rgba(255,255,255,.11),
+    inset -18px -20px 36px rgba(31,26,48,.18);
+}
+
+/* Bright warm-grey sphere. */
+.v2-shape-orb {
+  width: 104px;
+  height: 104px;
+  right: 30%;
+  top: 9%;
+  border-radius: 50%;
+  opacity: .86;
+  background:
+    radial-gradient(circle at 31% 27%, #d9d4c9 0 12%, #a6a095 42%, #625f68 100%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.23),
+    inset -12px -14px 24px rgba(48,44,58,.24);
+}
+
+/* Slim solid capsule on upper-right, clear of the portrait. */
+.v2-shape-capsule {
+  width: 82px;
+  height: 156px;
+  right: 21%;
+  top: 2%;
+  border-radius: 42px;
+  opacity: .64;
+  background:
+    linear-gradient(165deg, #b9b0a5 0 44%, #676180 45% 100%);
+  box-shadow: 0 22px 48px rgba(0,0,0,.24);
+}
+
+/* Secondary blue-grey block near CTA-free lower middle. */
+.v2-shape-diamond {
+  width: 104px;
+  height: 104px;
+  left: 43%;
+  bottom: 8%;
+  border-radius: 16px;
+  opacity: .58;
+  background:
+    linear-gradient(145deg, rgba(103,126,160,.88), rgba(52,66,84,.72));
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.22),
+    inset 1px 1px 0 rgba(255,255,255,.08);
+}
+
+/* Small solid blue-violet block near the top centre. */
+.v2-shape-mini-cube {
+  width: 76px;
+  height: 76px;
+  left: 57%;
+  top: -16px;
+  border-radius: 10px;
+  opacity: .78;
+  background:
+    linear-gradient(145deg, rgba(118,128,213,.94), rgba(77,72,128,.82));
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.22),
+    inset 1px 1px 0 rgba(255,255,255,.1);
+}
+
+/* Faster but still calm motion: visually alive in the first viewport. */
+@media (prefers-reduced-motion: no-preference) {
+  .v2-shape-ring {
+    animation: v2-solid-ring 9.5s ease-in-out infinite !important;
+  }
+
+  .v2-shape-cube {
+    animation: v2-solid-cube 11.5s ease-in-out infinite !important;
+  }
+
+  .v2-shape-orb {
+    animation: v2-solid-orb 8s ease-in-out infinite !important;
+  }
+
+  .v2-shape-capsule {
+    animation: v2-solid-capsule 9s ease-in-out infinite !important;
+  }
+
+  .v2-shape-diamond {
+    animation: v2-solid-diamond 8.8s ease-in-out infinite !important;
+  }
+
+  .v2-shape-mini-cube {
+    animation: v2-solid-mini 7.6s ease-in-out infinite !important;
+  }
+}
+
+@keyframes v2-solid-ring {
+  0%, 100% { transform: translate3d(0,0,0) rotate(12deg); }
+  50% { transform: translate3d(16px,-22px,0) rotate(26deg); }
+}
+
+@keyframes v2-solid-cube {
+  0%, 100% { transform: translate3d(0,0,0) rotate(37deg); }
+  50% { transform: translate3d(20px,-18px,0) rotate(45deg); }
+}
+
+@keyframes v2-solid-orb {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-14px,17px,0) scale(1.04); }
+}
+
+@keyframes v2-solid-capsule {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-13deg); }
+  50% { transform: translate3d(-10px,20px,0) rotate(-7deg); }
+}
+
+@keyframes v2-solid-diamond {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-23deg); }
+  50% { transform: translate3d(15px,-17px,0) rotate(-13deg); }
+}
+
+@keyframes v2-solid-mini {
+  0%, 100% { transform: translate3d(0,0,0) rotate(7deg); }
+  50% { transform: translate3d(-10px,18px,0) rotate(15deg); }
+}
+
+/* Keep the system rail above the geometry and clear of the portrait. */
+.v2-flow {
+  z-index: 2;
+  left: 53%;
+  right: auto;
+  top: 61%;
+  bottom: auto;
+  width: min(16vw, 285px);
+  height: 160px;
+  opacity: .78;
+  transform: translateY(-50%);
+}
+
+.v2-flow-node {
+  border-color: rgba(143,224,199,.52);
+  background: rgba(10,18,20,.86);
+  color: #d9eee7;
+}
+
+.v2-flow-line {
+  opacity: .9;
+}
+
+/* Tablet: reduce scale so solid geometry doesn't crowd content. */
+@media (max-width: 1250px) and (min-width: 761px) {
+  .v2-shape-cube {
+    width: 190px;
+    height: 190px;
+    left: 43%;
+    top: 20%;
+    opacity: .52;
+  }
+
+  .v2-shape-ring {
+    width: 142px;
+    height: 142px;
+    border-width: 22px;
+    left: 2%;
+    bottom: 17%;
+    opacity: .52;
+  }
+
+  .v2-shape-orb {
+    width: 82px;
+    height: 82px;
+    right: 31%;
+    opacity: .58;
+  }
+
+  .v2-shape-capsule {
+    right: 18%;
+    opacity: .42;
+  }
+
+  .v2-shape-diamond {
+    opacity: .42;
+  }
+
+  .v2-shape-mini-cube {
+    opacity: .48;
+  }
+
+  .v2-flow {
+    left: 49%;
+    width: 220px;
+    opacity: .58;
+    transform: translateY(-45%) scale(.88);
+  }
+}
+
+/* Mobile: only the strongest shapes survive, with visible but quiet motion. */
+@media (max-width: 760px) {
+  .v2-scene-grid {
+    opacity: .075;
+  }
+
+  .v2-scene-glow {
+    opacity: .1;
+  }
+
+  .v2-shape-cube {
+    display: block !important;
+    width: 138px;
+    height: 138px;
+    left: auto;
+    right: -24px;
+    top: 100px;
+    opacity: .3 !important;
+  }
+
+  .v2-shape-ring {
+    display: block !important;
+    width: 112px;
+    height: 112px;
+    left: -28px;
+    bottom: 170px;
+    border-width: 18px;
+    opacity: .34 !important;
+  }
+
+  .v2-shape-orb {
+    display: block !important;
+    width: 62px;
+    height: 62px;
+    right: 10%;
+    top: 72px;
+    opacity: .34 !important;
+  }
+
+  .v2-shape-capsule,
+  .v2-shape-diamond,
+  .v2-shape-mini-cube,
+  .v2-flow {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-shape-ring,
+  .v2-shape-cube,
+  .v2-shape-orb,
+  .v2-shape-capsule,
+  .v2-shape-diamond,
+  .v2-shape-mini-cube {
+    animation: none !important;
+  }
+}
