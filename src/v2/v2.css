@@ -3016,3 +3016,72 @@ html.v2-home-active body {
     transform: translateY(0) scale(1);
   }
 }
+
+
+/* ==========================================================================
+   Final mobile viewport + spacing refinements
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* Keep the landing hero as the complete first screen.
+     The next section should only appear after the user starts scrolling. */
+  .v2-hero {
+    min-height: calc(100svh - 58px);
+    display: flex;
+    align-items: center;
+  }
+
+  .v2-hero-inner {
+    width: 100%;
+  }
+
+  .v2-capabilities {
+    padding-top: 70px;
+  }
+
+  /* Spread decorative solids into separate mobile zones. */
+  .v2-solid-blue {
+    right: -30px !important;
+    top: 8% !important;
+    opacity: .28 !important;
+    transform: scale(.46);
+  }
+
+  .v2-solid-orb {
+    left: 8% !important;
+    right: auto !important;
+    top: 31% !important;
+    width: 48px !important;
+    height: 48px !important;
+    opacity: .26 !important;
+  }
+
+  .v2-solid-ring {
+    left: auto !important;
+    right: -34px !important;
+    top: 68% !important;
+    width: 86px !important;
+    height: 86px !important;
+    border-width: 14px !important;
+    opacity: .24 !important;
+  }
+
+  /* Touch-and-hold pauses the marquee on mobile/tablet. */
+  .v2-tool-window:active .v2-tool-track {
+    animation-play-state: paused;
+  }
+
+  .v2-toolbelt-mobile-copy {
+    color: #8f8a9c;
+  }
+}
+
+@media (max-width: 390px) {
+  .v2-hero {
+    min-height: calc(100svh - 54px);
+  }
+
+  .v2-capabilities {
+    padding-top: 64px;
+  }
+}
