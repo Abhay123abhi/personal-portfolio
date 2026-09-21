@@ -43,7 +43,6 @@ function V2Nav() {
         <div className="v2-nav-actions">
           <a className="v2-nav-icon" href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={17} /></a>
           <a className="v2-nav-icon" href={identity.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={17} /></a>
-          <a className="v2-resume-cta" href={identity.resume} target="_blank" rel="noreferrer">résumé <Download size={14} /></a>
           <button className="v2-menu" type="button" aria-expanded={open} aria-label="Toggle menu" onClick={() => setOpen(v => !v)}>
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
