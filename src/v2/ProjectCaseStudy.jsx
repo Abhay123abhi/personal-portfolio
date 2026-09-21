@@ -9,9 +9,8 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
   const architecture = projectArchitectures[projectIndex];
 
   return (
-    <article className={`v2-case-study${reverse ? " is-reverse" : ""}`}>
+    <article className={`v2-case-study case-${projectIndex}${reverse ? " is-reverse" : ""}`}>
       <div className="v2-case-copy">
-        <div className="v2-case-index">{project.index}</div>
         <p className="v2-kicker">{project.eyebrow}</p>
         <h3>{project.title}</h3>
         <p className="v2-case-statement">{project.statement}</p>
