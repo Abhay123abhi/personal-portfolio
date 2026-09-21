@@ -3931,3 +3931,31 @@ html.v2-home-active body {
     fill: #8fa0a4;
   }
 }
+
+
+/* ==========================================================================
+   Desktop section reset — keep web layout open, not card-inside-card
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Preserve the original open desktop rhythm between major sections. */
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
