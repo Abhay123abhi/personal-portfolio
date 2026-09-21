@@ -3959,3 +3959,43 @@ html.v2-home-active body {
     margin-right: auto !important;
   }
 }
+
+
+/* ==========================================================================
+   Mobile architecture pan + slightly wider context
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .architecture-mobile-focused {
+    min-height: 216px;
+    cursor: grab;
+  }
+
+  .architecture-mobile-focused.is-dragging {
+    cursor: grabbing;
+  }
+
+  .architecture-mobile-focused-svg {
+    height: 216px !important;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .architecture-mobile-pan-hint {
+    position: absolute;
+    right: 9px;
+    top: 8px;
+    z-index: 3;
+    padding: 4px 6px;
+    border: 1px solid color-mix(in srgb, var(--case-accent) 20%, transparent);
+    border-radius: 999px;
+    background: rgba(9, 14, 17, .72);
+    color: #7f8d91;
+    font: 500 6.5px/1 var(--mono, monospace);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+  }
+}
