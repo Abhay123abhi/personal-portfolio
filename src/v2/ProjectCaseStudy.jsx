@@ -86,7 +86,7 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
           <div className="v2-arch-glow v2-arch-glow-a" aria-hidden="true" />
           <div className="v2-arch-glow v2-arch-glow-b" aria-hidden="true" />
           <div className="v2-case-canvas">
-            <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} focusActiveStage={mobileArchitectureOpen} />
+            <ProjectSystemCanvas projectIndex={projectIndex} activeStage={selected} />
           </div>
         </div>
         <div className="v2-case-mobile">
