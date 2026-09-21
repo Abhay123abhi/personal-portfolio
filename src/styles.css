@@ -352,3 +352,11 @@ main > .contact { max-width: 940px; width: calc(100% - 64px); margin-inline: aut
   .profile-rail h1 { font-size: clamp(2.2rem, 9vw, 2.8rem); }
   .profile-summary { margin: 0 auto 20px; }
 }
+
+
+/* Shared blog header action layout. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

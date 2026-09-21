@@ -3449,3 +3449,513 @@ html.v2-home-active body {
     bottom: 2% !important;
   }
 }
+
+
+/* ==========================================================================
+   Persistent header — desktop + mobile
+   ========================================================================== */
+
+.v2-nav-shell {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 400;
+}
+
+.v2-page > main {
+  padding-top: 72px;
+}
+
+/* Keep anchor targets visible below the persistent header. */
+.v2-hero,
+.v2-section,
+.v2-contact {
+  scroll-margin-top: 82px;
+}
+
+.v2-nav-shell.is-scrolled {
+  background: rgba(10,14,18,.96);
+  box-shadow: 0 10px 30px rgba(0,0,0,.20);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+/* The fixed nav is viewport-bound, so the page wrapper only needs
+   horizontal clipping; vertical scrolling remains owned by the document. */
+.v2-page {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+@media (max-width: 760px) {
+  .v2-page > main {
+    padding-top: 58px;
+  }
+
+  .v2-hero,
+  .v2-section,
+  .v2-contact {
+    scroll-margin-top: 66px;
+  }
+
+  .v2-nav-shell {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .v2-nav-shell.is-scrolled {
+    height: 54px;
+  }
+
+  /* Keep hamburger and résumé controls attached to the fixed header. */
+  .v2-mobile-search-trigger,
+  .v2-nav-actions {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@supports not (overflow: clip) {
+  .v2-page {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+}
+
+
+/* ==========================================================================
+   Mobile layout flattening — wider content, fewer nested cards
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  :root {
+    --v2-mobile-gutter: 12px;
+  }
+
+  /* Sections should feel like full-width chapters, not cards inside cards. */
+  .v2-section,
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 58px 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    border-top: 1px solid rgba(130,155,164,.10) !important;
+    border-bottom: 1px solid rgba(130,155,164,.08) !important;
+  }
+
+  /* One consistent readable gutter for headings/copy. */
+  .v2-section > .v2-section-head,
+  .v2-experience-intro,
+  .v2-timeline-card,
+  .v2-toolbelt-head {
+    width: auto !important;
+    margin-left: var(--v2-mobile-gutter) !important;
+    margin-right: var(--v2-mobile-gutter) !important;
+  }
+
+  .v2-section-head {
+    margin-bottom: 28px !important;
+  }
+
+  /* Capabilities keep horizontal exploration, but use the full viewport. */
+  .v2-cap-grid {
+    width: 100%;
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-cap-card {
+    flex-basis: 88%;
+  }
+
+  /* Work section: remove the outer project-card shell.
+     Each project becomes a full-width chapter with only a subtle separator. */
+  .v2-case-list {
+    width: 100%;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  .v2-case-study,
+  .v2-case-study.is-reverse {
+    display: block !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 30px var(--v2-mobile-gutter) 34px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .v2-case-study + .v2-case-study {
+    border-top: 1px solid color-mix(in srgb, var(--case-accent) 18%, rgba(130,155,164,.14)) !important;
+  }
+
+  .v2-case-copy {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .v2-case-copy h3 {
+    max-width: 11ch;
+    font-size: clamp(2.15rem, 10.8vw, 3rem);
+    line-height: .94;
+  }
+
+  .v2-case-statement {
+    max-width: 32rem;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  /* Problem / Approach stay distinct, but stop creating another card layer. */
+  .v2-case-mobile-insights {
+    gap: 0 !important;
+    margin: 18px 0 14px !important;
+  }
+
+  .v2-case-mobile-insights > div {
+    padding: 12px 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(130,155,164,.16) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .v2-case-mobile-insights > div:last-child {
+    border-bottom: 1px solid rgba(130,155,164,.16) !important;
+  }
+
+  .v2-case-mobile-insights p {
+    max-width: 34rem;
+    font-size: 11px;
+    line-height: 1.58;
+  }
+
+  .v2-case-stack {
+    width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .v2-case-actions {
+    margin-top: 10px;
+  }
+
+  /* The architecture is the one place where a contained surface is useful. */
+  .v2-mobile-architecture-toggle {
+    margin-top: 12px;
+    min-height: 42px;
+  }
+
+  .v2-case-visual.is-mobile-open {
+    width: 100%;
+    margin-top: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    margin: 8px !important;
+  }
+
+  /* Experience / journal also use the viewport more efficiently. */
+  .v2-production {
+    width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .v2-production-head {
+    margin-left: var(--v2-mobile-gutter);
+    margin-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-production-rail {
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-journal-grid {
+    padding-left: var(--v2-mobile-gutter);
+    padding-right: var(--v2-mobile-gutter);
+  }
+
+  .v2-article-card {
+    flex-basis: 88%;
+  }
+
+  /* Contact keeps one intentional container, but with less side loss. */
+  .v2-contact {
+    width: calc(100% - 2 * var(--v2-mobile-gutter)) !important;
+    margin: 18px var(--v2-mobile-gutter) 14px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --v2-mobile-gutter: 10px;
+  }
+
+  .v2-case-study,
+  .v2-case-study.is-reverse {
+    padding-top: 26px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .v2-cap-card,
+  .v2-article-card {
+    flex-basis: 91%;
+  }
+}
+
+
+/* ==========================================================================
+   Mobile architecture scroll repair
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open {
+    overflow: visible !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    position: relative;
+    width: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    margin: 8px auto !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: none !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface::-webkit-scrollbar {
+    display: none;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas {
+    display: block !important;
+    width: 660px !important;
+    min-width: 660px !important;
+    max-width: none !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+    scroll-snap-align: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-frame,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-svg {
+    width: 640px !important;
+    min-width: 640px !important;
+    max-width: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas {
+    aspect-ratio: 1000 / 405;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs {
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+
+/* ==========================================================================
+   Mobile architecture — responsive stage focus, no oversized canvas
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open {
+    overflow: hidden !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    width: auto !important;
+    max-width: none !important;
+    margin: 8px !important;
+    overflow: hidden !important;
+    touch-action: auto !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 8px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-frame,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas,
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas-svg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas {
+    min-height: 220px !important;
+    aspect-ratio: 1.45 / 1 !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-canvas .system-canvas.is-stage-focused {
+    min-height: 220px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .system-canvas-legend {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: 100%;
+    padding: 7px 9px 9px !important;
+    gap: 7px 10px !important;
+    font-size: 6.5px !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs {
+    overflow-x: auto !important;
+    scroll-snap-type: none !important;
+    scrollbar-width: none;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-stage-tabs::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   Architecture path isolation — desktop unchanged, mobile focused view
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .v2-case-visual.is-mobile-open .v2-arch-surface {
+    display: none !important;
+  }
+
+  .v2-case-visual.is-mobile-open .v2-case-mobile {
+    display: block !important;
+    margin: 8px !important;
+    padding: 0 !important;
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 80% 8%, color-mix(in srgb, var(--case-accent) 9%, transparent), transparent 34%),
+      var(--case-surface);
+    border: 1px solid color-mix(in srgb, var(--case-accent) 24%, var(--v2-line));
+  }
+
+  .architecture-mobile-focused {
+    position: relative;
+    min-height: 238px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.012), transparent),
+      var(--case-surface);
+  }
+
+  .architecture-mobile-focused .system-canvas-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .18;
+    pointer-events: none;
+  }
+
+  .architecture-mobile-focused-svg {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 238px;
+  }
+
+  .architecture-mobile-focused .system-edge {
+    stroke: color-mix(in srgb, var(--case-accent) 18%, #6b7b7f);
+  }
+
+  .architecture-mobile-focused .system-edge.reached {
+    stroke: color-mix(in srgb, var(--case-accent) 48%, #708084);
+  }
+
+  .architecture-mobile-focused .system-edge.active {
+    stroke: var(--case-accent);
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--case-accent) 48%, transparent));
+  }
+
+  .architecture-mobile-focused .system-node rect {
+    fill: color-mix(in srgb, var(--case-surface-2) 86%, #0c1114);
+    stroke: color-mix(in srgb, var(--case-accent) 16%, #536368);
+  }
+
+  .architecture-mobile-focused .system-node.reached rect {
+    stroke: color-mix(in srgb, var(--case-accent) 34%, #536368);
+  }
+
+  .architecture-mobile-focused .system-node.active rect {
+    fill: color-mix(in srgb, var(--case-accent) 13%, var(--case-surface-2));
+    stroke: var(--case-accent);
+    filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--case-accent) 14%, transparent));
+  }
+
+  .architecture-mobile-focused .system-node.active .system-node-dot,
+  .architecture-mobile-focused .system-packet {
+    fill: var(--case-accent);
+  }
+
+  .architecture-mobile-focused .system-node-label {
+    fill: #e3e9e7;
+  }
+
+  .architecture-mobile-focused .system-node-sub {
+    fill: #8fa0a4;
+  }
+}
+
+
+/* ==========================================================================
+   Desktop section reset — keep web layout open, not card-inside-card
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Preserve the original open desktop rhythm between major sections. */
+  .v2-capabilities,
+  .v2-work,
+  .v2-experience,
+  .v2-journal {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
