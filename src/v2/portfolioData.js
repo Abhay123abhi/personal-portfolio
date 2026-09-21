@@ -21,7 +21,7 @@ export const metrics = [
 export const capabilities = [
   {
     key: "backend",
-    eyebrow: "01 · Core",
+    eyebrow: "Core",
     title: "Backend Development",
     subtitle: "Java services & API contracts",
     body: "Spring Boot APIs, security boundaries, BFF layers, data access, testing, and the production details that sit behind a clean endpoint.",
@@ -29,7 +29,7 @@ export const capabilities = [
   },
   {
     key: "distributed",
-    eyebrow: "02 · Systems",
+    eyebrow: "Systems",
     title: "Distributed Systems",
     subtitle: "Event-driven, durable, observable",
     body: "Kafka workflows, transactional outbox, idempotency, caching, retries, ordering, evidence pipelines, and failure-aware service boundaries.",
@@ -37,7 +37,7 @@ export const capabilities = [
   },
   {
     key: "delivery",
-    eyebrow: "03 · Production",
+    eyebrow: "Production",
     title: "Delivery & Reliability",
     subtitle: "Ship, observe, recover",
     body: "CI/CD, containers, Kubernetes, production monitoring, release readiness, and operational support across Asian markets.",
@@ -45,7 +45,7 @@ export const capabilities = [
   },
   {
     key: "product",
-    eyebrow: "04 · Product",
+    eyebrow: "Product",
     title: "Frontend Delivery",
     subtitle: "Backend-heavy, UI-capable",
     body: "React and Ionic interfaces connected to backend APIs, with responsive product flows that work across web and mobile.",
