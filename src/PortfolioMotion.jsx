@@ -68,6 +68,69 @@ export default function PortfolioMotion() {
       links.forEach(link => link.removeAttribute("aria-current"));
     };
   }, [pathname]);
+  useEffect(() => {
+    const root = document.documentElement;
+    const ambient = document.querySelector(".ambient-system");
+    const projects = [...document.querySelectorAll(".project")];
+    const sections = [...document.querySelectorAll(".introduction, .work-section, .experience-section, .craft-section")];
+    if (!ambient || !("IntersectionObserver" in window)) return;
+
+    const projectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const index = projects.indexOf(entry.target);
+        root.dataset.activeProject = index >= 0 ? String(index) : "";
+      });
+    }, { threshold: 0.42, rootMargin: "-12% 0px -30%" });
+
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        root.dataset.activeSection = entry.target.classList.contains("work-section") ? "work"
+          : entry.target.classList.contains("experience-section") ? "experience"
+          : entry.target.classList.contains("craft-section") ? "skills"
+          : "intro";
+      });
+    }, { threshold: 0.28, rootMargin: "-18% 0px -38%" });
+
+    projects.forEach(project => projectObserver.observe(project));
+    sections.forEach(section => sectionObserver.observe(section));
+
+    return () => {
+      projectObserver.disconnect();
+      sectionObserver.disconnect();
+      delete root.dataset.activeProject;
+      delete root.dataset.activeSection;
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    const root = document.documentElement;
+    let frame = 0;
+    let x = 50;
+    let y = 20;
+
+    const apply = () => {
+      frame = 0;
+      root.style.setProperty("--ambient-x", `${x}%`);
+      root.style.setProperty("--ambient-y", `${y}%`);
+    };
+    const move = event => {
+      if (!preference.matches) return;
+      x = (event.clientX / window.innerWidth) * 100;
+      y = (event.clientY / window.innerHeight) * 100;
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    document.addEventListener("pointermove", move, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("pointermove", move);
+      root.style.removeProperty("--ambient-x");
+      root.style.removeProperty("--ambient-y");
+    };
+  }, [pathname]);
+
   // Pointer lighting enhances cards only on fine-pointer devices. No React renders per move.
   useEffect(() => {
     const preference = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
