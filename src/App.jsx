@@ -13,8 +13,21 @@ function usePageTitle(title) {
 }
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const { pathname, hash, key } = useLocation();
+  useEffect(() => {
+    let frame;
+    let attempts = 0;
+    const scroll = () => {
+      if (!hash) { window.scrollTo(0, 0); return; }
+      let id;
+      try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+      else if (++attempts < 30) frame = requestAnimationFrame(scroll);
+    };
+    frame = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash, key]);
   return null;
 }
 

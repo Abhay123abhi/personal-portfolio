@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
 import ProjectCaseStudy from "./ProjectCaseStudy";
@@ -28,6 +28,7 @@ const mobileCommands = [
 ];
 
 export function V2Nav({ inner = false }) {
+  const navigate = useNavigate();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,12 +40,11 @@ export function V2Nav({ inner = false }) {
     ["Experience", "#experience"],
     ["Stack", "#stack"],
     ["Blog", "/blog"],
-    ["Contact", "#contact"],
-  ].map(([label, href]) => [label, inner && href.startsWith("#") ? `/${href}` : href]);
+  ].map(([label, href]) => [label, href.startsWith("#") ? `/${href}` : href]);
 
   const filteredCommands = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    const commands = mobileCommands.map(item => ({ ...item, href: inner && item.href.startsWith("#") ? `/${item.href}` : item.href }));
+    const commands = mobileCommands.map(item => ({ ...item, href: item.href.startsWith("#") ? `/${item.href}` : item.href }));
     if (!normalized) return commands;
     return commands.filter(item =>
       [item.label, item.meta, item.keywords].join(" ").toLowerCase().includes(normalized)
@@ -67,13 +67,6 @@ export function V2Nav({ inner = false }) {
   const runCommand = (item) => {
     closePalette();
 
-    if (item.href.startsWith("#")) {
-      requestAnimationFrame(() => {
-        document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
-    }
-
     if (item.href.startsWith("mailto:")) {
       window.location.href = item.href;
       return;
@@ -84,7 +77,7 @@ export function V2Nav({ inner = false }) {
       return;
     }
 
-    window.location.href = item.href;
+    navigate(item.href);
   };
 
   useEffect(() => {
@@ -129,14 +122,11 @@ export function V2Nav({ inner = false }) {
     <>
       <header className={`v2-nav-shell${scrolled ? " is-scrolled" : ""}`}>
         <nav className="v2-nav" aria-label="Primary">
-          <a className="v2-brand" href={inner ? "/" : "#top"} aria-label="Abhay Jaiswal home">aj<span>.</span></a>
+          <Link className="v2-brand" to="/#top" aria-label="Abhay Jaiswal home">aj<span>.</span></Link>
 
           <div className="v2-nav-links">
-            {links.map(([label, href]) => href.startsWith("/") && !href.startsWith("/#") ? (
-              <Link key={label} to={href}>{label}</Link>
-            ) : (
-              <a key={label} href={href}>{label}</a>
-            ))}
+            {links.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
+            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Quick menu</button>
           </div>
 
           <button

@@ -3999,3 +3999,9 @@ html.v2-home-active body {
     backdrop-filter: blur(8px);
   }
 }
+
+
+/* Desktop entry to the same command menu used on mobile. */
+.v2-desktop-menu{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:10px 14px;border:1px solid var(--v2-line);border-radius:999px;background:var(--v2-panel);color:var(--v2-text);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.v2-desktop-menu:hover{border-color:var(--v2-mint);color:var(--v2-mint)}
+.v2-desktop-menu:focus-visible{outline:2px solid var(--v2-mint);outline-offset:3px}
