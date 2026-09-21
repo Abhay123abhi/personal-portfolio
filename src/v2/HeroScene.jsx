@@ -6,6 +6,9 @@ export default function HeroScene() {
       <div className="v2-shape v2-shape-ring" />
       <div className="v2-shape v2-shape-capsule" />
       <div className="v2-shape v2-shape-orb" />
+      <div className="v2-shape v2-shape-square" />
+      <div className="v2-shape v2-shape-disc" />
+      <div className="v2-shape v2-shape-small-cube" />
       <div className="v2-flow">
         <span className="v2-flow-node node-api">API</span>
         <span className="v2-flow-node node-kafka">Kafka</span>
