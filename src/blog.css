@@ -100,25 +100,3 @@ html[data-theme=light] .blog-studio [data-topic="Frontend"]{--bs-accent:#4c639a}
 @keyframes bs-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,-5px)}}
 @media(prefers-reduced-motion:reduce){.bs-topics .bs-orb{animation:none}}
 @media(min-width:651px) and (max-width:1280px){.bs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-/* Neutral reading surfaces with violet and blue atmosphere, on every viewport. */
-.blog-route {
-  background: radial-gradient(ellipse 95% 650px at 85% 0%, #33304c66, transparent 85%), linear-gradient(180deg, #14131d, #10151d 950px, #12131a);
-}
-.blog-studio {
-  --surface: #191b24;
-  --surface-soft: #12151d;
-}
-.blog-route .article {
-  background: radial-gradient(ellipse at 100% 0%, #34304a33, transparent 55%);
-}
-html[data-theme=light] .blog-route {
-  background: radial-gradient(ellipse 95% 650px at 85% 0%, #e6dcf3aa, transparent 85%), linear-gradient(180deg, #f7f4fa, #f0f4f9 950px, #f5f3f8);
-}
-html[data-theme=light] .blog-studio {
-  --surface: #ffffff;
-  --surface-soft: #f1f2f8;
-}
-html[data-theme=light] .blog-route .article {
-  background: radial-gradient(ellipse at 100% 0%, #e4dcf033, transparent 55%);
-}

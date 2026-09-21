@@ -4021,23 +4021,3 @@ html.v2-home-active body {
 
 /* Mobile uses its existing hamburger entry to Explore. */
 @media (max-width:760px){.v2-nav-actions{display:none}}
-
-/* Section colour rhythm: backgrounds only, shared by desktop and mobile. */
-.v2-hero {
-  background: radial-gradient(ellipse at 80% 30%, #24304a66, transparent 62%), #0d1119;
-}
-.v2-capabilities {
-  background: radial-gradient(ellipse at 8% 15%, #283a5755, transparent 65%), #101620 !important;
-}
-.v2-work {
-  background: radial-gradient(ellipse at 92% 12%, #35304c44, transparent 55%), #13121b !important;
-}
-.v2-experience {
-  background: radial-gradient(ellipse at 10% 22%, #513b2850, transparent 60%), #191510 !important;
-}
-.v2-contact {
-  background: radial-gradient(ellipse at 80% 10%, #40304c55, transparent 65%), #18131b;
-}
-.v2-contact-glow {
-  background: radial-gradient(circle, rgba(177,132,190,.15), transparent 65%);
-}
