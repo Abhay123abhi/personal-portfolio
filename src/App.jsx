@@ -1,8 +1,11 @@
 import PortfolioMotion from "./PortfolioMotion";
 import AmbientSystemBackground from "./AmbientSystemBackground";
+import CommandPalette from "./CommandPalette";
+import TechRail from "./TechRail";
+import ScrollSystemTrace from "./ScrollSystemTrace";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Clock3, Command, Download, Github, Linkedin, Mail, Menu, Share2, X, Plus, Server, Network, Database, Activity } from "lucide-react";
 
 const EMAIL = "abhayjaiswal983@gmail.com";
 const GITHUB = "https://github.com/Abhay123abhi";
@@ -287,7 +290,7 @@ function Header({ inner = false }) {
     <nav id="primary-navigation" className={open ? "nav open" : "nav"} aria-label="Primary navigation">
       {inner ? <><Link to="/">Portfolio</Link><Link to="/blog">Blog</Link></> : <><a href="#work" onClick={() => setOpen(false)}>Selected work</a><a href="#experience" onClick={() => setOpen(false)}>Experience</a><a href="#skills" onClick={() => setOpen(false)}>Stack</a><Link to="/blog">Blog</Link></>}
     </nav>
-    <div className="header-social"><SocialLinks /></div>
+    <div className="header-actions"><button type="button" className="command-trigger" onClick={() => window.dispatchEvent(new Event("portfolio:command"))} aria-label="Open portfolio command palette"><Command size={16} /><span>Search</span><kbd>⌘K</kbd></button><div className="header-social"><SocialLinks /></div></div>
     <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="primary-navigation">{open ? <X /> : <Menu />}</button>
   </header>;
 }
@@ -327,9 +330,39 @@ const projectArchitectures = [
 
 function ProjectMap({ index }) {
   const [selected, setSelected] = useState(0);
+  const [autoPlaying, setAutoPlaying] = useState(false);
   const architecture = projectArchitectures[index];
 
-  return <div className="architecture">
+  useEffect(() => {
+    const element = document.querySelector(`[data-project-map="${index}"]`);
+    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timer;
+    let step = 0;
+    const observer = new IntersectionObserver(entries => {
+      const entry = entries.find(item => item.target === element);
+      if (!entry?.isIntersecting || element.dataset.played === "true") return;
+      element.dataset.played = "true";
+      setAutoPlaying(true);
+      setSelected(0);
+      timer = window.setInterval(() => {
+        step += 1;
+        setSelected(step);
+        if (step >= architecture.stages.length - 1) {
+          window.clearInterval(timer);
+          window.setTimeout(() => setAutoPlaying(false), 900);
+        }
+      }, 1150);
+      observer.disconnect();
+    }, { threshold: 0.5 });
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      window.clearInterval(timer);
+    };
+  }, [architecture.stages.length, index]);
+
+  return <div className={autoPlaying ? "architecture architecture-playing" : "architecture"} data-project-map={index}>
     <div className="architecture-heading"><span><i className="flow-indicator" aria-hidden="true" /> Architecture walkthrough</span><span>Select a stage to explore</span></div>
     <div className="architecture-stages" role="group" aria-label={architecture.name}>
       {architecture.stages.map((stage, stageIndex) => <button
@@ -339,7 +372,7 @@ function ProjectMap({ index }) {
         data-stage={String(stageIndex + 1).padStart(2, "0")}
         aria-pressed={selected === stageIndex}
         aria-controls={`architecture-detail-${index}`}
-        onClick={() => setSelected(stageIndex)}
+        onClick={() => { setAutoPlaying(false); setSelected(stageIndex); }}
       >
         <span className="stage-heading"><span className="stage-icon" aria-hidden="true">{stageIndex === 0 ? <Activity size={18} /> : stageIndex === 1 ? <Database size={18} /> : <Network size={18} />}</span><strong>{stage.title}</strong></span>
         <span className="stage-nodes">{stage.nodes.map(node => <span key={node}>{node}</span>)}</span>
@@ -347,7 +380,7 @@ function ProjectMap({ index }) {
       </button>)}
     </div>
     <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
-    <div className="architecture-caption"><span>{architecture.note}</span><span>Illustrated data flow</span></div>
+    <div className="architecture-caption"><span>{architecture.note}</span><span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span></div>
   </div>;
 }
 
@@ -370,7 +403,7 @@ function SectionHeading({ label, title, children }) {
 function Home() {
   usePageTitle("Abhay Jaiswal — Java Backend-Focused Full-Stack Developer");
 
-  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><Header /><div className="studio-layout">
+  return <><a href="#content" className="skip-link">Skip to content</a><AmbientSystemBackground /><ScrollSystemTrace /><CommandPalette /><Header /><div className="studio-layout">
     <Profile />
     <main id="content" className="studio-main">
       <section className="introduction" aria-labelledby="intro-title">
@@ -408,7 +441,7 @@ function Home() {
         </ul>
         <p className="career-footnote">Supported UAT and production releases across Asian markets—Malaysia, the Philippines, and Hong Kong—including onsite support in the Philippines.</p></article>
       </section>
-      <section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
+      <TechRail groups={skills} /><section className="craft-section" id="skills"><SectionHeading label="Engineering toolkit" title="The tools behind the work." />
         <div className="toolkit-grid">{skills.map((skill, index) => {
           const Icon = [Server, Network, Database, Activity][index];
           return <article className={`toolkit-card toolkit-card-${index} tone-${index % 3}`} key={skill.group} aria-labelledby={`toolkit-title-${index}`}>
