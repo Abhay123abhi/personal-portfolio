@@ -364,8 +364,19 @@ function ProjectMap({ index }) {
         {stageIndex < architecture.stages.length - 1 && <span className="flow-connector" aria-hidden="true"><span /></span>}
       </button>)}
     </div>
-    <div className="architecture-detail architecture-desktop" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true"><strong>{architecture.stages[selected].title}</strong><p key={selected}>{architecture.stages[selected].detail}</p></div>
-    <div className="architecture-caption architecture-desktop"><span>{architecture.note}</span><span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span></div>
+    <div className="architecture-insight architecture-desktop">
+      <div className="architecture-detail" id={`architecture-detail-${index}`} aria-live="polite" aria-atomic="true">
+        <div className="architecture-detail-heading">
+          <span>Stage {String(selected + 1).padStart(2, "0")}</span>
+          <strong>{architecture.stages[selected].title}</strong>
+        </div>
+        <p key={selected}>{architecture.stages[selected].detail}</p>
+      </div>
+      <div className="architecture-caption">
+        <span>{architecture.note}</span>
+        <span>{autoPlaying ? "Tracing live flow" : "Illustrated data flow"}</span>
+      </div>
+    </div>
   </div>;
 }
 
