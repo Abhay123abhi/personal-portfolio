@@ -5,3 +5,11 @@
 @media(prefers-reduced-motion:reduce){.blog-studio *{animation:none!important;transition:none!important}.bs-card:hover,.bs-card:focus-within{transform:none}}
 
 .bs-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}.bs-download{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;border:1px solid var(--line);border-radius:9px;color:var(--muted);background:var(--surface-soft);cursor:pointer}.bs-download:hover{color:var(--accent);border-color:var(--accent)}
+
+/* Reuse the portfolio navigation, including its mobile command menu and AJ mark. */
+.blog-route{padding-top:72px}
+.blog-header{color:var(--v2-text);font-family:"DM Sans",system-ui,sans-serif}
+.blog-header *{box-sizing:border-box}
+.blog-header a{color:inherit;text-decoration:none}
+.blog-header button{font:inherit}
+@media(max-width:760px){.blog-route{padding-top:58px}}

@@ -34,7 +34,7 @@ export const additionalArticles = [
       "Grafana"
     ],
     "linkedinPublished": true,
-    "linkedinUrl": null,
+    "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7381909857567911936/",
     "sources": [
       [
         "Prometheus storage",
@@ -76,7 +76,7 @@ export const additionalArticles = [
       "Worker"
     ],
     "linkedinPublished": true,
-    "linkedinUrl": null,
+    "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7363041411929165824/",
     "sources": [
       [
         "Java Memory Model",

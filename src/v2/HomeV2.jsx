@@ -27,7 +27,7 @@ const mobileCommands = [
   { label: "Email Abhay", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
-function V2Nav() {
+export function V2Nav({ inner = false }) {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -40,15 +40,16 @@ function V2Nav() {
     ["Stack", "#stack"],
     ["Blog", "/blog"],
     ["Contact", "#contact"],
-  ];
+  ].map(([label, href]) => [label, inner && href.startsWith("#") ? `/${href}` : href]);
 
   const filteredCommands = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return mobileCommands;
-    return mobileCommands.filter(item =>
+    const commands = mobileCommands.map(item => ({ ...item, href: inner && item.href.startsWith("#") ? `/${item.href}` : item.href }));
+    if (!normalized) return commands;
+    return commands.filter(item =>
       [item.label, item.meta, item.keywords].join(" ").toLowerCase().includes(normalized)
     );
-  }, [query]);
+  }, [query, inner]);
 
   const closePalette = () => {
     setPaletteOpen(false);
@@ -128,10 +129,10 @@ function V2Nav() {
     <>
       <header className={`v2-nav-shell${scrolled ? " is-scrolled" : ""}`}>
         <nav className="v2-nav" aria-label="Primary">
-          <a className="v2-brand" href="#top" aria-label="Abhay Jaiswal home">aj<span>.</span></a>
+          <a className="v2-brand" href={inner ? "/" : "#top"} aria-label="Abhay Jaiswal home">aj<span>.</span></a>
 
           <div className="v2-nav-links">
-            {links.map(([label, href]) => href.startsWith("/") ? (
+            {links.map(([label, href]) => href.startsWith("/") && !href.startsWith("/#") ? (
               <Link key={label} to={href}>{label}</Link>
             ) : (
               <a key={label} href={href}>{label}</a>
@@ -456,3 +457,4 @@ export default function HomeV2() {
     </div>
   );
 }
+
