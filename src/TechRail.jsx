@@ -56,6 +56,7 @@ function TechItem({ item, duplicate }) {
             height="18"
             loading="lazy"
             decoding="async"
+            onError={event => { event.currentTarget.style.display = "none"; }}
           />
         )}
       </span>
