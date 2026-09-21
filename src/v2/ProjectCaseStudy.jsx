@@ -21,15 +21,21 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
 
       const activeNodes = architecture.nodes.filter(node => node.stage === selected);
       if (activeNodes.length) {
-        const viewBox = architecture.viewBox.split(/\s+/).map(Number);
-        const viewWidth = viewBox[2] || 1000;
-        const xs = activeNodes.map(node => node.x);
-        const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
+        const [viewMinX = 0, , viewWidth = 1000] = architecture.viewBox.split(/\s+/).map(Number);
         const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-        const desiredLeft = (centerX / viewWidth) * viewport.scrollWidth - viewport.clientWidth / 2;
-        const left = Math.max(0, Math.min(maxScroll, desiredLeft));
 
-        viewport.scrollTo({ left, behavior: "smooth" });
+        if (selected === 0) {
+          viewport.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          const xs = activeNodes.map(node => node.x);
+          const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
+          const normalizedCenter = Math.max(0, Math.min(1, (centerX - viewMinX) / viewWidth));
+          const desiredLeft =
+            normalizedCenter * viewport.scrollWidth - viewport.clientWidth / 2;
+          const left = Math.max(0, Math.min(maxScroll, desiredLeft));
+
+          viewport.scrollTo({ left, behavior: "smooth" });
+        }
       }
 
       const tabs = stageTabsRef.current;
