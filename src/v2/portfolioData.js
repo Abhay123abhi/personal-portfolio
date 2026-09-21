@@ -8,7 +8,7 @@ export const identity = {
   linkedin: "https://www.linkedin.com/in/abhay983",
   twitter: "https://x.com/abhayjaissssss",
   resume: "/Abhay_SDE.pdf",
-  photo: "/profile1.png",
+  photo: "/profile2.png",
 };
 
 export const productionStats = [
