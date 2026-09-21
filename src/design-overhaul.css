@@ -1693,3 +1693,20 @@ html[data-theme="light"] .project-tech-marquee {
     font-size: 8px !important;
   }
 }
+
+
+/* Explicit desktop placement for the contained architecture canvas wrapper. */
+.architecture-canvas-desktop {
+  grid-column: 1;
+  grid-row: 2 / 4;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 1100px) and (min-width: 701px) {
+  .architecture-canvas-desktop {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+  }
+}
