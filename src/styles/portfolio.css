@@ -2589,6 +2589,9 @@ html.portfolio-home-active body {
     animation: portfolio-portrait-orbit-b 24s linear infinite reverse;
   }
 
+  .portfolio-portrait-frame-circle {
+    animation: portfolio-portrait-float 6.8s ease-in-out infinite;
+  }
 }
 
 @keyframes portfolio-portrait-orbit-a {
