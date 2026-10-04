@@ -2136,53 +2136,45 @@
   }
 }
 
-/* Blog topics become predictable tap targets on phones instead of tiny orbs. */
-@media (max-width: 650px) {
-  .bs-topics {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-    max-width: none;
-    min-height: 0;
-    aspect-ratio: auto;
-    gap: 10px;
-    margin: 2px 0 24px;
+
+/* Preserve the desktop visual identity on phones:
+   floating Blog topic circles and the circular animated portrait. */
+@media (max-width: 760px) {
+  .portfolio-portrait-frame-circle {
+    aspect-ratio: 1;
+    border-radius: 50% !important;
   }
 
-  .bs-topics .bs-orb,
-  .bs-topics .bs-orb:nth-child(n) {
-    position: static;
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: auto;
-    min-height: 44px;
-    aspect-ratio: auto;
-    padding: 10px 12px;
-    border-radius: 12px;
-    animation: none;
-    transform: none;
-  }
-
-  .bs-topics .bs-orb strong,
-  .bs-orb[data-topic="Observability"] strong {
-    max-width: 100%;
-    font-size: 11px;
-    line-height: 1.25;
-    overflow-wrap: normal;
-  }
-
-  .bs-topics > p {
-    position: static;
-    grid-column: 1 / -1;
-    margin: 2px 0 0;
-    text-align: left;
+  .portfolio-portrait-frame-circle::before {
+    border-radius: 50% !important;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 650px) {
   .bs-topics {
-    grid-template-columns: 1fr;
+    display: block;
+    position: relative;
+    width: min(100%, 420px);
+    max-width: 420px;
+    min-height: 0;
+    aspect-ratio: 560 / 350;
+    margin: 2px auto 30px;
+  }
+
+  .bs-topics .bs-orb {
+    position: absolute;
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: bs-drift 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -.9s);
+  }
+
+  .bs-topics > p {
+    position: absolute;
+    right: 0;
+    bottom: -24px;
+    margin: 0;
+    text-align: right;
   }
 }
