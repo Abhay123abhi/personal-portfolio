@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start": "vite",
     "blog:new": "node scripts/new-blog-post.mjs",
-    "blog:check": "node -e \"import('./src/blogArticles.js').then(({articles}) => console.log(articles.length + ' valid blog articles'))\""
+    "blog:check": "node -e \"import('./src/data/blogArticles.js').then(({articles}) => console.log(articles.length + ' valid blog articles'))\""
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
