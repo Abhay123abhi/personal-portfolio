@@ -1,5 +1,5 @@
 import { ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import HeroScene from "./HeroScene";
 import ProjectCaseStudy from "./ProjectCaseStudy";
@@ -28,6 +28,7 @@ const mobileCommands = [
 
 export function V2Nav({ inner = false }) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -155,7 +156,8 @@ export function V2Nav({ inner = false }) {
           <div className="v2-nav-links">
             {links.map(([label, href]) => {
               const sectionId = href.startsWith("/#") ? href.slice(2) : "";
-              const isActive = sectionId && activeSection === sectionId;
+              const isBlog = href === "/blog";
+              const isActive = isBlog ? pathname.startsWith("/blog") : Boolean(sectionId && activeSection === sectionId);
               return <Link
                 key={label}
                 to={href}
