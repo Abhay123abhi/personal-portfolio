@@ -1,7 +1,8 @@
 import { articles } from "./blogArticles";
 import { BlogShelf, LinkedInAction } from "./BlogShelf";
 import "./blog.css";
-import HomeV2, { V2Nav } from "./v2/HomeV2";
+import HomePage from "./pages/HomePage";
+import PortfolioNav from "./components/layout/PortfolioNav";
 import PortfolioMotion from "./PortfolioMotion";
 import { useEffect } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -40,7 +41,7 @@ function Contact() {
 
 function BlogIndex() {
   usePageTitle("Abhay Jaiswal | Engineering Blog");
-  return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><BlogShelf articles={articles} /></main>;
+  return <main className="blog-route"><div className="blog-header"><PortfolioNav inner /></div><BlogShelf articles={articles} /></main>;
 }
 
 function ArticlePage() {
@@ -50,11 +51,11 @@ function ArticlePage() {
   usePageTitle(article ? `${article.title} — Abhay Jaiswal` : "Blog");
   if (!article) return <Navigate to="/blog" replace />;
 
-  return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><article className="article wrap"><Link className="back" to="/blog"><ArrowLeft size={16} /> Blog</Link><header><span>{article.category}</span><h1>{article.title}</h1><p>{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={15} /> {article.readingTime}</span><span>Abhay Jaiswal</span></div><LinkedInAction article={article} /></header><div className="article-body"><p className="lead">{article.lead}</p>{article.sections.map(([heading, ...paragraphs], index) => <section key={`${index}-${heading}`}><h2>{heading}</h2>{paragraphs.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}{index === 1 && article.quote && <blockquote>{article.quote}</blockquote>}</section>)}{article.sources && <section><h2>References &amp; project context</h2><ul>{article.sources.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}</div></article><Contact /></main>;
+  return <main className="blog-route"><div className="blog-header"><PortfolioNav inner /></div><article className="article wrap"><Link className="back" to="/blog"><ArrowLeft size={16} /> Blog</Link><header><span>{article.category}</span><h1>{article.title}</h1><p>{article.excerpt}</p><div className="article-meta"><span>{article.published}</span><span><Clock3 size={15} /> {article.readingTime}</span><span>Abhay Jaiswal</span></div><LinkedInAction article={article} /></header><div className="article-body"><p className="lead">{article.lead}</p>{article.sections.map(([heading, ...paragraphs], index) => <section key={`${index}-${heading}`}><h2>{heading}</h2>{paragraphs.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}{index === 1 && article.quote && <blockquote>{article.quote}</blockquote>}</section>)}{article.sources && <section><h2>References &amp; project context</h2><ul>{article.sources.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}</div></article><Contact /></main>;
 }
 
 export default function App() {
-  return <><ScrollToTop /><PortfolioMotion /><Routes><Route path="/" element={<HomeV2 />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
+  return <><ScrollToTop /><PortfolioMotion /><Routes><Route path="/" element={<HomePage />} /><Route path="/blog" element={<BlogIndex />} /><Route path="/blog/:slug" element={<ArticlePage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes></>;
 }
 
 
