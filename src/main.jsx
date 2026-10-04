@@ -9,6 +9,7 @@ import "./motion.css";
 import "./design-overhaul.css";
 import "./responsive.css";
 import "./v2/v2.css";
+import "./v2/navigation.css";
 
 document.documentElement.dataset.theme = "dark";
 
