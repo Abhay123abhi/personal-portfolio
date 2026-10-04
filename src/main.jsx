@@ -8,8 +8,8 @@ import "./theme.css";
 import "./motion.css";
 import "./design-overhaul.css";
 import "./responsive.css";
-import "./v2/v2.css";
-import "./v2/navigation.css";
+import "./styles/portfolio.css";
+import "./styles/navigation.css";
 
 document.documentElement.dataset.theme = "dark";
 
