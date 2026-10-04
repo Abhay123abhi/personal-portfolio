@@ -138,11 +138,11 @@ export default function PortfolioNav({ inner = false }) {
 
   return (
     <>
-      <header className={`v2-nav-shell${scrolled ? " is-scrolled" : ""}`}>
-        <nav className="v2-nav" aria-label="Primary">
-          <Link className="v2-brand" to="/" aria-label="Abhay Jaiswal home">aj<span>.</span></Link>
+      <header className={`portfolio-nav-shell${scrolled ? " is-scrolled" : ""}`}>
+        <nav className="portfolio-nav" aria-label="Primary">
+          <Link className="portfolio-brand" to="/" aria-label="Abhay Jaiswal home">aj<span>.</span></Link>
 
-          <div className="v2-nav-links">
+          <div className="portfolio-nav-links">
             {links.map(([label, href]) => {
               const sectionId = href.startsWith("/#") ? href.slice(2) : "";
               const isBlog = href === "/blog";
@@ -163,7 +163,7 @@ export default function PortfolioNav({ inner = false }) {
           </div>
 
           <button
-            className="v2-mobile-search-trigger"
+            className="portfolio-mobile-search-trigger"
             type="button"
             aria-label="Open portfolio menu"
             aria-haspopup="dialog"
@@ -173,22 +173,22 @@ export default function PortfolioNav({ inner = false }) {
             <Menu size={18} />
           </button>
 
-          <div className="v2-nav-actions">
-            <button className="v2-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
+          <div className="portfolio-nav-actions">
+            <button className="portfolio-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
           </div>
         </nav>
       </header>
 
       {paletteOpen && (
-        <div className="v2-command-backdrop" role="presentation" onMouseDown={closePalette}>
+        <div className="portfolio-command-backdrop" role="presentation" onMouseDown={closePalette}>
           <section
-            className="v2-command-palette"
+            className="portfolio-command-palette"
             role="dialog"
             aria-modal="true"
             aria-label="Portfolio navigation"
             onMouseDown={event => event.stopPropagation()}
           >
-            <div className="v2-command-search">
+            <div className="portfolio-command-search">
               <Search size={18} />
               <input
                 ref={searchRef}
@@ -203,21 +203,21 @@ export default function PortfolioNav({ inner = false }) {
               <button type="button" onClick={closePalette} aria-label="Close search"><X size={17} /></button>
             </div>
 
-            <div className="v2-command-list" role="listbox" aria-label="Navigation results">
+            <div className="portfolio-command-list" role="listbox" aria-label="Navigation results">
               {filteredCommands.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <button
                     type="button"
                     key={item.label}
-                    className={index === activeIndex ? "v2-command-item active" : "v2-command-item"}
+                    className={index === activeIndex ? "portfolio-command-item active" : "portfolio-command-item"}
                     onClick={() => runCommand(item)}
                     onMouseEnter={() => setActiveIndex(index)}
                     role="option"
                     aria-selected={index === activeIndex}
                   >
-                    <span className="v2-command-icon"><Icon size={17} /></span>
-                    <span className="v2-command-copy">
+                    <span className="portfolio-command-icon"><Icon size={17} /></span>
+                    <span className="portfolio-command-copy">
                       <strong>{item.label}</strong>
                       <small>{item.meta}</small>
                     </span>
@@ -227,11 +227,11 @@ export default function PortfolioNav({ inner = false }) {
               })}
 
               {!filteredCommands.length && (
-                <div className="v2-command-empty">No matching section or action.</div>
+                <div className="portfolio-command-empty">No matching section or action.</div>
               )}
             </div>
 
-            <footer className="v2-command-footer">
+            <footer className="portfolio-command-footer">
               <span>↑ ↓ navigate</span>
               <span>enter open</span>
               <span>esc close</span>
