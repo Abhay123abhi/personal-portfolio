@@ -39,7 +39,7 @@ function Contact() {
 }
 
 function BlogIndex() {
-  usePageTitle("Blog — Abhay Jaiswal");
+  usePageTitle("Abhay Jaiswal | Engineering Blog");
   return <main className="blog-route"><div className="blog-header"><V2Nav inner /></div><BlogShelf articles={articles} /></main>;
 }
 
