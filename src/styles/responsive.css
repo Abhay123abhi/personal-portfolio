@@ -1,0 +1,830 @@
+/* Canonical responsive system.
+   Loaded last so mobile/tablet behavior is controlled in one place. */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+@media (max-width: 900px) {
+  .header,
+  html[data-scroll-direction="down"][data-scrolled="true"] .header,
+  html[data-scroll-direction="up"][data-scrolled="true"] .header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    transform: none !important;
+  }
+
+  .studio-layout {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 32px clamp(20px, 4vw, 32px) 0;
+  }
+
+  .profile-rail {
+    position: static;
+    top: auto;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    padding: 0 0 34px;
+    margin: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .profile-picture {
+    margin: 0;
+  }
+
+  .introduction {
+    width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding: 44px 0 56px;
+  }
+
+  .introduction::after {
+    display: none;
+  }
+
+  .introduction::before {
+    inset: 4% -18px 18% 28%;
+    opacity: .42;
+  }
+
+  .section-heading::after {
+    display: none;
+  }
+
+  .work-section,
+  .experience-section,
+  .craft-section {
+    padding-top: 76px;
+  }
+
+  .projects {
+    gap: 46px;
+  }
+}
+
+/* Phone layout: one consistent gutter and no desktop geometry. */
+@media (max-width: 700px) {
+  :root {
+    --mobile-gutter: 16px;
+  }
+
+  body::before {
+    background-size: 44px 44px;
+    opacity: .16;
+  }
+
+  .ambient-system {
+    opacity: .28;
+  }
+
+  .ambient-network,
+  .ambient-code,
+  .ambient-scan {
+    display: none;
+  }
+
+  .ambient-grid {
+    opacity: .18;
+    mask-image: linear-gradient(to bottom, black 0%, black 38%, transparent 78%);
+  }
+
+  .ambient-orb {
+    width: 18rem;
+    opacity: .08;
+  }
+
+  .header,
+  html[data-scroll-direction="down"][data-scrolled="true"] .header,
+  html[data-scroll-direction="up"][data-scrolled="true"] .header {
+    min-height: 58px;
+    padding: 8px var(--mobile-gutter);
+    grid-template-columns: 1fr auto auto;
+    gap: 5px;
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--ink) 6%, transparent);
+    backdrop-filter: blur(20px) saturate(125%);
+    -webkit-backdrop-filter: blur(20px) saturate(125%);
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand b {
+    display: none;
+  }
+
+  .brand-symbol {
+    font-size: 25px;
+  }
+
+  .command-trigger {
+    display: none;
+  }
+
+  .header-actions {
+    min-width: 0;
+    gap: 0;
+  }
+
+  .header-social .social-links {
+    gap: 0;
+    margin: 0;
+  }
+
+  .header-social .social-links a {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  .header-social .social-links a:nth-child(4) {
+    display: none;
+  }
+
+  .header-social .social-links svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .menu-button {
+    display: grid;
+    place-items: center;
+    min-width: 34px;
+    min-height: 34px;
+    padding: 5px;
+  }
+
+  .menu-button svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .nav {
+    position: fixed;
+    top: 58px;
+    right: 0;
+    left: 0;
+    z-index: 110;
+    width: 100%;
+    padding: 8px var(--mobile-gutter) 14px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: color-mix(in srgb, var(--paper) 98%, transparent);
+    box-shadow: 0 18px 36px color-mix(in srgb, var(--ink) 10%, transparent);
+    backdrop-filter: blur(20px);
+  }
+
+  .nav a {
+    min-height: 40px;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  .studio-layout {
+    padding: 24px var(--mobile-gutter) 0;
+  }
+
+  /* Compact identity: image + name/role, summary and CTA use full width. */
+  .profile-rail {
+    display: grid;
+    grid-template-columns: clamp(104px, 31vw, 126px) minmax(0, 1fr);
+    grid-template-areas:
+      "photo name"
+      "photo role"
+      "summary summary"
+      "resume resume";
+    column-gap: 16px;
+    row-gap: 0;
+    align-items: center;
+    padding: 6px 0 28px;
+    text-align: left;
+  }
+
+  .profile-picture {
+    grid-area: photo;
+    width: 100%;
+    max-width: 126px;
+    margin: 0;
+    align-self: start;
+  }
+
+  .profile-picture::before {
+    inset: -7px;
+  }
+
+  .profile-picture::after {
+    width: 7px;
+    height: 7px;
+    right: 0;
+    top: 28px;
+  }
+
+  .profile-identity {
+    display: contents;
+  }
+
+  .profile-rail h1 {
+    grid-area: name;
+    align-self: end;
+    margin: 0 0 7px;
+    font-size: clamp(1.75rem, 8.2vw, 2.2rem);
+    line-height: .98;
+    letter-spacing: -.055em;
+  }
+
+  .profile-rail h1 br {
+    display: none;
+  }
+
+  .profile-role {
+    grid-area: role;
+    align-self: start;
+    margin: 0;
+    max-width: 24ch;
+    font: 600 8.5px/1.5 var(--mono);
+    letter-spacing: .065em;
+  }
+
+  .profile-summary {
+    grid-area: summary;
+    max-width: none;
+    margin: 20px 0 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .profile-identity .resume-button {
+    grid-area: resume;
+    width: 100%;
+    max-width: none;
+    min-height: 44px;
+    margin: 16px 0 0;
+    padding: 10px 13px;
+    font-size: 13px;
+    border-radius: 9px;
+  }
+
+  .introduction {
+    padding: 38px 0 48px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .introduction::before {
+    inset: 6% -10px 28% 42%;
+    opacity: .3;
+    background:
+      repeating-radial-gradient(circle at 100% 0%, transparent 0 38px, var(--hero-line) 39px 40px, transparent 41px 76px);
+    mask-image: linear-gradient(110deg, transparent 5%, black 55%, transparent 100%);
+  }
+
+  .introduction h2 {
+    max-width: 100%;
+    margin: 0 0 18px;
+    font-size: clamp(2.55rem, 12.8vw, 3.35rem);
+    line-height: .91;
+    letter-spacing: -.07em;
+  }
+
+  .hero-rule {
+    width: 92px;
+    height: 2px;
+    margin: 0 0 18px;
+  }
+
+  .introduction > p {
+    max-width: 100%;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  .introduction .impact-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row;
+    gap: 8px;
+    width: 100%;
+    margin-top: 28px;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+  }
+
+  .introduction .impact-cell,
+  .introduction .impact-cell:first-child,
+  .introduction .impact-cell + .impact-cell {
+    min-width: 0;
+    min-height: 116px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: linear-gradient(145deg, var(--accent-soft), color-mix(in srgb, var(--surface) 94%, transparent) 72%);
+  }
+
+  .impact-cell > svg {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 2px;
+  }
+
+  .introduction .impact-cell strong {
+    font-size: clamp(1.65rem, 8vw, 2rem);
+  }
+
+  .introduction .impact-cell span {
+    max-width: 16ch;
+    font-size: 8.5px;
+    line-height: 1.45;
+  }
+
+  .work-section,
+  .experience-section,
+  .craft-section {
+    padding-top: 64px;
+  }
+
+  .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    margin-bottom: 11px;
+    font-size: 8.5px;
+  }
+
+  .section-heading h2 {
+    margin-bottom: 10px;
+    font-size: clamp(2rem, 9.5vw, 2.65rem);
+    line-height: .98;
+  }
+
+  .section-heading > p {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .projects {
+    gap: 30px;
+  }
+
+  .project {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .project-top {
+    min-height: 0;
+    padding: 20px 16px 16px;
+  }
+
+  .project-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .project-category {
+    font-size: 8.5px;
+  }
+
+  .project-heading h3 {
+    max-width: 100%;
+    font-size: clamp(1.75rem, 8.8vw, 2.25rem);
+    line-height: 1;
+  }
+
+  .project-statement {
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .project-source {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+  }
+
+  .architecture {
+    margin: 0 7px;
+  }
+
+  .project-body {
+    padding: 18px 16px 22px;
+  }
+
+  .project-tech-marquee {
+    margin-bottom: 16px;
+  }
+
+  .project-details summary {
+    min-height: 42px;
+    font-size: 11px;
+  }
+
+  .project-links {
+    margin-top: 14px;
+  }
+
+  .career {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .career::before {
+    inset: 7px -4px -6px 7px;
+    border-radius: 15px;
+  }
+
+  .career-heading {
+    gap: 10px;
+  }
+
+  .career-heading h3 {
+    font-size: 17px;
+  }
+
+  .career-date {
+    margin-top: 12px;
+    font-size: 10px;
+  }
+
+  .career-lead {
+    margin: 18px 0 20px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .career-results li,
+  .career-results li:nth-child(even) {
+    padding: 17px 25px 17px 0;
+  }
+
+  .career-results strong,
+  .career-results li:last-child strong {
+    max-width: 92%;
+    margin-bottom: 7px;
+    font-size: clamp(1.3rem, 6.6vw, 1.7rem);
+  }
+
+  .career-results p {
+    font-size: 12px;
+    line-height: 1.62;
+  }
+
+  .engineering-toolkit-rail {
+    margin-top: 64px;
+    padding: 15px 0 17px;
+  }
+
+  .tech-rail-header {
+    padding-bottom: 10px;
+  }
+
+  .tech-rail-track span.tech-pill {
+    min-height: 32px;
+    padding: 5px 9px 5px 6px;
+    font-size: 8.5px;
+  }
+
+  .tech-pill-icon {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+  }
+
+  .compact-contact {
+    margin-top: 72px;
+    padding: 30px 0 64px;
+  }
+
+  .compact-contact > p {
+    font-size: clamp(1.8rem, 9vw, 2.4rem);
+  }
+
+  .theme-toggle {
+    right: 10px;
+    bottom: 10px;
+    min-height: 36px;
+    padding: 5px 7px;
+  }
+
+  .theme-toggle-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --mobile-gutter: 14px;
+  }
+
+  .header-social .social-links a {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+  }
+
+  .profile-rail {
+    grid-template-columns: 102px minmax(0, 1fr);
+    column-gap: 14px;
+  }
+
+  .profile-rail h1 {
+    font-size: clamp(1.65rem, 8vw, 1.95rem);
+  }
+
+  .profile-role {
+    font-size: 8px;
+  }
+
+  .introduction h2 {
+    font-size: clamp(2.4rem, 12.5vw, 3rem);
+  }
+
+  .introduction .impact-cell {
+    min-height: 108px;
+    padding: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-system {
+    display: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Above-the-fold refinement
+   -------------------------------------------------------------------------- */
+
+/* Desktop: make the first viewport dense, readable, and complete. */
+@media (min-width: 901px) {
+  .header {
+    min-height: 64px;
+    padding-block: 8px;
+  }
+
+  .studio-layout {
+    grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
+    gap: clamp(42px, 4.8vw, 72px);
+    padding-top: 44px;
+  }
+
+  .profile-rail {
+    top: 84px;
+    max-height: calc(100dvh - 96px);
+    padding-top: 0;
+  }
+
+  .profile-picture {
+    width: min(100%, clamp(160px, 20vh, 205px));
+    margin-bottom: 22px;
+  }
+
+  .profile-rail h1 {
+    font-size: clamp(2.45rem, 3vw, 3rem);
+    line-height: .98;
+  }
+
+  .profile-role {
+    margin: 15px 0 11px;
+    font-size: 9.5px;
+    line-height: 1.5;
+  }
+
+  .profile-summary {
+    max-width: 245px;
+    margin-bottom: 16px;
+    font-size: 12.75px;
+    line-height: 1.7;
+  }
+
+  .profile-identity .resume-button {
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 12.5px;
+  }
+
+  .introduction {
+    min-height: calc(100dvh - 108px);
+    justify-content: center;
+    padding: 26px 0 40px;
+  }
+
+  .introduction h2 {
+    max-width: 760px;
+    margin-bottom: 20px;
+    font-size: clamp(3.5rem, 6vw, 5.7rem);
+    line-height: .91;
+    letter-spacing: -.07em;
+  }
+
+  .hero-rule {
+    width: 170px;
+    margin-bottom: 20px;
+  }
+
+  .introduction > p {
+    max-width: 650px;
+    font-size: 15px;
+    line-height: 1.72;
+  }
+
+  .introduction .impact-row {
+    margin-top: 30px;
+  }
+
+  .introduction .impact-cell {
+    padding-block: 16px;
+  }
+
+  .introduction .impact-cell strong {
+    font-size: clamp(1.9rem, 2.7vw, 2.65rem);
+  }
+}
+
+/* Large desktop: keep the hero expansive without hiding actions below the fold. */
+@media (min-width: 1440px) {
+  .studio-layout {
+    padding-top: 36px;
+  }
+
+  .profile-picture {
+    width: 205px;
+  }
+
+  .introduction {
+    min-height: calc(100dvh - 96px);
+  }
+
+  .introduction h2 {
+    font-size: clamp(4rem, 5.5vw, 5.9rem);
+  }
+}
+
+/* Ambient service topology: subtle backend motion behind hero copy. */
+.ambient-hero-topology {
+  position: absolute;
+  top: 17%;
+  right: 5%;
+  width: min(42vw, 620px);
+  height: 300px;
+  opacity: .38;
+  pointer-events: none;
+}
+
+.ambient-service {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  min-width: 78px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--surface) 38%, transparent);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+.ambient-service span {
+  color: color-mix(in srgb, var(--ink) 76%, var(--accent));
+  font: 600 9px/1.2 var(--mono);
+}
+
+.ambient-service small {
+  color: var(--muted);
+  font: 500 7px/1.2 var(--mono);
+}
+
+.ambient-service-api { left: 2%; top: 43%; }
+.ambient-service-kafka { left: 25%; top: 20%; }
+.ambient-service-worker { left: 48%; top: 43%; }
+.ambient-service-data { left: 73%; top: 18%; }
+.ambient-service-telemetry { left: 74%; top: 68%; }
+
+.ambient-link {
+  position: absolute;
+  z-index: 1;
+  height: 1px;
+  overflow: hidden;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent) 7%, transparent));
+  transform-origin: left center;
+}
+
+.ambient-link i {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 20px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--signal) 55%, transparent);
+}
+
+.ambient-link-1 {
+  left: 14%;
+  top: 48%;
+  width: 115px;
+  transform: rotate(-22deg);
+}
+.ambient-link-2 {
+  left: 37%;
+  top: 31%;
+  width: 115px;
+  transform: rotate(21deg);
+}
+.ambient-link-3 {
+  left: 60%;
+  top: 45%;
+  width: 120px;
+  transform: rotate(-22deg);
+}
+.ambient-link-4 {
+  left: 60%;
+  top: 55%;
+  width: 120px;
+  transform: rotate(24deg);
+}
+
+@keyframes ambient-link-packet {
+  from { transform: translateX(-24px); }
+  to { transform: translateX(140px); }
+}
+
+@keyframes ambient-service-pulse {
+  0%, 100% { border-color: color-mix(in srgb, var(--accent) 16%, var(--line)); }
+  50% { border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ambient-link i {
+    animation: ambient-link-packet 3.4s linear infinite;
+  }
+
+  .ambient-link-2 i { animation-delay: -.9s; }
+  .ambient-link-3 i { animation-delay: -1.8s; }
+  .ambient-link-4 i { animation-delay: -2.5s; }
+
+  .ambient-service {
+    animation: ambient-service-pulse 5.5s ease-in-out infinite;
+  }
+
+  .ambient-service-worker { animation-delay: -1.2s; }
+  .ambient-service-data { animation-delay: -2.4s; }
+  .ambient-service-telemetry { animation-delay: -3.6s; }
+}
+
+/* Tablet: retain visual identity but reduce competition with content. */
+@media (max-width: 1180px) and (min-width: 701px) {
+  .ambient-hero-topology {
+    right: -5%;
+    width: 48vw;
+    opacity: .24;
+    transform: scale(.9);
+    transform-origin: top right;
+  }
+}
+
+/* Mobile: keep only a light network hint; no UI-like floating service cards. */
+@media (max-width: 700px) {
+  .ambient-hero-topology {
+    display: none;
+  }
+
+  .introduction {
+    min-height: auto;
+  }
+
+  .profile-rail {
+    margin-bottom: 0;
+  }
+}
