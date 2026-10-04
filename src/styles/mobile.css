@@ -2129,10 +2129,9 @@
     min-height: 44px;
   }
 
-  /* Allow normal vertical page scrolling over the architecture surface.
-     Horizontal movement remains available for exploring the diagram. */
+  /* The architecture canvas is an intentional 2D exploration surface. */
   .architecture-mobile-focused-svg {
-    touch-action: pan-y;
+    touch-action: none;
   }
 }
 
