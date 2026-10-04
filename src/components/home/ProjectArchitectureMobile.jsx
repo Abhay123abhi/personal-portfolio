@@ -88,17 +88,13 @@ export default function ProjectArchitectureMobile({ architecture, selected }) {
     .replace(/[^a-z0-9]+/g, "-")}`;
 
   const handlePointerDown = event => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    svg.setPointerCapture?.(event.pointerId);
     dragRef.current = {
       pointerId: event.pointerId,
       clientX: event.clientX,
       clientY: event.clientY,
       viewBox,
+      horizontal: false,
     };
-    setDragging(true);
   };
 
   const handlePointerMove = event => {
@@ -107,17 +103,33 @@ export default function ProjectArchitectureMobile({ architecture, selected }) {
 
     if (!drag || drag.pointerId !== event.pointerId || !svg) return;
 
+    const rawX = event.clientX - drag.clientX;
+    const rawY = event.clientY - drag.clientY;
+
+    if (!drag.horizontal) {
+      if (Math.abs(rawX) < 8 && Math.abs(rawY) < 8) return;
+
+      if (Math.abs(rawY) >= Math.abs(rawX)) {
+        dragRef.current = null;
+        setDragging(false);
+        return;
+      }
+
+      drag.horizontal = true;
+      svg.setPointerCapture?.(event.pointerId);
+      setDragging(true);
+    }
+
     const rect = svg.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    if (!rect.width) return;
 
     const [startX, startY, width, height] = drag.viewBox;
-    const deltaX = (event.clientX - drag.clientX) * (width / rect.width);
-    const deltaY = (event.clientY - drag.clientY) * (height / rect.height);
+    const deltaX = rawX * (width / rect.width);
 
     setViewBox(
       clampViewBox(architecture, [
         startX - deltaX,
-        startY - deltaY,
+        startY,
         width,
         height,
       ])
