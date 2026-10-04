@@ -61,7 +61,7 @@ export default function PortfolioNav({ inner = false }) {
       return undefined;
     }
 
-    const sections = ["work", "experience"]
+    const sections = ["work", "experience", "stack"]
       .map(id => document.getElementById(id))
       .filter(Boolean);
 
