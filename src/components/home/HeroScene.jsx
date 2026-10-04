@@ -1,13 +1,13 @@
 function Cube({ className }) {
   return (
-    <div className={`v2-hero-solid v2-hero-cube ${className}`}>
-      <div className="v2-hero-cube-body">
-        <span className="v2-hero-face front" />
-        <span className="v2-hero-face back" />
-        <span className="v2-hero-face right" />
-        <span className="v2-hero-face left" />
-        <span className="v2-hero-face top" />
-        <span className="v2-hero-face bottom" />
+    <div className={`portfolio-hero-solid portfolio-hero-cube ${className}`}>
+      <div className="portfolio-hero-cube-body">
+        <span className="portfolio-hero-face front" />
+        <span className="portfolio-hero-face back" />
+        <span className="portfolio-hero-face right" />
+        <span className="portfolio-hero-face left" />
+        <span className="portfolio-hero-face top" />
+        <span className="portfolio-hero-face bottom" />
       </div>
     </div>
   );
@@ -15,16 +15,16 @@ function Cube({ className }) {
 
 export default function HeroScene() {
   return (
-    <div className="v2-scene v2-scene-balanced" aria-hidden="true">
-      <div className="v2-scene-grid" />
-      <div className="v2-scene-glow v2-scene-glow-a" />
-      <div className="v2-scene-glow v2-scene-glow-b" />
+    <div className="portfolio-scene portfolio-scene-balanced" aria-hidden="true">
+      <div className="portfolio-scene-grid" />
+      <div className="portfolio-scene-glow portfolio-scene-glow-a" />
+      <div className="portfolio-scene-glow portfolio-scene-glow-b" />
 
-      <Cube className="v2-solid-blue" />
-      <div className="v2-hero-solid v2-solid-ring" />
-      <div className="v2-hero-solid v2-solid-orb" />
-      <Cube className="v2-solid-slate" />
-      <Cube className="v2-solid-violet" />
+      <Cube className="portfolio-solid-blue" />
+      <div className="portfolio-hero-solid portfolio-solid-ring" />
+      <div className="portfolio-hero-solid portfolio-solid-orb" />
+      <Cube className="portfolio-solid-slate" />
+      <Cube className="portfolio-solid-violet" />
     </div>
   );
 }
