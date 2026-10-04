@@ -76,38 +76,6 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 760px) {
-  .portfolio-page > main {
-    padding-top: 58px;
-  }
-
-  .portfolio-hero,
-  .portfolio-section,
-  .portfolio-contact {
-    scroll-margin-top: 66px;
-  }
-
-  .portfolio-nav-shell {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .portfolio-nav-shell.is-scrolled {
-    height: 54px;
-  }
-
-  .portfolio-mobile-search-trigger,
-  .portfolio-nav-actions {
-    position: relative;
-    z-index: 1;
-  }
-
-  .portfolio-nav-actions {
-    display: none;
-  }
-}
 
 @supports not (overflow: clip) {
   .portfolio-page {
