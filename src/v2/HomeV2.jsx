@@ -32,6 +32,7 @@ export function V2Nav({ inner = false }) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const searchRef = useRef(null);
 
   const links = [
@@ -62,6 +63,34 @@ export function V2Nav({ inner = false }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (inner) {
+      setActiveSection("");
+      return undefined;
+    }
+
+    const sectionIds = ["work", "experience", "stack"];
+    const sections = sectionIds
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+
+    if (!sections.length || !("IntersectionObserver" in window)) return undefined;
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible) setActiveSection(visible.target.id);
+    }, {
+      rootMargin: "-18% 0px -58% 0px",
+      threshold: [0, 0.15, 0.35, 0.6],
+    });
+
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, [inner]);
 
   const runCommand = (item) => {
     closePalette();
@@ -124,7 +153,16 @@ export function V2Nav({ inner = false }) {
           <Link className="v2-brand" to="/#top" aria-label="Abhay Jaiswal home">aj<span>.</span></Link>
 
           <div className="v2-nav-links">
-            {links.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
+            {links.map(([label, href]) => {
+              const sectionId = href.startsWith("/#") ? href.slice(2) : "";
+              const isActive = sectionId && activeSection === sectionId;
+              return <Link
+                key={label}
+                to={href}
+                className={isActive ? "is-active" : undefined}
+                aria-current={isActive ? "location" : undefined}
+              >{label}</Link>;
+            })}
           </div>
 
           <button
