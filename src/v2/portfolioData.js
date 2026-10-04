@@ -69,7 +69,7 @@ export const projects = [
     title: "News Intelligence",
     statement: "Aggregate multiple publishers, then turn the feed into grounded briefs, answers, and coverage comparisons.",
     problem: "Publishers expose inconsistent schemas and failure behaviour, while readers still need a reliable way to search, compare, and understand the combined feed.",
-    approach: "Redis cache first, Guardian and NYT adapters fan out concurrently on virtual threads, results are normalized and deduplicated, and a separate Gemini workspace adds citation-validated summaries, Q&A, briefs, and comparisons.",
+    approach: "Redis cache first, Guardian and NYT adapters fan out concurrently on virtual threads, results are normalized and deduplicated, and a separate Gemini workspace adds source-referenced summaries, Q&A, briefs, and comparisons with backend-validated source IDs.",
     stack: ["Java 21", "Spring Boot", "React", "Redis", "Gemini", "Virtual threads", "REST APIs"],
     github: "https://github.com/Abhay123abhi/ai-powered-news-intelligence",
     live: "https://abhay123abhi-news-web.onrender.com",
