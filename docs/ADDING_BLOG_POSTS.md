@@ -48,4 +48,4 @@ Alternatively, copy an existing object in that file, separate entries with comma
 
 Catalog order controls blog order. The helper inserts new articles first. Reading time is calculated automatically. Cards, search, existing topic filters/colours, article routes, and static social-preview pages all use the same catalog.
 
-`npm run blog:check` rejects duplicate/unsafe slugs, unknown topics, missing fields, malformed sections, and invalid links. New *topics* are a separate design change: update `src/blogContent.js` and the circle layout/colour rules in `src/blog.css`; adding articles under existing topics requires no such changes.
+`npm run blog:check` rejects duplicate/unsafe slugs, unknown topics, missing fields, malformed sections, and invalid links. New *topics* are a separate design change: update `src/data/blogContent.js` and the circle layout/colour rules in `src/styles/blog.css`; adding articles under existing topics requires no such changes.

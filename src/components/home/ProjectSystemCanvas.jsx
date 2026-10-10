@@ -1,4 +1,4 @@
-import { projectArchitectures } from "./projectArchitectureData";
+import { projectArchitectures } from "../../data/projectArchitectureData";
 
 export default function ProjectSystemCanvas({ projectIndex, activeStage }) {
   const topology = projectArchitectures[projectIndex];

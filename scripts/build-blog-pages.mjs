@@ -1,5 +1,5 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { articles } from '../src/blogArticles.js';
+import { articles } from '../src/data/blogArticles.js';
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const origin = 'https://abhay-portfolioo.netlify.app';
 const shell = await readFile('dist/index.html','utf8');

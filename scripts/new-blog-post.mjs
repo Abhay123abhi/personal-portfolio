@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { prepareArticles } from '../src/blogContent.js';
+import { prepareArticles } from '../src/data/blogContent.js';
 const file = new URL('../src/content/blog-posts.json', import.meta.url);
 const slug = process.argv[2];
 if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {

@@ -146,7 +146,7 @@ export default function ProjectArchitectureMobile({ architecture, selected }) {
     >
       <div className="system-canvas-grid" aria-hidden="true" />
       <span className="architecture-mobile-pan-hint" aria-hidden="true">
-        Drag to explore
+        Drag in any direction
       </span>
 
       <svg

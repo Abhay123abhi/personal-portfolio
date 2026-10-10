@@ -1,4 +1,4 @@
-import { blogTopics, matchesTopic } from "./blogContent";
+import { blogTopics, matchesTopic } from "../../data/blogContent";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Linkedin, Search } from "lucide-react";
