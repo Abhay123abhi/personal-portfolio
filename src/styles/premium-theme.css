@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Premium portfolio color system
+   --------------------------------------------------------------------------
+   Color-only overrides. No spacing, layout, typography, animation, or
+   interaction behavior is changed here.
+
+   Direction: graphite + mint + warm amber.
+   This intentionally avoids the indigo/purple AI-product palette used by the
+   News Intelligence project.
+   ========================================================================== */
+
+:root {
+  --portfolio-bg: #0a0e0d;
+  --portfolio-panel: #111714;
+  --portfolio-panel-2: #171f1b;
+  --portfolio-line: #2a3832;
+  --portfolio-text: #f2f0e7;
+  --portfolio-muted: #98a59f;
+  --portfolio-mint: #9ad7bd;
+  --portfolio-mint-strong: #70c6a1;
+  --portfolio-blue: #7ea89c;
+  --portfolio-apricot: #d6a36a;
+  --portfolio-violet: #b79569;
+}
+
+html[data-theme="dark"] {
+  --paper: #0a0e0d;
+  --surface: #121815;
+  --surface-soft: #0f1512;
+  --ink: #f2f0e7;
+  --muted: #9aa7a1;
+  --accent: #9ad7bd;
+  --signal: #b8e2ce;
+  --line: #2a3832;
+  --accent-soft: #192821;
+  --mint: #9ad7bd;
+  --ice: #87aaa1;
+  --apricot: #d6a36a;
+  --button-text: #102119;
+  --shadow: 0 18px 45px rgb(0 0 0 / 24%);
+  --grid: rgb(146 166 155 / 8%);
+}
+
+/* Overall atmosphere: warmer graphite instead of blue-black. */
+.portfolio-page {
+  background:
+    radial-gradient(circle at 82% 3%, rgba(154, 215, 189, .065), transparent 25rem),
+    radial-gradient(circle at 8% 23%, rgba(214, 163, 106, .045), transparent 26rem),
+    var(--portfolio-bg);
+}
+
+.portfolio-nav-shell {
+  border-bottom-color: rgba(154, 174, 165, .14);
+  background: rgba(10, 14, 13, .90);
+}
+
+.portfolio-nav-shell.is-scrolled {
+  background: rgba(9, 13, 12, .965);
+}
+
+.portfolio-nav-links a.is-active {
+  border-color: color-mix(in srgb, var(--portfolio-mint) 32%, var(--portfolio-line));
+  background: rgba(154, 215, 189, .055);
+}
+
+.portfolio-nav-links a.is-active::after {
+  background: var(--portfolio-mint);
+  box-shadow: 0 0 10px rgba(154, 215, 189, .24);
+}
+
+/* Hero/portrait: mint + champagne instead of cyan + violet. */
+.portfolio-portrait-frame-circle {
+  border-color: rgba(154, 215, 189, .78);
+  background: #0c1210;
+  box-shadow:
+    0 0 0 8px rgba(154, 215, 189, .022),
+    0 24px 64px rgba(0,0,0,.38),
+    0 0 40px rgba(154, 215, 189, .10),
+    inset 0 0 26px rgba(214, 163, 106, .035);
+}
+
+.portfolio-portrait-frame-circle::before {
+  border-color: rgba(214, 163, 106, .15);
+}
+
+.portfolio-portrait-glow {
+  background:
+    radial-gradient(circle, rgba(154, 215, 189, .19), rgba(214, 163, 106, .07) 44%, transparent 72%);
+}
+
+.portfolio-portrait-orbit-a {
+  border-color: rgba(154, 215, 189, .26);
+  box-shadow: 0 0 20px rgba(154, 215, 189, .03);
+}
+
+.portfolio-portrait-orbit-b {
+  border-color: rgba(214, 163, 106, .22);
+}
+
+/* Project identities remain distinct, but use muted premium accents. */
+.portfolio-case-study.case-0 {
+  --case-accent: #9ad7bd;
+  --case-surface: #0d1613;
+  --case-surface-2: #13201b;
+  --case-glow-a: rgba(154,215,189,.13);
+  --case-glow-b: rgba(126,168,156,.07);
+}
+
+.portfolio-case-study.case-1 {
+  --case-accent: #7ea89c;
+  --case-surface: #0e1513;
+  --case-surface-2: #15201c;
+  --case-glow-a: rgba(126,168,156,.13);
+  --case-glow-b: rgba(154,215,189,.07);
+}
+
+.portfolio-case-study.case-2 {
+  --case-accent: #d6a36a;
+  --case-surface: #17130e;
+  --case-surface-2: #1e1812;
+  --case-glow-a: rgba(214,163,106,.14);
+  --case-glow-b: rgba(154,215,189,.055);
+}
+
+.portfolio-contact-glow {
+  background: radial-gradient(circle, rgba(214,163,106,.13), transparent 65%);
+}
+
+/* Blog: one restrained family rather than AI-style purple/blue. */
+.blog-studio {
+  --accent: #9ad7bd;
+  --accent-soft: #192821;
+  --bs-accent: #9ad7bd;
+}
+
+.blog-studio [data-topic="System Design"] { --bs-accent: #87aaa1; }
+.blog-studio [data-topic="LLD"] { --bs-accent: #9ad7bd; }
+.blog-studio [data-topic="Design Patterns"] { --bs-accent: #d6a36a; }
+.blog-studio [data-topic="Backend"] { --bs-accent: #78b59f; }
+.blog-studio [data-topic="Java"] { --bs-accent: #c98c72; }
+.blog-studio [data-topic="Data"] { --bs-accent: #b68e98; }
+.blog-studio [data-topic="Observability"] { --bs-accent: #c5ab68; }
+.blog-studio [data-topic="AI"] { --bs-accent: #88b5a9; }
+.blog-studio [data-topic="Security"] { --bs-accent: #c88c82; }
+.blog-studio [data-topic="Delivery"] { --bs-accent: #82af99; }
+.blog-studio [data-topic="Frontend"] { --bs-accent: #91a39f; }
+
+/* Mobile color-only refinements. Geometry and motion stay exactly as-is. */
+@media (max-width: 760px) {
+  .portfolio-mobile-search-trigger {
+    background:
+      linear-gradient(145deg, rgba(154,215,189,.065), transparent),
+      #141a17;
+    border-color: #2a3832;
+  }
+
+  .portfolio-hero {
+    background:
+      radial-gradient(circle at 86% 8%, rgba(214,163,106,.075), transparent 28%),
+      radial-gradient(circle at 8% 78%, rgba(154,215,189,.055), transparent 30%),
+      #101512;
+  }
+
+  .portfolio-capabilities {
+    background:
+      radial-gradient(circle at 102% 15%, rgba(214,163,106,.05), transparent 27%),
+      transparent;
+  }
+
+  .portfolio-work {
+    background:
+      radial-gradient(circle at -5% 12%, rgba(126,168,156,.05), transparent 30%),
+      transparent;
+  }
+
+  .portfolio-toolbelt {
+    background:
+      radial-gradient(circle at 18% 0%, rgba(154,215,189,.055), transparent 32%),
+      #0f1311;
+  }
+
+  .portfolio-solid-ring {
+    border-color: rgba(214,163,106,.78) !important;
+    box-shadow:
+      inset 10px 12px 20px rgba(255,255,255,.05),
+      inset -14px -16px 26px rgba(90,61,32,.22),
+      0 18px 38px rgba(214,163,106,.13) !important;
+  }
+}

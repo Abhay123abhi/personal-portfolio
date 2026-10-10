@@ -12,6 +12,7 @@ import "./styles/portfolio.css";
 import "./styles/navigation.css";
 import "./styles/blog.css";
 import "./styles/mobile.css";
+import "./styles/premium-theme.css";
 
 document.documentElement.dataset.theme = "dark";
 
