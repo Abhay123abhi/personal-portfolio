@@ -100,8 +100,14 @@ html.portfolio-home-active body {
   margin: auto;
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr);
-  gap: clamp(40px, 6vw, 100px);
+  gap: clamp(2rem, 4vw, 5rem);
   align-items: center;
+}
+
+/* Size typography from its real column, not from a monitor's unused width. */
+.portfolio-hero-copy {
+  min-width: 0;
+  container-type: inline-size;
 }
 
 .portfolio-eyebrow, .portfolio-kicker {
@@ -113,20 +119,20 @@ html.portfolio-home-active body {
 
 .portfolio-hero-copy h1 {
   margin: 18px 0 20px;
-  font-size: clamp(5rem, 10.5vw, 10.8rem);
-  line-height: .77;
+  font-size: clamp(3.25rem, 18cqi, 9rem);
+  line-height: .84;
   letter-spacing: -.09em;
 }
-.portfolio-hero-copy h1 span { display: block; }
+.portfolio-hero-copy h1 span { display: block; white-space: nowrap; }
 .portfolio-hero-copy h1 span:last-child {
-  margin-left: clamp(36px, 7vw, 110px);
+  margin-left: clamp(0rem, 9cqi, 5rem);
   color: var(--portfolio-mint);
 }
 
 .portfolio-hero-role {
   margin: 0 0 16px;
   color: var(--portfolio-text);
-  font-size: clamp(1.25rem, 2vw, 2rem);
+  font-size: clamp(1.15rem, 2.8cqi, 1.8rem);
   font-weight: 650;
   letter-spacing: -.03em;
 }
@@ -190,6 +196,9 @@ html.portfolio-home-active body {
 .portfolio-scene-glow-b { left:-18rem; bottom:-18rem; background:var(--portfolio-blue); }
 .portfolio-section { width:min(var(--portfolio-max),calc(100% - 2 * var(--portfolio-pad))); margin:auto; padding:clamp(62px,6.5vw,94px) 0; }
 .portfolio-section-head { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,440px); gap:50px; align-items:end; margin-bottom:48px; }
+/* Section titles respond to the available heading column as well. */
+.portfolio-section-head > div { min-width: 0; container-type: inline-size; }
+.portfolio-section-head h2 { font-size: clamp(2.6rem, 10.5cqi, 5.5rem); }
 .portfolio-section-head h2,.portfolio-experience-intro h2,.portfolio-toolbelt h2,.portfolio-contact h2 { margin:10px 0 0;font-size:clamp(3rem,6vw,6rem);line-height:.92;letter-spacing:-.07em; }
 .portfolio-section-head > p,.portfolio-experience-intro > p:last-child,.portfolio-toolbelt-head > p { margin:0;color:var(--portfolio-muted);font-size:14px;line-height:1.75; }
 
@@ -279,7 +288,7 @@ html.portfolio-home-active body {
 @media(max-width:1050px){
   .portfolio-nav{grid-template-columns:1fr auto}.portfolio-nav-links{display:none}  .portfolio-nav-links.open{position:absolute;top:72px;left:0;right:0;display:grid;padding:12px var(--portfolio-pad) 18px;background:#0d1215;border-bottom:1px solid var(--portfolio-line)}
   .portfolio-nav-links.open a{padding:12px 0;border-radius:0;border-bottom:1px solid #1d292e}
-  .portfolio-hero-inner{grid-template-columns:1fr .7fr}.portfolio-hero-copy h1{font-size:clamp(4rem,10vw,7rem)}
+  .portfolio-hero-inner{grid-template-columns:1fr .7fr}
   .portfolio-case-study,.portfolio-case-study.is-reverse{grid-template-columns:1fr}.portfolio-case-study.is-reverse .portfolio-case-copy,.portfolio-case-study.is-reverse .portfolio-case-visual{order:initial}
 }
 
@@ -1873,4 +1882,5 @@ html.portfolio-home-active body {
   .portfolio-case-canvas .system-node-label{font-size:10px}
   .portfolio-case-canvas .system-node-sub{font-size:7px}
 }
+
 

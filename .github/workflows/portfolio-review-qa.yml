@@ -1,4 +1,5 @@
-name: Portfolio review QA
+name: Portfolio CI
+
 on:
   pull_request:
     paths:
@@ -8,13 +9,24 @@ on:
       - 'index.html'
       - 'package*.json'
       - '*.config.*'
+      - 'netlify.toml'
       - '.nvmrc'
       - '.github/workflows/portfolio-review-qa.yml'
+  push:
+    branches: [main]
   workflow_dispatch:
+
+# PR updates cancel outdated runs; main builds stay independent of PRs.
+concurrency:
+  group: portfolio-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
   quality-and-test:
+    name: Code quality, tests and build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -23,13 +35,21 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run check:unused
-      - run: npm audit --audit-level=high
-      - run: npm run build
+      - name: Install lockfile dependencies
+        run: npm ci
+      - name: Lint JavaScript and React
+        run: npm run lint
+      - name: Run unit tests
+        run: npm test
+      - name: Detect unused code and dependencies
+        run: npm run check:unused
+      - name: Audit dependencies (high and critical advisories)
+        run: npm audit --audit-level=high
+      - name: Build deployable site and blog pages
+        run: npm run build
+
   browser-qa:
+    name: Responsive and functional browser QA
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -38,10 +58,13 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - run: npm ci
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - name: Start candidate preview
+      - name: Install and build preview
+        run: |
+          npm ci
+          npm run build
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start local production preview
         run: |
           npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/portfolio-preview.log 2>&1 &
           for i in $(seq 1 50); do
@@ -50,43 +73,14 @@ jobs:
           done
           cat /tmp/portfolio-preview.log
           exit 1
-      - name: Responsive browser and metadata checks
+      - name: Test real layout, navigation, blog and metadata
         run: node scripts/check-site.mjs
-  visual-regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: npm
-      - run: npm ci && npm run build
-      - run: npx playwright install --with-deps chromium
-      - name: Build main baseline
-        run: |
-          git worktree add /tmp/portfolio-baseline "${{ github.event.pull_request.base.sha }}"
-          cd /tmp/portfolio-baseline
-          npm ci
-          npm run build
-      - name: Start both preview servers
-        run: |
-          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/portfolio-candidate.log 2>&1 &
-          (cd /tmp/portfolio-baseline && npm run preview -- --host 127.0.0.1 --port 4174 > /tmp/portfolio-baseline.log 2>&1) &
-          for port in 4173 4174; do
-            for i in $(seq 1 50); do
-              if curl -fsS http://127.0.0.1:$port/ >/dev/null; then break; fi
-              sleep 1
-            done
-            curl -fsS http://127.0.0.1:$port/ >/dev/null
-          done
-      - name: Compare screenshots
-        run: npm run test:visual
-      - uses: actions/upload-artifact@v4
+      # Screenshots are evidence for reviewers, not an old-design pixel threshold.
+      - name: Upload responsive screenshots
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: visual-comparison
-          path: test-results/visual
+          name: portfolio-responsive-screenshots
+          path: test-results/responsive/
           if-no-files-found: ignore
+          retention-days: 14

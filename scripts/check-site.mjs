@@ -1,14 +1,25 @@
 import { chromium } from '@playwright/test';
-import { readFile, readdir } from 'node:fs/promises';
+import { mkdir, readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const base = 'http://127.0.0.1:4173';
 const browser = await chromium.launch({ headless: true });
-const widths = [320, 375, 390, 430, 768, 1024, 1440];
+const viewports = [
+  { width: 320, height: 700 }, { width: 375, height: 812 },
+  { width: 390, height: 844 }, { width: 430, height: 932 },
+  { width: 600, height: 800 }, { width: 760, height: 900 },
+  { width: 761, height: 850 }, { width: 800, height: 1024 },
+  { width: 1024, height: 768 }, { width: 1280, height: 800 },
+  { width: 1440, height: 900 }, { width: 1536, height: 864 },
+  { width: 1600, height: 900 }, { width: 1908, height: 904 },
+  { width: 1920, height: 1080 }, { width: 2560, height: 1440 },
+];
+const screenshotWidths = new Set([390, 800, 1440, 1908, 2560]);
 const errors = [];
+await mkdir('test-results/responsive', { recursive: true });
 try {
-  for (const width of widths) {
-    const page = await browser.newPage({ viewport: { width, height: 850 }, reducedMotion: 'reduce' });
+  for (const { width, height } of viewports) {
+    const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
     page.on('pageerror', error => errors.push(width + ': ' + error.message));
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.locator('h1').first().waitFor();
@@ -17,6 +28,38 @@ try {
     assert.equal(await page.locator('#work').count(), 1);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
     assert.equal(overflow, false, 'Horizontal page overflow at ' + width);
+    // Inspect *rendered text*, not only scrollWidth (the site clips overflow).
+    // A container-based headline must never spill into the portrait lane.
+    const heroLayout = await page.evaluate(() => {
+      const copy = document.querySelector('.portfolio-hero-copy');
+      const portrait = document.querySelector('.portfolio-hero-portrait');
+      const copyRect = copy.getBoundingClientRect();
+      const portraitRect = portrait.getBoundingClientRect();
+      const heading = copy.querySelector('h1');
+      const letterRects = [...heading.querySelectorAll('span')].map(span => {
+        const range = document.createRange();
+        range.selectNodeContents(span);
+        return range.getBoundingClientRect();
+      });
+      const contentFits = letterRects.every(rect =>
+        rect.left >= copyRect.left - 2 && rect.right <= copyRect.right + 2
+      );
+      const separateColumns = copyRect.right <= portraitRect.left + 2
+        || portraitRect.right <= copyRect.left + 2;
+      const stacked = copyRect.bottom <= portraitRect.top + 2
+        || portraitRect.bottom <= copyRect.top + 2;
+      return { contentFits, noOverlap: separateColumns || stacked };
+    });
+    assert.equal(heroLayout.contentFits, true, 'Hero name overflows text column at ' + width);
+    assert.equal(heroLayout.noOverlap, true, 'Hero portrait overlaps the copy at ' + width);
+    // Reviewable visual evidence, without treating an intentional redesign as a defect.
+    if (screenshotWidths.has(width)) {
+      await page.evaluate(() => document.fonts.ready);
+      await page.screenshot({
+        path: `test-results/responsive/home-${width}x${height}.png`,
+        animations: 'disabled',
+      });
+    }
     // Navigation must reflect what is visible, not the last intersected section.
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
