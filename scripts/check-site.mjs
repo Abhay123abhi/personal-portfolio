@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const base = 'http://127.0.0.1:4173';
 const browser = await chromium.launch({ headless: true });
-const widths = [320, 375, 390, 430, 768, 1024, 1440];
+const widths = [320, 375, 390, 430, 768, 1024, 1440, 1600, 1908, 1920, 2560];
 const errors = [];
 try {
   for (const width of widths) {
