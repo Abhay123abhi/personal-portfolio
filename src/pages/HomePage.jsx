@@ -171,7 +171,6 @@ function ContactV2() {
         <a className="portfolio-api-action" href={"mailto:" + identity.email}>/email</a>
         <a className="portfolio-api-action" href={identity.linkedin} target="_blank" rel="noreferrer">/linkedin</a>
       </div>
-      <footer><span>Abhay Jaiswal</span><span>Gurugram, India</span><span>{identity.email}</span></footer>
     </section>
   );
 }
