@@ -19,7 +19,7 @@ const commands = [
 
 export default function PortfolioNav({ inner = false }) {
   const navigate = useNavigate();
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -74,20 +74,16 @@ export default function PortfolioNav({ inner = false }) {
     const updateActiveSection = () => {
       frame = 0;
       const headerHeight = document.querySelector(".portfolio-nav-shell")?.getBoundingClientRect().height ?? 58;
-      // Anchor targets can sit below the fixed header because of scroll-margin.\n      const marker = Math.max(headerHeight + 48, window.innerHeight * 0.25);
+      // Respect the fixed header and scroll-margin when deciding which section is active.
+      const marker = Math.max(headerHeight + 48, window.innerHeight * 0.25);
       const experience = document.getElementById("experience");
       const work = document.getElementById("work");
       let next = "";
 
       if (window.scrollY > 32) {
-        // For hash navigation, honor the target when it is within the visible viewport.
-        // This also handles late layout shifts from reveal/diagram content.
-        const anchorVisible = section => section &&
-          section.getBoundingClientRect().top < window.innerHeight &&
-          section.getBoundingClientRect().bottom > marker;
-        if (hash === "#work" && anchorVisible(work)) next = "work";
-        else if (hash === "#experience" && anchorVisible(experience)) next = "experience";
-        else if (experience && experience.getBoundingClientRect().top <= marker) next = "experience";
+        // Scroll position is the source of truth, including after hash navigation.
+        // Avoid persisting a clicked hash when the user later scrolls elsewhere.
+        if (experience && experience.getBoundingClientRect().top <= marker) next = "experience";
         else if (work && work.getBoundingClientRect().top <= marker) next = "work";
       }
 
@@ -107,7 +103,7 @@ export default function PortfolioNav({ inner = false }) {
       window.removeEventListener("resize", schedule);
       window.removeEventListener("pageshow", schedule);
     };
-  }, [inner, pathname, hash]);
+  }, [inner, pathname]);
 
   const runCommand = (item) => {
     closePalette();
