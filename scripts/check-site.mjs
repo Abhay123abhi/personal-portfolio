@@ -22,15 +22,7 @@ try {
     await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
     if (width === 1440) {
       await page.locator('.portfolio-nav-links a[href="/#experience"]').click();
-    await page.waitForTimeout(400);
-    console.log('NAV DEBUG experience', JSON.stringify(await page.evaluate(() => ({
-      href: location.href, scrollY, hash: location.hash,
-      experienceTop: document.getElementById('experience')?.getBoundingClientRect().top,
-      workTop: document.getElementById('work')?.getBoundingClientRect().top,
-      headerHeight: document.querySelector('.portfolio-nav-shell')?.getBoundingClientRect().height,
-      active: [...document.querySelectorAll('.portfolio-nav-links a.is-active')].map(a => a.textContent)
-    }))));
-    await page.waitForFunction(() => location.hash === '#experience' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Experience', { timeout: 7000 });
+    await page.waitForFunction(() => location.hash === '#experience' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Experience');
     await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
     await page.waitForFunction(() => scrollY < 35 && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
     await page.locator('.portfolio-nav-links a[href="/#work"]').click({ force: true });
