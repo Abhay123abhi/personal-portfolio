@@ -25,7 +25,7 @@ try {
       assert.equal(await page.getByRole('dialog', { name: 'Portfolio navigation' }).count(), 0);
       const toggle = page.getByRole('button', { name: /Explore architecture/ }).first();
       await toggle.click();
-      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+      await page.waitForFunction(() => document.querySelector('.portfolio-mobile-architecture-toggle')?.getAttribute('aria-expanded') === 'true');
       assert.equal(await page.locator('.portfolio-case-visual.is-mobile-open').first().isVisible(), true);
     }
     await page.goto(base + '/blog', { waitUntil: 'networkidle' });
