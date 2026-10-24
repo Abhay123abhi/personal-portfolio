@@ -2177,3 +2177,17 @@
     text-align: right;
   }
 }
+
+/* Readable mobile typography and touch-friendly controls. */
+@media (max-width: 760px) {
+  .portfolio-hero-summary { display: block; overflow: visible; -webkit-line-clamp: unset; font-size: 14px; line-height: 1.6; }
+  .portfolio-eyebrow { font-size: 10px; }
+  .portfolio-case-mobile-insights p, .portfolio-case-statement { font-size: 14px; line-height: 1.65; }
+  .portfolio-case-stack { max-height: none; overflow: visible; }
+  .portfolio-case-stack span:nth-child(n+6) { display: inline-flex; }
+  .portfolio-case-stack span { font-size: 11px; padding: 6px 8px; }
+  .portfolio-case-actions a, .portfolio-mobile-architecture-toggle { min-height: 44px; font-size: 12px; }
+  .portfolio-stage-tabs button { min-height: 44px; font-size: 12px; }
+  .portfolio-production-stat span, .portfolio-onsite { font-size: 12px; }
+  .portfolio-hero-actions .portfolio-primary { min-height: 44px; font-size: 13px; }
+}

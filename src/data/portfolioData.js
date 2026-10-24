@@ -1,8 +1,7 @@
 export const identity = {
   name: "Abhay Jaiswal",
   role: "Java backend-focused full-stack developer",
-  headline: "Backend first. Production minded.",
-  summary: "I build reliable Java and Spring Boot services, event-driven workflows, and React interfaces — from API design to production release.",
+  summary: "From resilient distributed architectures to AI-powered products, I build software designed for real-world reliability.",
   email: "abhayjaiswal983@gmail.com",
   github: "https://github.com/Abhay123abhi",
   linkedin: "https://www.linkedin.com/in/abhay983",

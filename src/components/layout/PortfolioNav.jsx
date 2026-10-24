@@ -14,7 +14,7 @@ const commands = [
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
   { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
   { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Linkedin, external: true, keywords: "linkedin profile network" },
-  { label: "Email Abhay", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
+  { label: "Email Me", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
 export default function PortfolioNav({ inner = false }) {
@@ -26,6 +26,7 @@ export default function PortfolioNav({ inner = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const searchRef = useRef(null);
+  const triggerRef = useRef(null);
 
   const links = [
     ["Home", "/"],
@@ -43,6 +44,7 @@ export default function PortfolioNav({ inner = false }) {
   }, [query]);
 
   const closePalette = () => {
+    if (paletteOpen) requestAnimationFrame(() => triggerRef.current?.focus());
     setPaletteOpen(false);
     setQuery("");
     setActiveIndex(0);
@@ -106,6 +108,12 @@ export default function PortfolioNav({ inner = false }) {
     const focusTimer = window.setTimeout(() => searchRef.current?.focus(), 40);
 
     const onKeyDown = (event) => {
+      if (event.key === "Tab") {
+        const focusable = [...document.querySelectorAll(".portfolio-command-palette button:not([disabled]), .portfolio-command-palette input")];
+        const first = focusable[0], last = focusable.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
       if (event.key === "Escape") {
         closePalette();
         return;
@@ -163,6 +171,7 @@ export default function PortfolioNav({ inner = false }) {
           </div>
 
           <button
+            ref={triggerRef}
             className="portfolio-mobile-search-trigger"
             type="button"
             aria-label="Open portfolio menu"
@@ -203,7 +212,7 @@ export default function PortfolioNav({ inner = false }) {
               <button type="button" onClick={closePalette} aria-label="Close search"><X size={17} /></button>
             </div>
 
-            <div className="portfolio-command-list" role="listbox" aria-label="Navigation results">
+            <div className="portfolio-command-list" aria-label="Navigation results">
               {filteredCommands.map((item, index) => {
                 const Icon = item.icon;
                 return (
