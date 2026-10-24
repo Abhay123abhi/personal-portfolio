@@ -80,8 +80,12 @@ export default function PortfolioNav({ inner = false }) {
       let next = "";
 
       if (window.scrollY > 32) {
-        if (experience && experience.getBoundingClientRect().top <= marker) next = "experience";
-        else if (work && work.getBoundingClientRect().top <= marker) next = "work";
+        // For hash navigation, honor the target when it is within the visible viewport.
+        // This also handles late layout shifts from reveal/diagram content.
+        const anchoredExperience = hash === "#experience" && experience && experience.getBoundingClientRect().top < window.innerHeight;
+        const anchoredWork = hash === "#work" && work && work.getBoundingClientRect().top < window.innerHeight && (!experience || experience.getBoundingClientRect().top >= window.innerHeight);
+        if (anchoredExperience || (experience && experience.getBoundingClientRect().top <= marker)) next = "experience";
+        else if (anchoredWork || (work && work.getBoundingClientRect().top <= marker)) next = "work";
       }
 
       setActiveSection(current => current === next ? current : next);
