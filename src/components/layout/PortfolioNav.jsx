@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
+import { ArrowUpRight, BookOpen, Briefcase, FileDown, GitBranch, Home, Layers, Users, Mail, Menu, Search, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { identity } from "../../data/portfolioData";
@@ -12,8 +12,8 @@ const commands = [
   { label: "Blog", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles blog writing" },
   { label: "Contact", meta: "email · links", href: "/#contact", icon: Mail, keywords: "contact email linkedin github" },
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
-  { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
-  { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Linkedin, external: true, keywords: "linkedin profile network" },
+  { label: "GitHub profile", meta: "github.com", href: identity.github, icon: GitBranch, external: true, keywords: "github source repositories" },
+  { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Users, external: true, keywords: "linkedin profile network" },
   { label: "Email Me", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
@@ -26,7 +26,7 @@ export default function PortfolioNav({ inner = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const searchRef = useRef(null);
-  const triggerRef = useRef(null);
+  const openerRef = useRef(null);
 
   const links = [
     ["Home", "/"],
@@ -44,10 +44,15 @@ export default function PortfolioNav({ inner = false }) {
   }, [query]);
 
   const closePalette = () => {
-    if (paletteOpen) requestAnimationFrame(() => triggerRef.current?.focus());
+    if (paletteOpen) requestAnimationFrame(() => openerRef.current?.focus());
     setPaletteOpen(false);
     setQuery("");
     setActiveIndex(0);
+  };
+
+  const openPalette = (event) => {
+    openerRef.current = event.currentTarget;
+    setPaletteOpen(true);
   };
 
   useEffect(() => {
@@ -63,25 +68,41 @@ export default function PortfolioNav({ inner = false }) {
       return undefined;
     }
 
-    const sections = ["work", "experience", "stack"]
-      .map(id => document.getElementById(id))
-      .filter(Boolean);
+    // Derive the highlight from the current scroll position rather than
+    // remembering the last section intersected (which becomes stale on Home).
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const headerHeight = document.querySelector(".portfolio-nav-shell")?.getBoundingClientRect().height ?? 58;
+      // Respect the fixed header and scroll-margin when deciding which section is active.
+      const marker = Math.max(headerHeight + 48, window.innerHeight * 0.25);
+      const experience = document.getElementById("experience");
+      const work = document.getElementById("work");
+      let next = "";
 
-    if (!sections.length || !("IntersectionObserver" in window)) return undefined;
+      if (window.scrollY > 32) {
+        // Scroll position is the source of truth, including after hash navigation.
+        // Avoid persisting a clicked hash when the user later scrolls elsewhere.
+        if (experience && experience.getBoundingClientRect().top <= marker) next = "experience";
+        else if (work && work.getBoundingClientRect().top <= marker) next = "work";
+      }
 
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      setActiveSection(current => current === next ? current : next);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(updateActiveSection);
+    };
 
-      if (visible) setActiveSection(visible.target.id);
-    }, {
-      rootMargin: "-18% 0px -58% 0px",
-      threshold: [0, 0.15, 0.35, 0.6],
-    });
-
-    sections.forEach(section => observer.observe(section));
-    return () => observer.disconnect();
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("pageshow", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("pageshow", schedule);
+    };
   }, [inner, pathname]);
 
   const runCommand = (item) => {
@@ -171,19 +192,18 @@ export default function PortfolioNav({ inner = false }) {
           </div>
 
           <button
-            ref={triggerRef}
             className="portfolio-mobile-search-trigger"
             type="button"
             aria-label="Open portfolio menu"
             aria-haspopup="dialog"
             aria-expanded={paletteOpen}
-            onClick={() => setPaletteOpen(true)}
+            onClick={openPalette}
           >
             <Menu size={18} />
           </button>
 
           <div className="portfolio-nav-actions">
-            <button className="portfolio-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={() => setPaletteOpen(true)}><Search size={15} /> Explore</button>
+            <button className="portfolio-desktop-menu" type="button" aria-haspopup="dialog" aria-expanded={paletteOpen} onClick={openPalette}><Search size={15} /> Explore</button>
           </div>
         </nav>
       </header>
@@ -222,8 +242,6 @@ export default function PortfolioNav({ inner = false }) {
                     className={index === activeIndex ? "portfolio-command-item active" : "portfolio-command-item"}
                     onClick={() => runCommand(item)}
                     onMouseEnter={() => setActiveIndex(index)}
-                    role="option"
-                    aria-selected={index === activeIndex}
                   >
                     <span className="portfolio-command-icon"><Icon size={17} /></span>
                     <span className="portfolio-command-copy">

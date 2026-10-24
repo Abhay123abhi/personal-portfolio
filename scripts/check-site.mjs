@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { chromium } from '@playwright/test';
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
@@ -17,6 +17,23 @@ try {
     assert.equal(await page.locator('#work').count(), 1);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
     assert.equal(overflow, false, 'Horizontal page overflow at ' + width);
+    // Navigation must reflect what is visible, not the last intersected section.
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
+    if (width === 1440) {
+      await page.locator('.portfolio-nav-links a[href="/#experience"]').click();
+    await page.waitForFunction(() => location.hash === '#experience' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Experience');
+    await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
+    await page.waitForFunction(() => scrollY < 35 && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
+    await page.locator('.portfolio-nav-links a[href="/#work"]').click({ force: true });
+    await page.waitForFunction(() => location.hash === '#work' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Work');
+    await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
+    await page.waitForFunction(() => scrollY < 35 && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
+      await page.getByRole('button', { name: 'Explore' }).click();
+      await page.getByRole('dialog', { name: 'Portfolio navigation' }).waitFor();
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => document.activeElement?.textContent?.trim() === 'Explore');
+    }
     if (width <= 760) {
       const menu = page.getByRole('button', { name: 'Open portfolio menu' });
       await menu.click();
