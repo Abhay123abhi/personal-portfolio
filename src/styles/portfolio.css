@@ -198,8 +198,15 @@ html.portfolio-home-active body {
 .portfolio-section-head { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,440px); gap:50px; align-items:end; margin-bottom:48px; }
 /* Section titles respond to the available heading column as well. */
 .portfolio-section-head > div { min-width: 0; container-type: inline-size; }
-.portfolio-section-head h2 { font-size: clamp(2.6rem, 10.5cqi, 5.5rem); }
 .portfolio-section-head h2,.portfolio-experience-intro h2,.portfolio-toolbelt h2,.portfolio-contact h2 { margin:10px 0 0;font-size:clamp(3rem,6vw,6rem);line-height:.92;letter-spacing:-.07em; }
+/* Desktop/tablet: type follows the heading's available column, not the monitor width.
+   Narrow mobile screens retain their existing canonical mobile typography. */
+@media (min-width: 761px) {
+  .portfolio-section-head h2 { font-size: clamp(2.4rem, 8.5cqi, 5.25rem); }
+  .portfolio-work-head h2 { font-size: clamp(2.2rem, 7.25cqi, 4.75rem); }
+  .portfolio-experience-intro { container-type: inline-size; }
+  .portfolio-experience-intro h2 { font-size: clamp(2.75rem, 9.25cqi, 5.25rem); }
+}
 .portfolio-section-head > p,.portfolio-experience-intro > p:last-child,.portfolio-toolbelt-head > p { margin:0;color:var(--portfolio-muted);font-size:14px;line-height:1.75; }
 
 .portfolio-cap-grid { display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--portfolio-line); }

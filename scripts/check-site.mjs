@@ -52,6 +52,19 @@ try {
     });
     assert.equal(heroLayout.contentFits, true, 'Hero name overflows text column at ' + width);
     assert.equal(heroLayout.noOverlap, true, 'Hero portrait overlaps the copy at ' + width);
+    // Detect actual clipped section headings even when overflow-x: clip hides the issue.
+    const headingIssues = await page.evaluate(() => {
+      return [...document.querySelectorAll('.portfolio-section-head h2, .portfolio-experience-intro h2')]
+        .flatMap(heading => {
+          const box = heading.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(heading);
+          const textParts = [...range.getClientRects()].filter(part => part.width > 1);
+          const fits = textParts.every(part => part.left >= box.left - 3 && part.right <= box.right + 3);
+          return fits ? [] : [heading.textContent.trim()];
+        });
+    });
+    assert.deepEqual(headingIssues, [], 'Section heading text escapes its column at ' + width);
     // Reviewable visual evidence, without treating an intentional redesign as a defect.
     if (screenshotWidths.has(width)) {
       await page.evaluate(() => document.fonts.ready);
