@@ -10,8 +10,9 @@
   --portfolio-blue: #83aee8;
   --portfolio-apricot: #e4a86e;
   --portfolio-violet: #9f84e8;
-  --portfolio-max: 1380px;
-  --portfolio-pad: clamp(22px, 4vw, 64px);
+  /* Fluid gutters and a spacious, readable upper bound for ultrawide screens. */
+  --portfolio-max: 1860px;
+  --portfolio-pad: clamp(20px, 4vw, 88px);
 }
 
 html.portfolio-home-active,
@@ -99,7 +100,7 @@ html.portfolio-home-active body {
   width: min(var(--portfolio-max), 100%);
   margin: auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
   gap: clamp(2rem, 4vw, 5rem);
   align-items: center;
 }
@@ -119,13 +120,13 @@ html.portfolio-home-active body {
 
 .portfolio-hero-copy h1 {
   margin: 18px 0 20px;
-  font-size: clamp(3.25rem, 18cqi, 9rem);
+  font-size: clamp(3.25rem, 16.5cqi, 8.5rem);
   line-height: .84;
   letter-spacing: -.09em;
 }
 .portfolio-hero-copy h1 span { display: block; white-space: nowrap; }
 .portfolio-hero-copy h1 span:last-child {
-  margin-left: clamp(0rem, 9cqi, 5rem);
+  margin-left: clamp(0rem, 6cqi, 4rem);
   color: var(--portfolio-mint);
 }
 
@@ -1637,6 +1638,16 @@ html.portfolio-home-active body {
   place-items: center;
   width: min(100%, 410px);
   aspect-ratio: 1;
+}
+
+/* Preserve the phone portrait; allow the desktop image to share available space. */
+@media (min-width: 761px) {
+  .portfolio-hero-portrait {
+    width: min(100%, clamp(21rem, 28vw, 29rem));
+  }
+  .portfolio-portrait-frame-circle {
+    width: min(100%, 26rem);
+  }
 }
 
 .portfolio-portrait-frame-circle {
