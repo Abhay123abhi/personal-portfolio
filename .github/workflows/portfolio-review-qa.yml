@@ -12,8 +12,27 @@ on:
       - '.github/workflows/portfolio-review-qa.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
+  lockfile-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm install --package-lock-only --ignore-scripts
+      - name: Commit resolved dependency lockfile to review branch
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            git commit -m 'chore: sync dependency lockfile after upgrades'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
   quality-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
