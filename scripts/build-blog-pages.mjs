@@ -20,7 +20,10 @@ for (const article of articles) {
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Abhay Jaiswal — Blog on system design, LLD, and backend development" />
-<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:title" content="${escape(title)}" />\n<meta name="twitter:description" content="${escape(article.excerpt)}" />\n<meta name="twitter:image" content="${origin}/blog-social.png" />`;
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${escape(title)}" />
+<meta name="twitter:description" content="${escape(article.excerpt)}" />
+<meta name="twitter:image" content="${origin}/blog-social.png" />`;
   const fallback = `<main><a href="/blog">Blog</a><article><h1>${escape(article.title)}</h1><p>${escape(article.lead)}</p>${article.sections.map(([heading,...paragraphs]) => `<section><h2>${escape(heading)}</h2>${paragraphs.map(p=>`<p>${escape(p)}</p>`).join('')}</section>`).join('')}</article></main>`;
   const html = articleShell.replace(/<title>.*?<\/title>/,`<title>${escape(title)}</title>`)
     .replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${escape(article.excerpt)}" />`)
