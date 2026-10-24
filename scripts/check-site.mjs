@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const base = 'http://127.0.0.1:4173';
 const browser = await chromium.launch({ headless: true });
-const widths = [320, 375, 390, 430, 768, 1024, 1440, 1600, 1908, 1920, 2560];
+const widths = [320, 375, 390, 430, 600, 760, 761, 800, 1024, 1280, 1440, 1536, 1600, 1908, 1920, 2560];
 const errors = [];
 try {
   for (const width of widths) {
@@ -17,6 +17,30 @@ try {
     assert.equal(await page.locator('#work').count(), 1);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
     assert.equal(overflow, false, 'Horizontal page overflow at ' + width);
+    // Inspect *rendered text*, not only scrollWidth (the site clips overflow).
+    // A container-based headline must never spill into the portrait lane.
+    const heroLayout = await page.evaluate(() => {
+      const copy = document.querySelector('.portfolio-hero-copy');
+      const portrait = document.querySelector('.portfolio-hero-portrait');
+      const copyRect = copy.getBoundingClientRect();
+      const portraitRect = portrait.getBoundingClientRect();
+      const heading = copy.querySelector('h1');
+      const letterRects = [...heading.querySelectorAll('span')].map(span => {
+        const range = document.createRange();
+        range.selectNodeContents(span);
+        return range.getBoundingClientRect();
+      });
+      const contentFits = letterRects.every(rect =>
+        rect.left >= copyRect.left - 2 && rect.right <= copyRect.right + 2
+      );
+      const separateColumns = copyRect.right <= portraitRect.left + 2
+        || portraitRect.right <= copyRect.left + 2;
+      const stacked = copyRect.bottom <= portraitRect.top + 2
+        || portraitRect.bottom <= copyRect.top + 2;
+      return { contentFits, noOverlap: separateColumns || stacked };
+    });
+    assert.equal(heroLayout.contentFits, true, 'Hero name overflows text column at ' + width);
+    assert.equal(heroLayout.noOverlap, true, 'Hero portrait overlaps the copy at ' + width);
     // Navigation must reflect what is visible, not the last intersected section.
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
