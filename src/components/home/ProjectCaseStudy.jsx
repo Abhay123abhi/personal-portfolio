@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight, Github, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, GitBranch, X } from "lucide-react";
 import ProjectSystemCanvas from "./ProjectSystemCanvas";
 import ProjectArchitectureMobile from "./ProjectArchitectureMobile";
 import { projectArchitectures } from "../../data/projectArchitectureData";
@@ -61,7 +61,7 @@ export default function ProjectCaseStudy({ project, projectIndex, reverse = fals
         </div>
 
         <div className="portfolio-case-actions">
-          <a href={project.github} target="_blank" rel="noreferrer"><Github size={16} /> Source code</a>
+          <a href={project.github} target="_blank" rel="noreferrer"><GitBranch size={16} /> Source code</a>
           {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live product <ArrowUpRight size={16} /></a>}
         </div>
 
