@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { chromium } from '@playwright/test';
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
