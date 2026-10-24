@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import HomePage from "./pages/HomePage";
-import BlogPage from "./pages/BlogPage";
-import ArticlePage from "./pages/ArticlePage";
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 import PortfolioMotion from "./components/shared/PortfolioMotion";
 
 function ScrollToTop() {
@@ -45,12 +45,12 @@ export default function App() {
     <>
       <ScrollToTop />
       <PortfolioMotion />
-      <Routes>
+      <Suspense fallback={<main role="status" style={{ minHeight: "50vh", padding: "7rem 5vw", color: "#c9d7d4" }}>Loading page…</main>}><Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticlePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      </Routes></Suspense>
     </>
   );
 }
