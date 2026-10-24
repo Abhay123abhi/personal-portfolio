@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, Briefcase, FileDown, Github, Home, Layers, Linkedin, Mail, Menu, Search, X } from "lucide-react";
+import { ArrowUpRight, BookOpen, Briefcase, FileDown, GitBranch, Home, Layers, Users, Mail, Menu, Search, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { identity } from "../../data/portfolioData";
@@ -12,8 +12,8 @@ const commands = [
   { label: "Blog", meta: "blog", href: "/blog", icon: BookOpen, keywords: "blog articles blog writing" },
   { label: "Contact", meta: "email · links", href: "/#contact", icon: Mail, keywords: "contact email linkedin github" },
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
-  { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
-  { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Linkedin, external: true, keywords: "linkedin profile network" },
+  { label: "GitHub profile", meta: "github.com", href: identity.github, icon: GitBranch, external: true, keywords: "github source repositories" },
+  { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Users, external: true, keywords: "linkedin profile network" },
   { label: "Email Me", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
