@@ -20,7 +20,7 @@ function Hero() {
         <div className="portfolio-hero-copy">
           <p className="portfolio-eyebrow">Java backend · distributed systems · product delivery</p>
           <h1><span>ABHAY</span><span>JAISWAL</span></h1>
-          <p className="portfolio-hero-role">{identity.headline}</p>
+          <p className="portfolio-hero-role">Backend Engineer | Java, Spring Boot &amp; Distributed Systems</p>\n          <p className="portfolio-hero-tagline">{identity.headline}</p>
           <p className="portfolio-hero-summary">{identity.summary}</p>
           <div className="portfolio-hero-actions">
             <a className="portfolio-primary" href={identity.resume} target="_blank" rel="noreferrer">View résumé <FileDown size={16} /></a>
