@@ -1,12 +1,12 @@
 import { blogTopics, matchesTopic } from "../../data/blogContent";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Linkedin, Search } from "lucide-react";
+import { ArrowUpRight, Users, Search } from "lucide-react";
 
 export function LinkedInAction({ article }) {
   const url = article.linkedinUrl;
   if (url && /^https:\/\/(www\.)?linkedin\.com\/(posts\/|feed\/update\/|pulse\/)/.test(url)) {
-    return <a className="bs-linkedin" href={url} target="_blank" rel="noopener noreferrer"><Linkedin size={15} /> Read on LinkedIn <ArrowUpRight size={14} /></a>;
+    return <a className="bs-linkedin" href={url} target="_blank" rel="noopener noreferrer"><Users size={15} /> Read on LinkedIn <ArrowUpRight size={14} /></a>;
   }
   return null;
 }
