@@ -74,7 +74,7 @@ export default function PortfolioNav({ inner = false }) {
     const updateActiveSection = () => {
       frame = 0;
       const headerHeight = document.querySelector(".portfolio-nav-shell")?.getBoundingClientRect().height ?? 58;
-      const marker = headerHeight + 48;
+      // Anchor targets can sit below the fixed header because of scroll-margin.\n      const marker = Math.max(headerHeight + 48, window.innerHeight * 0.25);
       const experience = document.getElementById("experience");
       const work = document.getElementById("work");
       let next = "";
