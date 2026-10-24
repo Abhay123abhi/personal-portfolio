@@ -1,0 +1,22 @@
+{
+  "entry": [
+    "src/main.jsx",
+    "scripts/*.mjs",
+    "vite.config.js"
+  ],
+  "project": [
+    "src/**/*.{js,jsx}",
+    "scripts/*.mjs",
+    "vite.config.js"
+  ],
+  "ignore": [
+    "src/content/blog-posts.json"
+  ],
+  "ignoreDependencies": [
+    "@testing-library/jest-dom",
+    "jsdom",
+    "pixelmatch",
+    "pngjs",
+    "@playwright/test"
+  ]
+}
