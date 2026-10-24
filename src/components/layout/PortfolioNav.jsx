@@ -25,7 +25,8 @@ export default function PortfolioNav({ inner = false }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const searchRef = useRef(null);\n  const closeRef = useRef(null);\n  const triggerRef = useRef(null);
+  const searchRef = useRef(null);
+  const triggerRef = useRef(null);
 
   const links = [
     ["Home", "/"],
@@ -42,7 +43,8 @@ export default function PortfolioNav({ inner = false }) {
     );
   }, [query]);
 
-  const closePalette = () => {\n    if (paletteOpen) requestAnimationFrame(() => triggerRef.current?.focus());
+  const closePalette = () => {
+    if (paletteOpen) requestAnimationFrame(() => triggerRef.current?.focus());
     setPaletteOpen(false);
     setQuery("");
     setActiveIndex(0);
@@ -106,7 +108,13 @@ export default function PortfolioNav({ inner = false }) {
     const focusTimer = window.setTimeout(() => searchRef.current?.focus(), 40);
 
     const onKeyDown = (event) => {
-      if (event.key === "Tab") {\n        const focusable = [...document.querySelectorAll(".portfolio-command-palette button:not([disabled]), .portfolio-command-palette input")];\n        const first = focusable[0], last = focusable.at(-1);\n        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }\n        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }\n      }\n      if (event.key === "Escape") {
+      if (event.key === "Tab") {
+        const focusable = [...document.querySelectorAll(".portfolio-command-palette button:not([disabled]), .portfolio-command-palette input")];
+        const first = focusable[0], last = focusable.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+      if (event.key === "Escape") {
         closePalette();
         return;
       }
@@ -163,7 +171,8 @@ export default function PortfolioNav({ inner = false }) {
           </div>
 
           <button
-            ref={triggerRef}\n            className="portfolio-mobile-search-trigger"
+            ref={triggerRef}
+            className="portfolio-mobile-search-trigger"
             type="button"
             aria-label="Open portfolio menu"
             aria-haspopup="dialog"
