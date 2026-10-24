@@ -62,7 +62,7 @@ function CapabilityGrid() {
     <section className="portfolio-section portfolio-capabilities" id="capabilities">
       <div className="portfolio-section-head">
         <div><p className="portfolio-kicker">// WHAT I BUILD</p><h2>Systems that survive<br />the second request.</h2></div>
-        <p>Backend-heavy engineering with enough product context to take a feature from contract to interface to production support.</p>
+        <p>Resilient APIs, observable distributed systems, and products designed for real-world reliability—not just the happy path.</p>
       </div>
       <div className="portfolio-cap-grid">
         {capabilities.map((item) => (
@@ -83,7 +83,7 @@ function Work() {
   return (
     <section className="portfolio-section portfolio-work" id="work">
       <div className="portfolio-section-head portfolio-work-head">
-        <div><p className="portfolio-kicker">// SELECTED WORK</p><h2>Engineering behind<br />the product.</h2></div>
+        <div><p className="portfolio-kicker">// SELECTED WORK</p><h2>Built for the edge cases.<br />Not just the happy path.</h2></div>
         <p>Three projects, each built around a reliability problem rather than a framework checklist. Click through the architecture stages to inspect the flow.</p>
       </div>
       <div className="portfolio-case-list">
@@ -100,7 +100,7 @@ function Experience() {
     <section className="portfolio-section portfolio-experience" id="experience">
       <div className="portfolio-experience-intro">
         <p className="portfolio-kicker">// EXPERIENCE</p>
-        <h2>Built in production.</h2>
+        <h2>Beyond shipping code.<br />Owning what runs.</h2>
         <p>Four years delivering advisor and policy platforms across Asian insurance markets — backend services, event-driven workflows, frontend delivery, and production releases.</p>
       </div>
 
