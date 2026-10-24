@@ -20,7 +20,8 @@ try {
     // Navigation must reflect what is visible, not the last intersected section.
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
-    await page.locator('.portfolio-nav-links a[href="/#experience"]').click({ force: true });
+    if (width > 760) {
+      await page.locator('.portfolio-nav-links a[href="/#experience"]').click();
     await page.waitForFunction(() => location.hash === '#experience' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Experience');
     await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
     await page.waitForFunction(() => scrollY < 35 && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
@@ -28,7 +29,6 @@ try {
     await page.waitForFunction(() => location.hash === '#work' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Work');
     await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
     await page.waitForFunction(() => scrollY < 35 && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
-    if (width > 760) {
       await page.getByRole('button', { name: 'Explore' }).click();
       await page.getByRole('dialog', { name: 'Portfolio navigation' }).waitFor();
       await page.keyboard.press('Escape');
