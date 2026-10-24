@@ -52,6 +52,28 @@ try {
     });
     assert.equal(heroLayout.contentFits, true, 'Hero name overflows text column at ' + width);
     assert.equal(heroLayout.noOverlap, true, 'Hero portrait overlaps the copy at ' + width);
+    // The desktop uses fluid gutters, not an artificially narrow 1380px canvas.
+    // At ultrawide sizes, some bounded whitespace is intentional for readability.
+    if (width > 1050) {
+      const frame = await page.evaluate(() => {
+        const nav = document.querySelector('.portfolio-nav').getBoundingClientRect();
+        const hero = document.querySelector('.portfolio-hero-inner').getBoundingClientRect();
+        const section = document.querySelector('.portfolio-section').getBoundingClientRect();
+        return {
+          navLeft: nav.left, heroLeft: hero.left, sectionLeft: section.left,
+          heroRight: hero.right, windowWidth: window.innerWidth,
+        };
+      });
+      assert.ok(Math.abs(frame.navLeft - frame.heroLeft) < 3,
+        'Navigation and hero have inconsistent gutters at ' + width);
+      assert.ok(Math.abs(frame.sectionLeft - frame.heroLeft) < 3,
+        'Hero and section edges are not aligned at ' + width);
+      const unusedFraction = frame.heroLeft / frame.windowWidth;
+      assert.ok(unusedFraction < (width >= 2200 ? .16 : .09),
+        'Desktop content is unnecessarily narrow at ' + width);
+      assert.ok(frame.heroRight <= width + 2,
+        'Hero content escapes the desktop viewport at ' + width);
+    }
     // Detect actual clipped section headings even when overflow-x: clip hides the issue.
     const headingIssues = await page.evaluate(() => {
       return [...document.querySelectorAll('.portfolio-section-head h2, .portfolio-experience-intro h2')]
