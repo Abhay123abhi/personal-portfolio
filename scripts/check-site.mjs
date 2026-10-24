@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const base = 'http://127.0.0.1:4173';
 const browser = await chromium.launch({ headless: true });
-const widths = [320, 375, 390, 430, 768, 1024, 1440];
+const widths = [320, 375, 390, 430, 768, 1024, 1440, 1600, 1908, 1920, 2560];
 const errors = [];
 try {
   for (const width of widths) {
@@ -15,6 +15,33 @@ try {
     assert.equal(await page.locator('h1').first().isVisible(), true, 'Missing hero at ' + width);
     assert.equal(await page.locator('a[href="/Abhay_SDE.pdf"]').first().isVisible(), true, 'Resume missing at ' + width);
     assert.equal(await page.locator('#work').count(), 1);
+    // Regression: typography must stop growing after content width is capped.
+    // This is the 1908px desktop failure mode that 1440px-only QA missed.
+    if (width > 1440) {
+      const metrics = await page.evaluate(() => {
+        const heading = document.querySelector('.portfolio-hero-copy h1');
+        const lastLine = heading.querySelector('span:last-child');
+        const portrait = document.querySelector('.portfolio-hero-portrait');
+        const range = document.createRange();
+        range.selectNodeContents(lastLine);
+        return {
+          headingSize: parseFloat(getComputedStyle(heading).fontSize),
+          roleSize: parseFloat(getComputedStyle(document.querySelector('.portfolio-hero-role')).fontSize),
+          lastLineRight: range.getBoundingClientRect().right,
+          portraitLeft: portrait.getBoundingClientRect().left,
+          heroLeft: document.querySelector('.portfolio-hero-inner').getBoundingClientRect().left,
+          heroRight: document.querySelector('.portfolio-hero-inner').getBoundingClientRect().right,
+        };
+      });
+      assert.ok(metrics.headingSize <= 152,
+        `Oversized hero heading at ${width}px: ${metrics.headingSize}px`);
+      assert.ok(metrics.roleSize <= 29,
+        `Oversized hero role at ${width}px: ${metrics.roleSize}px`);
+      assert.ok(metrics.lastLineRight < metrics.portraitLeft,
+        `Hero heading overlaps portrait at ${width}px`);
+      assert.ok(metrics.heroLeft >= 0 && metrics.heroRight <= width,
+        `Hero content escapes viewport at ${width}px`);
+    }
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
     assert.equal(overflow, false, 'Horizontal page overflow at ' + width);
     // Navigation must reflect what is visible, not the last intersected section.
