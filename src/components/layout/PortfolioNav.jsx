@@ -14,7 +14,7 @@ const commands = [
   { label: "Download résumé", meta: "PDF", href: identity.resume, icon: FileDown, external: true, keywords: "resume cv pdf download" },
   { label: "GitHub profile", meta: "github.com", href: identity.github, icon: Github, external: true, keywords: "github source repositories" },
   { label: "LinkedIn profile", meta: "linkedin.com", href: identity.linkedin, icon: Linkedin, external: true, keywords: "linkedin profile network" },
-  { label: "Email Abhay", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
+  { label: "Email Me", meta: identity.email, href: `mailto:${identity.email}`, icon: Mail, keywords: "email contact mail" },
 ];
 
 export default function PortfolioNav({ inner = false }) {
