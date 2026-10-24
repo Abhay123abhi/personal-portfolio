@@ -20,7 +20,7 @@ try {
     // Navigation must reflect what is visible, not the last intersected section.
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForFunction(() => document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Home');
-    if (width > 760) {
+    if (width === 1440) {
       await page.locator('.portfolio-nav-links a[href="/#experience"]').click();
     await page.waitForFunction(() => location.hash === '#experience' && document.querySelector('.portfolio-nav-links a.is-active')?.textContent === 'Experience');
     await page.locator('.portfolio-nav-links a[href="/"]').click({ force: true });
